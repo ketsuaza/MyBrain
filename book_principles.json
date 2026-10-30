@@ -7,10 +7,16 @@
     "summary": "思考・論理・分析を、実務で使える概念整理・推論・分析の技術として体系化する本。",
     "importance": "B",
     "difficulty": "B",
-    "fame": "C",
+    "fame": "B",
     "principle": "A",
     "expert_comment": "概念・命題・推論の骨格を掴む本。表層的なフレームワーク本より原理寄り。",
-    "persona": "高校生:抽象的だが思考訓練になる／大学生:レポート・研究の土台／社会人:問題整理・資料作成に効く／専門家:実務書として骨太"
+    "persona": "高校生:抽象的だが思考訓練になる／大学生:レポート・研究の土台／社会人:問題整理・資料作成に効く／専門家:実務書として骨太",
+    "booklog_eval": 4.18,
+    "booklog_users": 2423,
+    "bookmeter_eval": 61,
+    "bookmeter_users": 1136,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "2",
@@ -21,9 +27,15 @@
     "importance": "B",
     "difficulty": "C",
     "fame": "B",
-    "principle": "A",
+    "principle": "B",
     "expert_comment": "アルゴリズムを「限られた資源で意思決定する技術」として捉え直せる。",
-    "persona": "高校生:数学読み物として面白い／大学生:CSと日常判断の橋渡し／社会人:時間配分・探索判断に刺さる／専門家:比喩力の高い啓蒙書"
+    "persona": "高校生:数学読み物として面白い／大学生:CSと日常判断の橋渡し／社会人:時間配分・探索判断に刺さる／専門家:比喩力の高い啓蒙書",
+    "booklog_eval": 3.89,
+    "booklog_users": 589,
+    "bookmeter_eval": 84,
+    "bookmeter_users": 305,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "3",
@@ -35,8 +47,14 @@
     "difficulty": "B",
     "fame": "A",
     "principle": "A",
-    "expert_comment": "人間の合理性を疑うための基本文献。判断の壊れやすさを知る装置。",
-    "persona": "高校生:例中心に読める／大学生:心理学・経済学の入口／社会人:意思決定ミスの自己診断／専門家:古典的必読書"
+    "expert_comment": "人間の合理性を疑うための基本文献。判断の壊れやすさを知る装置。ただしプライミングなど一部の研究は再現性に疑問が出ているので、個々の実験結果は後続の研究で確かめる。",
+    "persona": "高校生:例中心に読める／大学生:心理学・経済学の入口／社会人:意思決定ミスの自己診断／専門家:古典的必読書",
+    "booklog_eval": 4.25,
+    "booklog_users": 8093,
+    "bookmeter_eval": 63,
+    "bookmeter_users": 6180,
+    "reading_status": "いま読んでる",
+    "amazon_eval": 4.4
   },
   {
     "no": "4",
@@ -49,7 +67,13 @@
     "fame": "A",
     "principle": "A",
     "expert_comment": "人間は合理的エージェントではなくバイアスを持つ意思決定装置だと理解する土台。",
-    "persona": "高校生:長いが例は面白い／大学生:研究テーマ発見に有効／社会人:投資・採用・企画判断に効く／専門家:後続研究と併読推奨"
+    "persona": "高校生:長いが例は面白い／大学生:研究テーマ発見に有効／社会人:投資・採用・企画判断に効く／専門家:後続研究と併読推奨",
+    "booklog_eval": 4.25,
+    "booklog_users": 5403,
+    "bookmeter_eval": 61,
+    "bookmeter_users": 3714,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "5",
@@ -62,7 +86,13 @@
     "fame": "C",
     "principle": "B",
     "expert_comment": "コンサル的問題解決の型を日本語でまとまって学べる実務的OS。",
-    "persona": "高校生:仕事寄り／大学生:ケース面接・研究計画に有効／社会人:即効性高い／専門家:実務知の整理として評価"
+    "persona": "高校生:仕事寄り／大学生:ケース面接・研究計画に有効／社会人:即効性高い／専門家:実務知の整理として評価",
+    "booklog_eval": 4.3,
+    "booklog_users": 1200,
+    "bookmeter_eval": 44,
+    "bookmeter_users": 535,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "6",
@@ -75,7 +105,13 @@
     "fame": "C",
     "principle": "B",
     "expert_comment": "問題解決を図解で終わらせず、人間臭い実行局面まで含める点が重要。",
-    "persona": "高校生:実感しづらい／大学生:プロジェクト経験後に刺さる／社会人:実用的／専門家:実践知の補助線"
+    "persona": "高校生:実感しづらい／大学生:プロジェクト経験後に刺さる／社会人:実用的／専門家:実践知の補助線",
+    "booklog_eval": 4.27,
+    "booklog_users": 922,
+    "bookmeter_eval": 48,
+    "bookmeter_users": 373,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "7",
@@ -88,7 +124,13 @@
     "fame": "C",
     "principle": "A",
     "expert_comment": "賢そうな誤りを見抜く力は現代の基礎教養に近い。",
-    "persona": "高校生:ディベートに有効／大学生:レポート・討論に強い／社会人:会議・SNSに効く／専門家:非形式論理の実践書"
+    "persona": "高校生:ディベートに有効／大学生:レポート・討論に強い／社会人:会議・SNSに効く／専門家:非形式論理の実践書",
+    "booklog_eval": 4.09,
+    "booklog_users": 406,
+    "bookmeter_eval": 44,
+    "bookmeter_users": 219,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "8",
@@ -96,12 +138,18 @@
     "title": "いかにして問題をとくか",
     "isbn": "978-4-621-04593-0",
     "summary": "問題理解、計画、実行、振り返りという発見的問題解決の型を提示する古典。",
-    "importance": "A",
-    "difficulty": "A",
+    "importance": "S",
+    "difficulty": "B",
     "fame": "S",
     "principle": "A",
     "expert_comment": "数学本に見えるが、未知の問題に向き合う思考原則本。",
-    "persona": "高校生:数学に直結／大学生:研究・設計に応用／社会人:問題解決の型として有効／専門家:古典として高評価"
+    "persona": "高校生:数学に直結／大学生:研究・設計に応用／社会人:問題解決の型として有効／専門家:古典として高評価",
+    "booklog_eval": 3.66,
+    "booklog_users": 3946,
+    "bookmeter_eval": 57,
+    "bookmeter_users": 2459,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "9",
@@ -114,7 +162,13 @@
     "fame": "C",
     "principle": "C",
     "expert_comment": "体系書ではないが、原理を使える身体にする訓練本。",
-    "persona": "高校生:パズルとして楽しい／大学生:アルゴリズム思考補助／社会人:頭の体操／専門家:訓練素材"
+    "persona": "高校生:パズルとして楽しい／大学生:アルゴリズム思考補助／社会人:頭の体操／専門家:訓練素材",
+    "booklog_eval": 3.63,
+    "booklog_users": 645,
+    "bookmeter_eval": 61,
+    "bookmeter_users": 290,
+    "reading_status": "積読",
+    "amazon_eval": 3.6
   },
   {
     "no": "10",
@@ -124,10 +178,16 @@
     "summary": "圏論を対象・構造・写像の見方として入門的に解説するブルーバックス。",
     "importance": "C",
     "difficulty": "B",
-    "fame": "D",
+    "fame": "C",
     "principle": "B",
     "expert_comment": "構造を構造として扱う抽象化の言語。即効性は低いが原理性は高い。",
-    "persona": "高校生:かなり難しい／大学生:数学・CS志向なら価値大／社会人:抽象化耐性が必要／専門家:入門として有用"
+    "persona": "高校生:かなり難しい／大学生:数学・CS志向なら価値大／社会人:抽象化耐性が必要／専門家:入門として有用",
+    "booklog_eval": 3.63,
+    "booklog_users": 477,
+    "bookmeter_eval": 82,
+    "bookmeter_users": 247,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "11",
@@ -138,9 +198,15 @@
     "importance": "B",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "読む本というより、詰まった時に引く独学デバッグ辞典。",
-    "persona": "高校生:技法を選ぶと良い／大学生:研究・資格・語学に有効／社会人:リスキリングに有効／専門家:網羅性を評価"
+    "persona": "高校生:技法を選ぶと良い／大学生:研究・資格・語学に有効／社会人:リスキリングに有効／専門家:網羅性を評価",
+    "booklog_eval": 3.91,
+    "booklog_users": 11009,
+    "bookmeter_eval": 68,
+    "bookmeter_users": 4841,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "12",
@@ -148,25 +214,37 @@
     "title": "本を読む本",
     "isbn": "978-4-06-159299-5",
     "summary": "点検読書、分析読書、シントピカル読書など能動的読書法を示す古典。",
-    "importance": "A",
-    "difficulty": "B",
+    "importance": "S",
+    "difficulty": "C",
     "fame": "A",
     "principle": "A",
-    "expert_comment": "蔵書群全体の読み方を規定するメタ本として重要。",
-    "persona": "高校生:読書感想文を超える／大学生:専門書読解に効く／社会人:読み流し防止／専門家:古典的読書法として評価"
+    "expert_comment": "点検読書・分析読書・シントピカル読書の段階で、本の読み方そのものを鍛えるメタ本として重要。",
+    "persona": "高校生:読書感想文を超える／大学生:専門書読解に効く／社会人:読み流し防止／専門家:古典的読書法として評価",
+    "booklog_eval": 3.77,
+    "booklog_users": 9226,
+    "bookmeter_eval": 64,
+    "bookmeter_users": 9008,
+    "reading_status": "いま読んでる",
+    "amazon_eval": 4.2
   },
   {
     "no": "13",
     "cluster": "Ⅱ. 学習・知的生産・認知",
-    "title": "「わかる」のしくみ 「わかったつもり」からの脱出",
-    "isbn": "978-4-7885-0607-7",
-    "summary": "わかったつもりが理解を妨げる仕組みを扱う認知・教育心理寄りの本。",
+    "title": "「わかる」のしくみ 誤読を防ぐテクニック",
+    "isbn": "978-4-04-400876-5",
+    "summary": "教育心理学者の西林克彦が、「わかったつもり」が理解を妨げる仕組みと読解の法則を解説する本。2025年刊の角川ソフィア文庫版。",
     "importance": "B",
-    "difficulty": "B",
+    "difficulty": "C",
     "fame": "C",
-    "principle": "A",
+    "principle": "B",
     "expert_comment": "理解したと思った瞬間が一番危ないという警告を与える。",
-    "persona": "高校生:勉強法改善／大学生:専門書読解に有効／社会人:資料理解の錯覚に効く／専門家:認知の実践的入門"
+    "persona": "高校生:勉強法改善／大学生:専門書読解に有効／社会人:資料理解の錯覚に効く／専門家:認知の実践的入門",
+    "booklog_eval": 3.29,
+    "booklog_users": 134,
+    "bookmeter_eval": 75,
+    "bookmeter_users": 34,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "14",
@@ -179,7 +257,13 @@
     "fame": "B",
     "principle": "B",
     "expert_comment": "エンジニアが自分の学習プロセスを設計する入口。",
-    "persona": "高校生:職業色強め／大学生:学習法として読める／社会人:エンジニアに刺さる／専門家:啓蒙書として評価"
+    "persona": "高校生:職業色強め／大学生:学習法として読める／社会人:エンジニアに刺さる／専門家:啓蒙書として評価",
+    "booklog_eval": 3.95,
+    "booklog_users": 1019,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 509,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "15",
@@ -192,7 +276,13 @@
     "fame": "B",
     "principle": "B",
     "expert_comment": "コード品質を人間の認知限界から見る視点を与える。",
-    "persona": "高校生:有益／大学生:コード読解力向上／社会人:レビュー・教育に使える／専門家:実務と認知科学の橋渡し"
+    "persona": "高校生:有益／大学生:コード読解力向上／社会人:レビュー・教育に使える／専門家:実務と認知科学の橋渡し",
+    "booklog_eval": 3.8,
+    "booklog_users": 544,
+    "bookmeter_eval": 64,
+    "bookmeter_users": 322,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "16",
@@ -202,10 +292,16 @@
     "summary": "プログラミングを創造的行為として捉え、制約、批判的思考、好奇心などを扱う。",
     "importance": "C",
     "difficulty": "C",
-    "fame": "C",
-    "principle": "B",
+    "fame": "D",
+    "principle": "C",
     "expert_comment": "正解実装ではなく創造的問題解決として捉える点が良い。",
-    "persona": "高校生:創作論として読める／大学生:開発の幅が広がる／社会人:停滞打破に効く／専門家:視点転換の本"
+    "persona": "高校生:創作論として読める／大学生:開発の幅が広がる／社会人:停滞打破に効く／専門家:視点転換の本",
+    "booklog_eval": 3.83,
+    "booklog_users": 87,
+    "bookmeter_eval": 27,
+    "bookmeter_users": 35,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "17",
@@ -215,10 +311,16 @@
     "summary": "物理学、工学、統計、CSなどの数学的モデルが脳科学研究にどう使われるかを解説。",
     "importance": "C",
     "difficulty": "B",
-    "fame": "C",
-    "principle": "A",
+    "fame": "D",
+    "principle": "B",
     "expert_comment": "複雑な対象をモデル化して理解する態度を学ぶ本。",
-    "persona": "高校生:難しい／大学生:理工系なら価値あり／社会人:AI・脳・モデル化に関心があれば有益／専門家:分野横断概説"
+    "persona": "高校生:難しい／大学生:理工系なら価値あり／社会人:AI・脳・モデル化に関心があれば有益／専門家:分野横断概説",
+    "booklog_eval": 4.0,
+    "booklog_users": 81,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 27,
+    "reading_status": "積読",
+    "amazon_eval": 5.0
   },
   {
     "no": "18",
@@ -231,7 +333,13 @@
     "fame": "C",
     "principle": "D",
     "expert_comment": "技術詳細ではなく、人間の脳とAIの協働をどう捉えるかの本。",
-    "persona": "高校生:AI入門／大学生:AI活用の視野拡張／社会人:マインドセットに効く／専門家:技術検証は別途必要"
+    "persona": "高校生:AI入門／大学生:AI活用の視野拡張／社会人:マインドセットに効く／専門家:技術検証は別途必要",
+    "booklog_eval": 3.92,
+    "booklog_users": 715,
+    "bookmeter_eval": 82,
+    "bookmeter_users": 334,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "19",
@@ -239,12 +347,18 @@
     "title": "［新版］考える技術・書く技術 問題解決力を伸ばすピラミッド原則",
     "isbn": "978-4-478-49027-3",
     "summary": "ピラミッド原則で考えを構造化し、読み手に伝わる文書・論理構成を作る方法を示す。",
-    "importance": "B",
+    "importance": "A",
     "difficulty": "B",
     "fame": "A",
     "principle": "A",
     "expert_comment": "文章術ではなく思考の構造化技術。社会人実務では中核級。",
-    "persona": "高校生:ビジネス寄り／大学生:レポート・論文に応用／社会人:資料作成の基礎体力／専門家:今でも有効"
+    "persona": "高校生:ビジネス寄り／大学生:レポート・論文に応用／社会人:資料作成の基礎体力／専門家:今でも有効",
+    "booklog_eval": 3.75,
+    "booklog_users": 11628,
+    "bookmeter_eval": 62,
+    "bookmeter_users": 5479,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "20",
@@ -257,7 +371,13 @@
     "fame": "B",
     "principle": "A",
     "expert_comment": "文章力をセンスから構造認識へ引き戻す。",
-    "persona": "高校生:作文改善／大学生:論文悪文回避／社会人:資料品質改善／専門家:実用文分析"
+    "persona": "高校生:作文改善／大学生:論文悪文回避／社会人:資料品質改善／専門家:実用文分析",
+    "booklog_eval": 4.04,
+    "booklog_users": 1245,
+    "bookmeter_eval": 59,
+    "bookmeter_users": 629,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "21",
@@ -267,10 +387,16 @@
     "summary": "物語を設定・人物・葛藤・展開・シーン構成として技術的に組み立てる本。",
     "importance": "C",
     "difficulty": "C",
-    "fame": "C",
+    "fame": "B",
     "principle": "B",
     "expert_comment": "人が意味を感じる構造を学べる。",
-    "persona": "高校生:創作入門／大学生:脚本・企画に応用／社会人:ストーリーテリング／専門家:基礎技法"
+    "persona": "高校生:創作入門／大学生:脚本・企画に応用／社会人:ストーリーテリング／専門家:基礎技法",
+    "booklog_eval": 4.24,
+    "booklog_users": 1609,
+    "bookmeter_eval": 36,
+    "bookmeter_users": 913,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "22",
@@ -283,7 +409,13 @@
     "fame": "C",
     "principle": "B",
     "expert_comment": "図解は説明技術ではなく認識技術。",
-    "persona": "高校生:図で考える訓練／大学生:研究発表／社会人:要件整理に即効／専門家:構造化実務本"
+    "persona": "高校生:図で考える訓練／大学生:研究発表／社会人:要件整理に即効／専門家:構造化実務本",
+    "booklog_eval": 4.06,
+    "booklog_users": 410,
+    "bookmeter_eval": 57,
+    "bookmeter_users": 198,
+    "reading_status": "読み終わった",
+    "amazon_eval": 4.0
   },
   {
     "no": "23",
@@ -296,7 +428,13 @@
     "fame": "C",
     "principle": "C",
     "expert_comment": "技術者の価値は相手が使える形で伝えるまで含む。",
-    "persona": "高校生:説明練習／大学生:研究発表／社会人:実用的／専門家:技術コミュニケーション入門"
+    "persona": "高校生:説明練習／大学生:研究発表／社会人:実用的／専門家:技術コミュニケーション入門",
+    "booklog_eval": 3.71,
+    "booklog_users": 182,
+    "bookmeter_eval": 55,
+    "bookmeter_users": 98,
+    "reading_status": "積読",
+    "amazon_eval": 3.8
   },
   {
     "no": "24",
@@ -309,7 +447,13 @@
     "fame": "D",
     "principle": "C",
     "expert_comment": "伝達の基本動作を広く押さえるチェックリスト。",
-    "persona": "高校生:コミュ入門／大学生:就活・発表／社会人:基礎確認／専門家:浅めだが網羅的"
+    "persona": "高校生:コミュ入門／大学生:就活・発表／社会人:基礎確認／専門家:浅めだが網羅的",
+    "booklog_eval": 3.29,
+    "booklog_users": 202,
+    "bookmeter_eval": 93,
+    "bookmeter_users": 52,
+    "reading_status": "積読",
+    "amazon_eval": 4.8
   },
   {
     "no": "25",
@@ -319,10 +463,16 @@
     "summary": "受験研究社の小3国語問題集。漢字、語句、文法、読解を基礎から標準まで扱う。",
     "importance": "D",
     "difficulty": "E",
-    "fame": "D",
-    "principle": "D",
+    "fame": "E",
+    "principle": "C",
     "expert_comment": "国語力を小学生レベルまで分解する原点回帰の本。",
-    "persona": "高校生:基礎穴確認／大学生:再基礎化／社会人:読解力リハビリ／専門家:基礎リテラシー教材"
+    "persona": "高校生:基礎穴確認／大学生:再基礎化／社会人:読解力リハビリ／専門家:基礎リテラシー教材",
+    "booklog_eval": null,
+    "booklog_users": 2,
+    "bookmeter_eval": null,
+    "bookmeter_users": 0,
+    "reading_status": "読み終わった",
+    "amazon_eval": 4.2
   },
   {
     "no": "26",
@@ -335,7 +485,13 @@
     "fame": "C",
     "principle": "C",
     "expert_comment": "単なるプロンプト集より一段上。思考法とAI利用を接続している。",
-    "persona": "高校生:発想拡張／大学生:研究テーマ探索／社会人:企画・分析／専門家:技法の体系性を見る"
+    "persona": "高校生:発想拡張／大学生:研究テーマ探索／社会人:企画・分析／専門家:技法の体系性を見る",
+    "booklog_eval": 3.44,
+    "booklog_users": 1745,
+    "bookmeter_eval": 62,
+    "bookmeter_users": 519,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "27",
@@ -348,7 +504,13 @@
     "fame": "D",
     "principle": "C",
     "expert_comment": "AIを知的生産工程に組み込む方法論として評価すべき。",
-    "persona": "高校生:ややビジネス寄り／大学生:調査・レポート／社会人:実用的／専門家:実践ノウハウ"
+    "persona": "高校生:ややビジネス寄り／大学生:調査・レポート／社会人:実用的／専門家:実践ノウハウ",
+    "booklog_eval": 3.6,
+    "booklog_users": 129,
+    "bookmeter_eval": 27,
+    "bookmeter_users": 34,
+    "reading_status": "積読",
+    "amazon_eval": 3.7
   },
   {
     "no": "28",
@@ -361,7 +523,13 @@
     "fame": "D",
     "principle": "C",
     "expert_comment": "エージェント設計は重要だが技術変化が速い。",
-    "persona": "高校生:未来像／大学生:AIアプリ入口／社会人:自動化発想／専門家:最新性と実装深度を見る"
+    "persona": "高校生:未来像／大学生:AIアプリ入口／社会人:自動化発想／専門家:最新性と実装深度を見る",
+    "booklog_eval": 3.5,
+    "booklog_users": 180,
+    "bookmeter_eval": 42,
+    "bookmeter_users": 51,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "29",
@@ -371,10 +539,16 @@
     "summary": "生成AIアプリ開発でのハルシネーション、非決定性、評価、運用などの設計対処を扱う。",
     "importance": "C",
     "difficulty": "B",
-    "fame": "C",
+    "fame": "D",
     "principle": "B",
     "expert_comment": "生成AIを不確実性を持つシステム部品として設計する視点がある。",
-    "persona": "高校生:やや難／大学生:AI開発構造理解／社会人:実務的／専門家:パターン妥当性を見る"
+    "persona": "高校生:やや難／大学生:AI開発構造理解／社会人:実務的／専門家:パターン妥当性を見る",
+    "booklog_eval": 4.0,
+    "booklog_users": 54,
+    "bookmeter_eval": 40,
+    "bookmeter_users": 14,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "30",
@@ -387,7 +561,13 @@
     "fame": "D",
     "principle": "C",
     "expert_comment": "実用性は高いがツール依存度も高い。",
-    "persona": "高校生:体験として面白い／大学生:開発効率化／社会人:即効性／専門家:ツール変化に注意"
+    "persona": "高校生:体験として面白い／大学生:開発効率化／社会人:即効性／専門家:ツール変化に注意",
+    "booklog_eval": 3.83,
+    "booklog_users": 392,
+    "bookmeter_eval": 64,
+    "bookmeter_users": 152,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "31",
@@ -400,7 +580,13 @@
     "fame": "D",
     "principle": "B",
     "expert_comment": "コードより仕様を一次情報とする転換を扱う点が重要。",
-    "persona": "高校生:早い／大学生:チーム開発後に有効／社会人:AI開発品質安定に有効／専門家:要求工学・プロセス再設計"
+    "persona": "高校生:早い／大学生:チーム開発後に有効／社会人:AI開発品質安定に有効／専門家:要求工学・プロセス再設計",
+    "booklog_eval": 3.83,
+    "booklog_users": 77,
+    "bookmeter_eval": 73,
+    "bookmeter_users": 40,
+    "reading_status": "いま読んでる",
+    "amazon_eval": 3.3
   },
   {
     "no": "32",
@@ -410,23 +596,16 @@
     "summary": "KISS、DRY、YAGNI、凝集度、結合度、命名、設計姿勢など101のプログラミング原則を整理する。",
     "importance": "B",
     "difficulty": "C",
-    "fame": "C",
+    "fame": "B",
     "principle": "A",
     "expert_comment": "長く残るプログラミング原則集。",
-    "persona": "高校生:早めに有益／大学生:設計感覚の基礎／社会人:経験の言語化／専門家:実践経験と併読"
-  },
-  {
-    "no": "33",
-    "cluster": "Ⅴ. プログラミング原則・コード品質",
-    "title": "プログラミング作法",
-    "isbn": "978-4-04-893052-9",
-    "summary": "スタイル、アルゴリズム、インターフェース、デバッグ、テスト、性能、移植性を扱う古典。",
-    "importance": "B",
-    "difficulty": "B",
-    "fame": "A",
-    "principle": "A",
-    "expert_comment": "言語が変わっても残るプログラムを書く態度が詰まる。",
-    "persona": "高校生:やや硬い／大学生:CS補助／社会人:基礎確認／専門家:古典"
+    "persona": "高校生:早めに有益／大学生:設計感覚の基礎／社会人:経験の言語化／専門家:実践経験と併読",
+    "booklog_eval": 3.78,
+    "booklog_users": 1266,
+    "bookmeter_eval": 36,
+    "bookmeter_users": 947,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "34",
@@ -435,11 +614,17 @@
     "isbn": "978-4-274-22629-8",
     "summary": "姿勢、設計、抽象化、ツール、テスト、チーム開発、継続学習を扱う名著。",
     "importance": "A",
-    "difficulty": "A",
+    "difficulty": "C",
     "fame": "A",
     "principle": "A",
     "expert_comment": "プログラマーの職業倫理と実践原則。",
-    "persona": "高校生:一部早い／大学生:職業観形成／社会人:読み返す価値／専門家:必読書"
+    "persona": "高校生:一部早い／大学生:職業観形成／社会人:読み返す価値／専門家:必読書",
+    "booklog_eval": 4.11,
+    "booklog_users": 1013,
+    "bookmeter_eval": 63,
+    "bookmeter_users": 398,
+    "reading_status": "積読",
+    "amazon_eval": 4.6
   },
   {
     "no": "35",
@@ -452,7 +637,13 @@
     "fame": "A",
     "principle": "A",
     "expert_comment": "影響力は大きいが教条化せず文脈に合わせて読むべき。",
-    "persona": "高校生:刺激になる／大学生:品質基準／社会人:レビュー観点／専門家:名著だが批判的読解"
+    "persona": "高校生:刺激になる／大学生:品質基準／社会人:レビュー観点／専門家:名著だが批判的読解",
+    "booklog_eval": 4.22,
+    "booklog_users": 304,
+    "bookmeter_eval": 71,
+    "bookmeter_users": 202,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "36",
@@ -460,12 +651,18 @@
     "title": "リーダブルコード",
     "isbn": "978-4-87311-565-8",
     "summary": "命名、コメント、制御フロー、変数、関数分割、テストなど読みやすさの具体技術。",
-    "importance": "B",
+    "importance": "A",
     "difficulty": "C",
-    "fame": "B",
+    "fame": "A",
     "principle": "B",
     "expert_comment": "日本の現場で普及度が高い、初学者にも伝わる良書。",
-    "persona": "高校生:非常に向く／大学生:チーム開発前に良い／社会人:レビュー基準／専門家:入門書として高評価"
+    "persona": "高校生:非常に向く／大学生:チーム開発前に良い／社会人:レビュー基準／専門家:入門書として高評価",
+    "booklog_eval": 4.29,
+    "booklog_users": 6877,
+    "bookmeter_eval": 52,
+    "bookmeter_users": 4151,
+    "reading_status": "読み終わった",
+    "amazon_eval": 4.5
   },
   {
     "no": "37",
@@ -478,7 +675,13 @@
     "fame": "B",
     "principle": "B",
     "expert_comment": "日本語の設計入門として優秀。",
-    "persona": "高校生:読みやすい／大学生:OOP設計入口／社会人:コード改善に直結／専門家:設計教育の良書"
+    "persona": "高校生:読みやすい／大学生:OOP設計入口／社会人:コード改善に直結／専門家:設計教育の良書",
+    "booklog_eval": 4.17,
+    "booklog_users": 1259,
+    "bookmeter_eval": 34,
+    "bookmeter_users": 685,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "38",
@@ -491,7 +694,13 @@
     "fame": "B",
     "principle": "A",
     "expert_comment": "Clean Code系を現代的・実務的に再整理。",
-    "persona": "高校生:実務寄り／大学生:チーム開発前に有効／社会人:保守性の言語化／専門家:教育に使いやすい"
+    "persona": "高校生:実務寄り／大学生:チーム開発前に有効／社会人:保守性の言語化／専門家:教育に使いやすい",
+    "booklog_eval": 3.92,
+    "booklog_users": 399,
+    "bookmeter_eval": 32,
+    "bookmeter_users": 215,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "39",
@@ -504,7 +713,13 @@
     "fame": "C",
     "principle": "A",
     "expert_comment": "設計原則の圧縮パック。",
-    "persona": "高校生:少し重い／大学生:設計概念入口／社会人:棚卸し／専門家:橋渡し本"
+    "persona": "高校生:少し重い／大学生:設計概念入口／社会人:棚卸し／専門家:橋渡し本",
+    "booklog_eval": 4.41,
+    "booklog_users": 243,
+    "bookmeter_eval": 56,
+    "bookmeter_users": 143,
+    "reading_status": "積読",
+    "amazon_eval": 4.6
   },
   {
     "no": "40",
@@ -517,20 +732,32 @@
     "fame": "A",
     "principle": "A",
     "expert_comment": "安全に構造を変える技術として読むべき中核本。",
-    "persona": "高校生:重い／大学生:中規模コード後に刺さる／社会人:必読級／専門家:保守の基礎文献"
+    "persona": "高校生:重い／大学生:中規模コード後に刺さる／社会人:必読級／専門家:保守の基礎文献",
+    "booklog_eval": 4.14,
+    "booklog_users": 578,
+    "bookmeter_eval": 48,
+    "bookmeter_users": 259,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "41",
     "cluster": "Ⅵ. ソフトウェア設計・アーキテクチャ",
-    "title": "Head First デザインパターン 第2版",
-    "isbn": "978-4-87311-976-2",
-    "summary": "GoF系デザインパターンを図解・クイズ・会話形式で学ぶ本。",
+    "title": "Head First デザインパターン 頭とからだで覚えるデザインパターンの基本",
+    "isbn": "978-4-87311-249-7",
+    "summary": "GoF系デザインパターンを図解・クイズ・会話形式で学ぶ本。2005年刊の初版。",
     "importance": "B",
     "difficulty": "C",
     "fame": "A",
     "principle": "A",
     "expert_comment": "パターン名暗記ではなく設計上の力の逃がし方として読む。",
-    "persona": "高校生:量は多いが読みやすい／大学生:OOP入口／社会人:共通語彙／専門家:定番教材"
+    "persona": "高校生:量は多いが読みやすい／大学生:OOP入口／社会人:共通語彙／専門家:定番教材",
+    "booklog_eval": 3.85,
+    "booklog_users": 470,
+    "bookmeter_eval": 72,
+    "bookmeter_users": 189,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "42",
@@ -540,10 +767,16 @@
     "summary": "一貫性、拡張性、命名、リソース設計などAPI設計パターンを整理する本。",
     "importance": "B",
     "difficulty": "B",
-    "fame": "B",
+    "fame": "C",
     "principle": "A",
     "expert_comment": "API設計は利用者認知・変更耐性・長期運用の設計。",
-    "persona": "高校生:早い／大学生:Web API後に有効／社会人:実務価値高い／専門家:レビュー材料"
+    "persona": "高校生:早い／大学生:Web API後に有効／社会人:実務価値高い／専門家:レビュー材料",
+    "booklog_eval": null,
+    "booklog_users": 1,
+    "bookmeter_eval": null,
+    "bookmeter_users": 0,
+    "reading_status": "積読",
+    "amazon_eval": 4.6
   },
   {
     "no": "43",
@@ -553,10 +786,16 @@
     "summary": "依存注入を疎結合、生成責務、テスト容易性の設計原則として扱う。",
     "importance": "B",
     "difficulty": "B",
-    "fame": "B",
+    "fame": "C",
     "principle": "A",
     "expert_comment": "DIはフレームワーク機能でなく依存方向制御の原則。",
-    "persona": "高校生:早い／大学生:OOP後に有効／社会人:設計改善に直結／専門家:誤用を減らす文献"
+    "persona": "高校生:早い／大学生:OOP後に有効／社会人:設計改善に直結／専門家:誤用を減らす文献",
+    "booklog_eval": 3.67,
+    "booklog_users": 109,
+    "bookmeter_eval": 31,
+    "bookmeter_users": 52,
+    "reading_status": "積読",
+    "amazon_eval": 4.6
   },
   {
     "no": "44",
@@ -569,7 +808,13 @@
     "fame": "B",
     "principle": "B",
     "expert_comment": "DDDの本質は業務知識をコード中心に置くこと。",
-    "persona": "高校生:実感薄い／大学生:設計演習向き／社会人:実務適用しやすい／専門家:戦略設計は別途必要"
+    "persona": "高校生:実感薄い／大学生:設計演習向き／社会人:実務適用しやすい／専門家:戦略設計は別途必要",
+    "booklog_eval": 4.22,
+    "booklog_users": 669,
+    "bookmeter_eval": 43,
+    "bookmeter_users": 443,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "45",
@@ -579,23 +824,35 @@
     "summary": "依存方向、境界、ユースケース、フレームワーク独立性、テスト容易性を論じる。",
     "importance": "B",
     "difficulty": "B",
-    "fame": "A",
+    "fame": "B",
     "principle": "A",
     "expert_comment": "同心円図の真似ではなく、依存方向で変更に耐える本。",
-    "persona": "高校生:早い／大学生:中規模開発後に有効／社会人:必読級／専門家:教条化注意"
+    "persona": "高校生:早い／大学生:中規模開発後に有効／社会人:必読級／専門家:教条化注意",
+    "booklog_eval": 4.06,
+    "booklog_users": 894,
+    "bookmeter_eval": 57,
+    "bookmeter_users": 609,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "46",
     "cluster": "Ⅵ. ソフトウェア設計・アーキテクチャ",
-    "title": "ソフトウェアアーキテクチャの基礎――エンジニアリングに基づく体系的アプローチ",
-    "isbn": "978-4-87311-982-3",
-    "summary": "アーキテクチャ特性、トレードオフ、スタイル、ステークホルダー協働まで体系的に扱う。",
+    "title": "ソフトウェアアーキテクチャの基礎 第2版 エンジニアリングに基づく体系的アプローチ",
+    "isbn": "978-4-8144-0155-0",
+    "summary": "アーキテクチャ特性、トレードオフ、スタイル、ステークホルダー協働まで体系的に扱う本の第2版。",
     "importance": "B",
     "difficulty": "B",
     "fame": "B",
     "principle": "A",
     "expert_comment": "アーキテクチャを特性とトレードオフの意思決定として扱う。",
-    "persona": "高校生:難しい／大学生:設計経験後に価値／社会人:非常に有用／専門家:標準的良書"
+    "persona": "高校生:難しい／大学生:設計経験後に価値／社会人:非常に有用／専門家:標準的良書",
+    "booklog_eval": 4.71,
+    "booklog_users": 135,
+    "bookmeter_eval": 55,
+    "bookmeter_users": 35,
+    "reading_status": "積読",
+    "amazon_eval": 3.7
   },
   {
     "no": "47",
@@ -604,11 +861,17 @@
     "isbn": "978-4-7973-4778-4",
     "summary": "OOP設計、アジャイル、SOLID、デザインパターンを統合的に扱う大部の本。",
     "importance": "B",
-    "difficulty": "A",
+    "difficulty": "B",
     "fame": "A",
     "principle": "A",
     "expert_comment": "古典的だがOOP設計の骨格を学べる。",
-    "persona": "高校生:重い／大学生:設計体系化／社会人:基礎補強／専門家:現代文脈への翻訳必要"
+    "persona": "高校生:重い／大学生:設計体系化／社会人:基礎補強／専門家:現代文脈への翻訳必要",
+    "booklog_eval": 4.3,
+    "booklog_users": 542,
+    "bookmeter_eval": 46,
+    "bookmeter_users": 208,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "48",
@@ -617,11 +880,17 @@
     "isbn": "978-4-8025-1119-3",
     "summary": "何を作るべきかとどう正しく作るかを分け、仮説検証やチーム開発を扱う。",
     "importance": "B",
-    "difficulty": "B",
+    "difficulty": "C",
     "fame": "B",
-    "principle": "A",
+    "principle": "B",
     "expert_comment": "正しく作るだけでは失敗するというプロダクト開発の核心。",
-    "persona": "高校生:社会人向け／大学生:開発観に有用／社会人:刺さる／専門家:日本の重要本"
+    "persona": "高校生:社会人向け／大学生:開発観に有用／社会人:刺さる／専門家:日本の重要本",
+    "booklog_eval": 3.99,
+    "booklog_users": 795,
+    "bookmeter_eval": 53,
+    "bookmeter_users": 367,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "49",
@@ -629,12 +898,18 @@
     "title": "単体テストの考え方/使い方",
     "isbn": "978-4-8399-8172-3",
     "summary": "質の高い単体テストと、悪いテストがコストを増やす仕組みを扱う。",
-    "importance": "B",
+    "importance": "A",
     "difficulty": "B",
     "fame": "B",
     "principle": "A",
     "expert_comment": "単体テストを変更可能性を守る設計戦略へ引き上げる。",
-    "persona": "高校生:少し早い／大学生:経験後に良い／社会人:必読級／専門家:実務原則"
+    "persona": "高校生:少し早い／大学生:経験後に良い／社会人:必読級／専門家:実務原則",
+    "booklog_eval": 4.35,
+    "booklog_users": 479,
+    "bookmeter_eval": 59,
+    "bookmeter_users": 288,
+    "reading_status": "積読",
+    "amazon_eval": 4.6
   },
   {
     "no": "50",
@@ -647,20 +922,13 @@
     "fame": "B",
     "principle": "B",
     "expert_comment": "品質保証の全体像を掴むには有用。",
-    "persona": "高校生:読みやすい／大学生:品質基礎／社会人:再学習／専門家:入門書"
-  },
-  {
-    "no": "51",
-    "cluster": "Ⅷ. コンピュータサイエンス・基盤技術",
-    "title": "計算機プログラムの構造と解釈 第2版",
-    "isbn": "978-4-7981-3598-4",
-    "summary": "抽象化、手続き、データ、評価器、計算モデルなどでプログラムとは何かを根本から扱う。",
-    "importance": "A",
-    "difficulty": "A",
-    "fame": "A",
-    "principle": "S",
-    "expert_comment": "本物の原理原則本。計算・抽象化・言語の見方を変える。",
-    "persona": "高校生:難しいが刺さる／大学生:CS基礎／社会人:再学習価値大／専門家:古典"
+    "persona": "高校生:読みやすい／大学生:品質基礎／社会人:再学習／専門家:入門書",
+    "booklog_eval": 3.59,
+    "booklog_users": 145,
+    "bookmeter_eval": 63,
+    "bookmeter_users": 57,
+    "reading_status": "読み終わった",
+    "amazon_eval": 3.9
   },
   {
     "no": "52",
@@ -673,7 +941,13 @@
     "fame": "C",
     "principle": "A",
     "expert_comment": "問題をどの構造に載せ、どの計算量で処理するかを学ぶ本。",
-    "persona": "高校生:分量重めだが良い／大学生:CS演習書／社会人:再学習に有効／専門家:実践的網羅本"
+    "persona": "高校生:分量重めだが良い／大学生:CS演習書／社会人:再学習に有効／専門家:実践的網羅本",
+    "booklog_eval": 4.14,
+    "booklog_users": 173,
+    "bookmeter_eval": null,
+    "bookmeter_users": 46,
+    "reading_status": "積読",
+    "amazon_eval": 3.1
   },
   {
     "no": "53",
@@ -682,11 +956,17 @@
     "isbn": "978-4-8731-1959-5",
     "summary": "スレッド、同期、メモリモデル、アトミック、ロック、CPUレベルの並行実行を扱う。",
     "importance": "B",
-    "difficulty": "A",
+    "difficulty": "B",
     "fame": "C",
     "principle": "A",
     "expert_comment": "抽象APIだけで理解すると危険な並行性を低レイヤから掘る。",
-    "persona": "高校生:難しい／大学生:OS学習と相性良い／社会人:バグ理解に効く／専門家:実装寄り入門"
+    "persona": "高校生:難しい／大学生:OS学習と相性良い／社会人:バグ理解に効く／専門家:実装寄り入門",
+    "booklog_eval": 4.18,
+    "booklog_users": 240,
+    "bookmeter_eval": 57,
+    "bookmeter_users": 109,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "54",
@@ -696,10 +976,16 @@
     "summary": "性能改善を測定、ボトルネック特定、アルゴリズム、メモリ、CPU、実装工夫から扱う。",
     "importance": "C",
     "difficulty": "B",
-    "fame": "C",
+    "fame": "D",
     "principle": "B",
     "expert_comment": "高速化は測る→原因を見つける→構造を変える問題解決。",
-    "persona": "高校生:実務寄り／大学生:計算量・低レイヤ補助／社会人:性能対応に有効／専門家:入門書"
+    "persona": "高校生:実務寄り／大学生:計算量・低レイヤ補助／社会人:性能対応に有効／専門家:入門書",
+    "booklog_eval": 4.0,
+    "booklog_users": 38,
+    "bookmeter_eval": null,
+    "bookmeter_users": 20,
+    "reading_status": "積読",
+    "amazon_eval": 5.0
   },
   {
     "no": "55",
@@ -707,12 +993,18 @@
     "title": "コンピュータアーキテクチャ 第6版 定量的アプローチ",
     "isbn": "978-4-4342-6400-9",
     "summary": "命令セット、パイプライン、メモリ階層、並列性、性能評価を定量的に扱う名著。",
-    "importance": "B",
+    "importance": "A",
     "difficulty": "A",
     "fame": "A",
     "principle": "A",
     "expert_comment": "ソフトウェアの下で何が起きているかを性能という客観量で理解する。",
-    "persona": "高校生:相当難／大学生:本格派向け／社会人:低レイヤ・組込み志向に強い／専門家:標準級文献"
+    "persona": "高校生:相当難／大学生:本格派向け／社会人:低レイヤ・組込み志向に強い／専門家:標準級文献",
+    "booklog_eval": 4.67,
+    "booklog_users": 59,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 22,
+    "reading_status": "積読",
+    "amazon_eval": 3.9
   },
   {
     "no": "56",
@@ -725,7 +1017,13 @@
     "fame": "C",
     "principle": "A",
     "expert_comment": "実務プログラマーにとってのCPU理解として非常に良い。",
-    "persona": "高校生:難しいが面白い／大学生:橋渡し／社会人:実務的／専門家:低レイヤ啓蒙書"
+    "persona": "高校生:難しいが面白い／大学生:橋渡し／社会人:実務的／専門家:低レイヤ啓蒙書",
+    "booklog_eval": 4.4,
+    "booklog_users": 230,
+    "bookmeter_eval": 56,
+    "bookmeter_users": 114,
+    "reading_status": "積読",
+    "amazon_eval": 4.6
   },
   {
     "no": "57",
@@ -735,10 +1033,16 @@
     "summary": "Googleの大規模開発を技術・文化・プロセスの観点から体系化する本。",
     "importance": "B",
     "difficulty": "B",
-    "fame": "A",
+    "fame": "B",
     "principle": "A",
     "expert_comment": "組織でソフトウェアを長く育てる原理を扱う中核本。",
-    "persona": "高校生:組織感薄い／大学生:チーム開発後に有効／社会人:必読級／専門家:大規模開発の実践知"
+    "persona": "高校生:組織感薄い／大学生:チーム開発後に有効／社会人:必読級／専門家:大規模開発の実践知",
+    "booklog_eval": 4.07,
+    "booklog_users": 708,
+    "bookmeter_eval": 74,
+    "bookmeter_users": 263,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "58",
@@ -749,9 +1053,15 @@
     "importance": "C",
     "difficulty": "B",
     "fame": "C",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "運用は設計・組織・文化の欠陥が露出する場所。",
-    "persona": "高校生:早い／大学生:DevOps入口／社会人:運用改善に効く／専門家:失敗学"
+    "persona": "高校生:早い／大学生:DevOps入口／社会人:運用改善に効く／専門家:失敗学",
+    "booklog_eval": 4.0,
+    "booklog_users": 448,
+    "bookmeter_eval": 66,
+    "bookmeter_users": 172,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "59",
@@ -760,11 +1070,17 @@
     "isbn": "978-4-87311-823-9",
     "summary": "車載電子制御、CAN、診断プロトコル、リバースエンジニアリング、車載セキュリティを扱う。",
     "importance": "C",
-    "difficulty": "A",
-    "fame": "B",
+    "difficulty": "B",
+    "fame": "C",
     "principle": "B",
     "expert_comment": "自動車を分散コンピュータとして理解する本。",
-    "persona": "高校生:車好きなら面白い／大学生:組込み・セキュリティ入口／社会人車載:視野拡張／専門家:実践セキュリティ"
+    "persona": "高校生:車好きなら面白い／大学生:組込み・セキュリティ入口／社会人:車載の視野拡張／専門家:実践セキュリティ",
+    "booklog_eval": 3.63,
+    "booklog_users": 105,
+    "bookmeter_eval": 92,
+    "bookmeter_users": 45,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "60",
@@ -777,7 +1093,13 @@
     "fame": "C",
     "principle": "B",
     "expert_comment": "車載ソフトでは信号・周期・遅延・安全・規格の世界観が必要。",
-    "persona": "高校生:専門的／大学生:組込み志向に有益／社会人車載:実務基礎／専門家:規格横断整理"
+    "persona": "高校生:専門的／大学生:組込み志向に有益／社会人:車載の実務基礎／専門家:規格横断整理",
+    "booklog_eval": 3.2,
+    "booklog_users": 41,
+    "bookmeter_eval": 33,
+    "bookmeter_users": 23,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "61",
@@ -787,10 +1109,16 @@
     "summary": "業務をプロセス・情報・責任・制約の構造として捉え、可視化・再設計・改善を扱う。",
     "importance": "C",
     "difficulty": "C",
-    "fame": "D",
+    "fame": "C",
     "principle": "B",
     "expert_comment": "AI活用や自動化の前に必要なのは業務そのものの設計。",
-    "persona": "高校生:仕事文脈重い／大学生:業務分析入口／社会人:強く効く／専門家:DX前提本"
+    "persona": "高校生:仕事文脈重い／大学生:業務分析入口／社会人:強く効く／専門家:DX前提本",
+    "booklog_eval": 3.96,
+    "booklog_users": 423,
+    "bookmeter_eval": 63,
+    "bookmeter_users": 140,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "62",
@@ -800,10 +1128,16 @@
     "summary": "仕事が終わらない原因を、計画・実行・中断の技術として整理する本。",
     "importance": "C",
     "difficulty": "D",
-    "fame": "D",
+    "fame": "C",
     "principle": "C",
     "expert_comment": "作業資源は有限で中断に弱いという実行設計の本。",
-    "persona": "高校生:勉強計画／大学生:課題管理／社会人:実用的／専門家:実務改善本"
+    "persona": "高校生:勉強計画／大学生:課題管理／社会人:実用的／専門家:実務改善本",
+    "booklog_eval": 4.05,
+    "booklog_users": 610,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 172,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "63",
@@ -816,7 +1150,13 @@
     "fame": "D",
     "principle": "C",
     "expert_comment": "タスク管理は精神論ではなく認知負荷と実行設計の問題。",
-    "persona": "高校生:勉強管理／大学生:課題・研究・就活／社会人:即効性／専門家:方法論実装本"
+    "persona": "高校生:勉強管理／大学生:課題・研究・就活／社会人:即効性／専門家:方法論実装本",
+    "booklog_eval": 3.13,
+    "booklog_users": 159,
+    "bookmeter_eval": 82,
+    "bookmeter_users": 39,
+    "reading_status": "積読",
+    "amazon_eval": 3.0
   },
   {
     "no": "64",
@@ -827,9 +1167,15 @@
     "importance": "C",
     "difficulty": "C",
     "fame": "C",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "問題を感覚ではなくデータで見える形に変換する基本道具。",
-    "persona": "高校生:データ分析例／大学生:品質・実験入口／社会人:現場改善に即効／専門家:基礎中の基礎"
+    "persona": "高校生:データ分析例／大学生:品質・実験入口／社会人:現場改善に即効／専門家:基礎中の基礎",
+    "booklog_eval": 3.44,
+    "booklog_users": 108,
+    "bookmeter_eval": null,
+    "bookmeter_users": 47,
+    "reading_status": "積読",
+    "amazon_eval": 3.8
   },
   {
     "no": "65",
@@ -839,10 +1185,16 @@
     "summary": "親和図法、連関図法、系統図法、マトリックス図法、PDPC法などで言語データを構造化する本。",
     "importance": "C",
     "difficulty": "C",
-    "fame": "C",
-    "principle": "B",
+    "fame": "D",
+    "principle": "C",
     "expert_comment": "曖昧な問題を構造化する道具。業務設計や要件定義にも相性が良い。",
-    "persona": "高校生:探究学習に応用／大学生:研究テーマ整理／社会人:会議・改善で実用的／専門家:基本セット"
+    "persona": "高校生:探究学習に応用／大学生:研究テーマ整理／社会人:会議・改善で実用的／専門家:基本セット",
+    "booklog_eval": 3.55,
+    "booklog_users": 78,
+    "bookmeter_eval": 20,
+    "bookmeter_users": 35,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "66",
@@ -853,22 +1205,34 @@
     "importance": "C",
     "difficulty": "C",
     "fame": "D",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "目的・制約・関係者・計画・実行・変更を束ねる実務知。",
-    "persona": "高校生:重い／大学生:チーム開発・研究に有効／社会人:実用的／専門家:網羅型リファレンス"
+    "persona": "高校生:重い／大学生:チーム開発・研究に有効／社会人:実用的／専門家:網羅型リファレンス",
+    "booklog_eval": 3.33,
+    "booklog_users": 141,
+    "bookmeter_eval": 86,
+    "bookmeter_users": 30,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "67",
     "cluster": "Ⅹ. 業務・組織・プロダクト・ビジネス・法律",
-    "title": "ビジネスモデル全史",
-    "isbn": "978-4-7993-1563-7",
-    "summary": "歴史上のビジネスモデルを時系列で整理し、価値提供・流通・収益構造の変化を見る本。",
+    "title": "ビジネスモデル全史〔完全版〕",
+    "isbn": "978-4-296-12454-1",
+    "summary": "メディチ家の為替・決済からフォードの垂直統合、アマゾンのロングテールまで、600年のビジネスモデルを時系列で整理し、価値提供・流通・収益構造の変化を見る本の文庫完全版。",
     "importance": "B",
-    "difficulty": "B",
+    "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "何を売るかだけでなくどう価値を回収するかの視野をくれる。",
-    "persona": "高校生:経済史読み物／大学生:起業・経営入口／社会人:事業理解／専門家:事例史"
+    "persona": "高校生:経済史読み物／大学生:起業・経営入口／社会人:事業理解／専門家:事例史",
+    "booklog_eval": 3.55,
+    "booklog_users": 232,
+    "bookmeter_eval": 75,
+    "bookmeter_users": 65,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "68",
@@ -881,7 +1245,13 @@
     "fame": "D",
     "principle": "C",
     "expert_comment": "組織問題を感情論から分析可能な対象に変える。",
-    "persona": "高校生:早い／大学生:組織論入口／社会人:マネジメントに効く／専門家:実務フレーム集"
+    "persona": "高校生:早い／大学生:組織論入口／社会人:マネジメントに効く／専門家:実務フレーム集",
+    "booklog_eval": 3.4,
+    "booklog_users": 97,
+    "bookmeter_eval": 80,
+    "bookmeter_users": 11,
+    "reading_status": "積読",
+    "amazon_eval": 3.9
   },
   {
     "no": "69",
@@ -894,7 +1264,13 @@
     "fame": "A",
     "principle": "A",
     "expert_comment": "会社は社会の基本OS。ビジネスやM&Aには法制度としての会社理解が重要。",
-    "persona": "高校生:社会制度理解／大学生:法学・経営入口／社会人:会社理解／専門家:定番入門"
+    "persona": "高校生:社会制度理解／大学生:法学・経営入口／社会人:会社理解／専門家:定番入門",
+    "booklog_eval": 3.77,
+    "booklog_users": 199,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 101,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "70",
@@ -904,10 +1280,16 @@
     "summary": "言語の獲得・進化・意味・オノマトペ・推論を扱い、AIや動物との違いも考える。",
     "importance": "B",
     "difficulty": "C",
-    "fame": "A",
+    "fame": "B",
     "principle": "A",
     "expert_comment": "言語は思考・社会・学習・文化の基盤。人間理解の中核。",
-    "persona": "高校生:読みやすい／大学生:認知科学・言語学入口／社会人:説明・AI理解にも効く／専門家:良質な一般向け入門"
+    "persona": "高校生:読みやすい／大学生:認知科学・言語学入口／社会人:説明・AI理解にも効く／専門家:良質な一般向け入門",
+    "booklog_eval": 3.8,
+    "booklog_users": 10272,
+    "bookmeter_eval": 60,
+    "bookmeter_users": 6741,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "71",
@@ -920,20 +1302,32 @@
     "fame": "B",
     "principle": "B",
     "expert_comment": "地理は世界の制約条件を理解する学問。",
-    "persona": "高校生:非常に向く／大学生:教養再構築／社会人:ニュース理解／専門家:入門書"
+    "persona": "高校生:非常に向く／大学生:教養再構築／社会人:ニュース理解／専門家:入門書",
+    "booklog_eval": 3.81,
+    "booklog_users": 1024,
+    "bookmeter_eval": 38,
+    "bookmeter_users": 376,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "72",
     "cluster": "Ⅺ. 人間・社会・世界理解",
     "title": "エリア別だから流れがつながる 世界史",
-    "isbn": "単行本版 978-4-02-333164-8 / 文庫版 978-4-02-268401-1",
+    "isbn": "978-4-02-268401-1",
     "summary": "世界史を地域別に整理し、文明・国家・宗教・交易・戦争の関係を捉える本。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "D",
     "fame": "C",
     "principle": "B",
     "expert_comment": "現在の制度や国家の背景を読む時間軸を与える。",
-    "persona": "高校生:受験・教養に有効／大学生:国際理解基礎／社会人:ニュース理解／専門家:入門整理本"
+    "persona": "高校生:受験・教養に有効／大学生:国際理解基礎／社会人:ニュース理解／専門家:入門整理本",
+    "booklog_eval": 3.9,
+    "booklog_users": 152,
+    "bookmeter_eval": 38,
+    "bookmeter_users": 62,
+    "reading_status": "積読",
+    "amazon_eval": 3.8
   },
   {
     "no": "73",
@@ -946,7 +1340,13 @@
     "fame": "B",
     "principle": "A",
     "expert_comment": "前提を疑うための上位メタOS。",
-    "persona": "高校生:難しいが刺されば強い／大学生:思考訓練／社会人:価値判断に効く／専門家:骨太な入門"
+    "persona": "高校生:難しいが刺されば強い／大学生:思考訓練／社会人:価値判断に効く／専門家:骨太な入門",
+    "booklog_eval": 3.82,
+    "booklog_users": 1698,
+    "bookmeter_eval": 63,
+    "bookmeter_users": 1818,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "74",
@@ -959,7 +1359,13 @@
     "fame": "B",
     "principle": "B",
     "expert_comment": "身体が思考性能の土台であるという原理を与える。",
-    "persona": "高校生:学習効率／大学生:生活改善／社会人:集中・メンタル対策／専門家:主張の強さを見ながら読む"
+    "persona": "高校生:学習効率／大学生:生活改善／社会人:集中・メンタル対策／専門家:主張の強さを見ながら読む",
+    "booklog_eval": 4.04,
+    "booklog_users": 8081,
+    "bookmeter_eval": 62,
+    "bookmeter_users": 4024,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "75",
@@ -970,9 +1376,15 @@
     "importance": "B",
     "difficulty": "C",
     "fame": "B",
-    "principle": "A",
+    "principle": "B",
     "expert_comment": "食欲を道徳でなく生物学的制御システムとして見る。",
-    "persona": "高校生:読み物として面白い／大学生:栄養・行動科学入口／社会人:食生活改善／専門家:栄養生態学の一般向け展開"
+    "persona": "高校生:読み物として面白い／大学生:栄養・行動科学入口／社会人:食生活改善／専門家:栄養生態学の一般向け展開",
+    "booklog_eval": 3.89,
+    "booklog_users": 1443,
+    "bookmeter_eval": 82,
+    "bookmeter_users": 816,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "76",
@@ -980,12 +1392,18 @@
     "title": "熟睡者",
     "isbn": "978-4-7631-4071-5",
     "summary": "睡眠中の記憶定着、脳の回復、体内時計、睡眠ステージ、睡眠の質改善を扱う。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "C",
     "principle": "B",
     "expert_comment": "睡眠は知的活動・健康・感情制御の基盤。",
-    "persona": "高校生:学習効率に直結／大学生:生活リズム改善／社会人:疲労対策／専門家:一般向け実践本"
+    "persona": "高校生:学習効率に直結／大学生:生活リズム改善／社会人:疲労対策／専門家:一般向け実践本",
+    "booklog_eval": 3.38,
+    "booklog_users": 1493,
+    "bookmeter_eval": 53,
+    "bookmeter_users": 705,
+    "reading_status": "積読",
+    "amazon_eval": 3.9
   },
   {
     "no": "77",
@@ -994,11 +1412,17 @@
     "isbn": "978-4-86276-180-4",
     "summary": "システム思考の中核であるフィードバック、遅延、ストックとフロー、レバレッジポイントを通じて、出来事の背後にある構造を捉える本。",
     "importance": "A",
-    "difficulty": "A",
+    "difficulty": "C",
     "fame": "A",
     "principle": "A",
-    "expert_comment": "原理原則リストの大きな空白だったシステム思考を埋める中核本。善意の対策が副作用を生む構造を見抜くために必須級。",
-    "persona": "高校生:身近な悪循環の理解に有効／大学生:社会・環境・組織問題の見方が変わる／社会人:業務改善・組織問題・プロダクト設計に効く／専門家:システム思考の古典として重要"
+    "expert_comment": "出来事の背後にあるフィードバックや遅れの構造をつかむ、システム思考の中核本。善意の対策が副作用を生む構造を見抜くために必須級。",
+    "persona": "高校生:身近な悪循環の理解に有効／大学生:社会・環境・組織問題の見方が変わる／社会人:業務改善・組織問題・プロダクト設計に効く／専門家:システム思考の古典として重要",
+    "booklog_eval": 3.8,
+    "booklog_users": 1850,
+    "bookmeter_eval": 68,
+    "bookmeter_users": 1129,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "78",
@@ -1007,11 +1431,17 @@
     "isbn": "978-4-88384-175-2",
     "summary": "利害が絡む複数主体の意思決定を、戦略、均衡、協調、交渉、制度設計の観点から理解するためのゲーム理論入門。",
     "importance": "B",
-    "difficulty": "A",
-    "fame": "B",
+    "difficulty": "B",
+    "fame": "C",
     "principle": "A",
     "expert_comment": "他者がいる世界での意思決定原理を学ぶ本。市場、組織、政治、交渉、競争を読むための基礎になる。",
-    "persona": "高校生:やや難しいが駆け引きの数学として面白い／大学生:経済学・社会科学の基礎／社会人:交渉・制度・インセンティブ設計に効く／専門家:理論入門として有用"
+    "persona": "高校生:やや難しいが駆け引きの数学として面白い／大学生:経済学・社会科学の基礎／社会人:交渉・制度・インセンティブ設計に効く／専門家:理論入門として有用",
+    "booklog_eval": 4.0,
+    "booklog_users": 31,
+    "bookmeter_eval": 73,
+    "bookmeter_users": 22,
+    "reading_status": "積読",
+    "amazon_eval": 5.0
   },
   {
     "no": "79",
@@ -1021,10 +1451,16 @@
     "summary": "自然淘汰、突然変異、集団、進化ゲーム、協力、ウイルス、がん、言語などを数理モデルで扱う進化ダイナミクスの本。",
     "importance": "B",
     "difficulty": "A",
-    "fame": "B",
+    "fame": "C",
     "principle": "A",
     "expert_comment": "進化を比喩ではなく数理的なダイナミクスとして見る本。協力・競争・適応の原理を深く理解できるが難度は高い。",
-    "persona": "高校生:かなり難しい／大学生:数理生物・進化ゲームへの入口／社会人:競争・協力・適応を原理的に考える補助／専門家:進化ダイナミクスの重要文献"
+    "persona": "高校生:かなり難しい／大学生:数理生物・進化ゲームへの入口／社会人:競争・協力・適応を原理的に考える補助／専門家:進化ダイナミクスの重要文献",
+    "booklog_eval": null,
+    "booklog_users": 49,
+    "bookmeter_eval": 44,
+    "bookmeter_users": 33,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "80",
@@ -1032,12 +1468,18 @@
     "title": "インタフェースデザインの心理学――ウェブやアプリに新たな視点をもたらす100の指針",
     "isbn": "978-4-87311-557-3",
     "summary": "人間の知覚、記憶、注意、意思決定、動機づけなどの心理学的知見を、UI/UXやプロダクト設計へ応用する本。",
-    "importance": "C",
+    "importance": "B",
     "difficulty": "D",
     "fame": "B",
     "principle": "B",
     "expert_comment": "人間と人工物の接点を設計するための本。プロダクト、ゲーム、AIツール、業務システムの使いやすさを考える土台になる。",
-    "persona": "高校生:身近なUI理解に向く／大学生:制作・研究発表・アプリ開発に有効／社会人:プロダクト改善に即効／専門家:UX原則の確認用"
+    "persona": "高校生:身近なUI理解に向く／大学生:制作・研究発表・アプリ開発に有効／社会人:プロダクト改善に即効／専門家:UX原則の確認用",
+    "booklog_eval": 3.89,
+    "booklog_users": 1632,
+    "bookmeter_eval": 60,
+    "bookmeter_users": 731,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "81",
@@ -1045,12 +1487,18 @@
     "title": "言語処理のための機械学習入門",
     "isbn": "978-4-33902-751-8",
     "summary": "自然言語処理に必要な数学的基礎、単語・文書表現、クラスタリング、分類、系列ラベリング、実験方法を扱う機械学習入門。",
-    "importance": "C",
-    "difficulty": "A",
+    "importance": "B",
+    "difficulty": "B",
     "fame": "C",
     "principle": "A",
     "expert_comment": "生成AI以前のNLP/MLの基礎を押さえる本。LLM活用だけでなく、言語データを機械学習問題として見る土台になる。",
-    "persona": "高校生:数学前提が重い／大学生:機械学習・NLP入門に有効／社会人:AI活用の基礎理解に効く／専門家:古典的ML/NLPの基礎確認"
+    "persona": "高校生:数学前提が重い／大学生:機械学習・NLP入門に有効／社会人:AI活用の基礎理解に効く／専門家:古典的ML/NLPの基礎確認",
+    "booklog_eval": 4.3,
+    "booklog_users": 491,
+    "bookmeter_eval": 49,
+    "bookmeter_users": 271,
+    "reading_status": "読み終わった",
+    "amazon_eval": 4.5
   },
   {
     "no": "82",
@@ -1059,11 +1507,17 @@
     "isbn": "978-4-82228-311-7",
     "summary": "ブラウザにURLを入力してからWebページが表示されるまでの道筋をたどり、TCP/IP、LAN、ルーター、サーバー、光ファイバなどを理解する本。",
     "importance": "B",
-    "difficulty": "B",
-    "fame": "B",
+    "difficulty": "C",
+    "fame": "A",
     "principle": "A",
-    "expert_comment": "既存リストで薄かったネットワーク基礎を補う良書。抽象的な通信ではなく、実際にパケットがどう通るかを追える。",
-    "persona": "高校生:インターネットの裏側として読める／大学生:ネットワーク基礎に有効／社会人:Web・クラウド・組込み理解に効く／専門家:入門説明の参照に使える"
+    "expert_comment": "抽象的な通信の説明ではなく、ブラウザからサーバーまでパケットが実際にどう通るかを追える、ネットワーク基礎の良書。",
+    "persona": "高校生:インターネットの裏側として読める／大学生:ネットワーク基礎に有効／社会人:Web・クラウド・組込み理解に効く／専門家:入門説明の参照に使える",
+    "booklog_eval": 3.8,
+    "booklog_users": 2525,
+    "bookmeter_eval": 50,
+    "bookmeter_users": 1299,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "83",
@@ -1072,11 +1526,17 @@
     "isbn": "978-4-13042-065-5",
     "summary": "データの記述、確率、確率分布、大数の法則、中心極限定理、標本分布、推定、仮説検定、回帰分析までを体系的に扱う統計学入門。",
     "importance": "A",
-    "difficulty": "A",
+    "difficulty": "B",
     "fame": "A",
-    "principle": "S",
-    "expert_comment": "不確実性を扱うための基礎。原理原則リストに統計がない状態は大きな穴なので、追加価値は非常に高い。",
-    "persona": "高校生:数式はあるが基礎として有用／大学生:統計リテラシーの土台／社会人:データ判断・検定・回帰理解に効く／専門家:定番入門として参照価値あり"
+    "principle": "A",
+    "expert_comment": "不確実性を扱うための基礎。記述統計から確率、推定、検定、回帰までを一つの流れで学べる定番の教科書。",
+    "persona": "高校生:数式はあるが基礎として有用／大学生:統計リテラシーの土台／社会人:データ判断・検定・回帰理解に効く／専門家:定番入門として参照価値あり",
+    "booklog_eval": 3.75,
+    "booklog_users": 2264,
+    "bookmeter_eval": 52,
+    "bookmeter_users": 1310,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "84",
@@ -1086,10 +1546,16 @@
     "summary": "観察が理論に依存すること（観察の理論負荷性）を軸に、ケプラー等の事例から科学的発見がどのような概念パターンの探索として成立するかを論じる科学哲学の古典。",
     "importance": "B",
     "difficulty": "A",
-    "fame": "B",
+    "fame": "A",
     "principle": "A",
-    "expert_comment": "「事実を見れば分かる」という素朴実在論を壊す本。仮説形成（アブダクション）と観察の関係を扱い、原理原則リストの認識論側の土台になる。",
-    "persona": "高校生:抽象度が高く難しい／大学生:科学哲学の必読入門／社会人:データ解釈のバイアス自覚に効く／専門家:クーンと並ぶ古典として参照価値大"
+    "expert_comment": "「事実を見れば分かる」という素朴実在論を壊す本。仮説形成（アブダクション）と観察の関係を扱い、データの解釈や認識論を考える土台になる。",
+    "persona": "高校生:抽象度が高く難しい／大学生:科学哲学の必読入門／社会人:データ解釈のバイアス自覚に効く／専門家:クーンと並ぶ古典として参照価値大",
+    "booklog_eval": 3.0,
+    "booklog_users": 76,
+    "bookmeter_eval": 25,
+    "bookmeter_users": 42,
+    "reading_status": "積読",
+    "amazon_eval": 5.0
   },
   {
     "no": "85",
@@ -1098,11 +1564,17 @@
     "isbn": "978-4-8269-0125-3",
     "summary": "形式体系・自己言及・再帰・不完全性定理を、絵画と音楽の類比を通して結び、心と意味がどこから立ち上がるのかを探る大著。",
     "importance": "B",
-    "difficulty": "S",
+    "difficulty": "A",
     "fame": "S",
     "principle": "A",
     "expert_comment": "自己言及とメタレベルという原理を、論理・芸術・生命・知能を横断して体感させる稀有な本。読了難度は高いが原理密度は極めて高い。",
-    "persona": "高校生:通読は困難だが刺激は大／大学生:論理学・認知科学への強い導入／社会人:メタ思考の訓練になる／専門家:AI・意識論の古典的参照点"
+    "persona": "高校生:通読は困難だが刺激は大／大学生:論理学・認知科学への強い導入／社会人:メタ思考の訓練になる／専門家:AI・意識論の古典的参照点",
+    "booklog_eval": 3.75,
+    "booklog_users": 1173,
+    "bookmeter_eval": 71,
+    "bookmeter_users": 1095,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "86",
@@ -1112,10 +1584,16 @@
     "summary": "具体と抽象の往復という思考の軸を、システム開発における問題発見・要件定義・設計の場面に接続して解説する本。",
     "importance": "C",
     "difficulty": "C",
-    "fame": "D",
+    "fame": "C",
     "principle": "B",
     "expert_comment": "抽象化の原理を開発実務の語彙で語り直した本。設計書やコードの粒度がぶれる原因を「抽象度の不一致」として言語化できる。",
-    "persona": "高校生:平易だが実務例は遠い／大学生:抽象化の意味が腑に落ちる／社会人:要件定義・設計レビューに直結／専門家:既知の内容だが説明の型として有用"
+    "persona": "高校生:平易だが実務例は遠い／大学生:抽象化の意味が腑に落ちる／社会人:要件定義・設計レビューに直結／専門家:既知の内容だが説明の型として有用",
+    "booklog_eval": 3.89,
+    "booklog_users": 510,
+    "bookmeter_eval": 81,
+    "bookmeter_users": 140,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "87",
@@ -1125,10 +1603,16 @@
     "summary": "字句解析・構文解析・識別子処理・コード生成というコンパイラの基本構成を、実例のプログラムリストとともに精選して学ぶ入門書。",
     "importance": "C",
     "difficulty": "B",
-    "fame": "C",
-    "principle": "A",
+    "fame": "D",
+    "principle": "B",
     "expert_comment": "網羅性を捨てて骨格に絞った構成が良い。言語処理系の原理を「動くもの」として掴めるので、抽象構文木や文法の理解が実感を伴う。",
-    "persona": "高校生:プログラミング経験があれば挑戦可／大学生:コンパイラ講義の副読本に最適／社会人:DSL・パーサ実装の勘所が掴める／専門家:入門書として堅実"
+    "persona": "高校生:プログラミング経験があれば挑戦可／大学生:コンパイラ講義の副読本に最適／社会人:DSL・パーサ実装の勘所が掴める／専門家:入門書として堅実",
+    "booklog_eval": null,
+    "booklog_users": 19,
+    "bookmeter_eval": null,
+    "bookmeter_users": 7,
+    "reading_status": "積読",
+    "amazon_eval": 5.0
   },
   {
     "no": "88",
@@ -1137,11 +1621,17 @@
     "isbn": "978-4-00-010346-6",
     "summary": "プロセス管理、並行性、メモリ管理、ファイルシステム、資源保護などOSの構成原理を体系的に扱う講座本。",
     "importance": "C",
-    "difficulty": "A",
+    "difficulty": "B",
     "fame": "C",
     "principle": "A",
     "expert_comment": "刊行は古いがOSの概念構造は陳腐化していない。抽象化・資源共有・保護という原理を腰を据えて学べる。",
-    "persona": "高校生:難度が高い／大学生:OS講義の骨格理解に有効／社会人:並行処理・性能問題の原因理解に効く／専門家:古典的教科書として参照価値あり"
+    "persona": "高校生:難度が高い／大学生:OS講義の骨格理解に有効／社会人:並行処理・性能問題の原因理解に効く／専門家:古典的教科書として参照価値あり",
+    "booklog_eval": 3.31,
+    "booklog_users": 117,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 56,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "89",
@@ -1151,10 +1641,16 @@
     "summary": "コンピュータの基本構成、組込みシステムの特徴、メモリ、プロセッサ周辺技術など、組込み開発に必要なハードウェア知識を整理した標準テキスト。",
     "importance": "C",
     "difficulty": "B",
-    "fame": "C",
+    "fame": "D",
     "principle": "B",
     "expert_comment": "組込み／車載でソフトを書く前提となるハード側の共通語彙を揃える本。原理書というより地固めの教科書として位置づけるのが妥当。",
-    "persona": "高校生:専門的で難しい／大学生:組込み系の入口として明快／社会人:車載・制御系の実務基礎に直結／専門家:新人教育用の標準テキスト"
+    "persona": "高校生:専門的で難しい／大学生:組込み系の入口として明快／社会人:車載・制御系の実務基礎に直結／専門家:新人教育用の標準テキスト",
+    "booklog_eval": 3.56,
+    "booklog_users": 46,
+    "bookmeter_eval": 60,
+    "bookmeter_users": 17,
+    "reading_status": "積読",
+    "amazon_eval": 3.4
   },
   {
     "no": "90",
@@ -1167,7 +1663,13 @@
     "fame": "S",
     "principle": "A",
     "expert_comment": "公理系から世界観を構築する、という思考様式そのものを体験できる。感情を「原因を持つ現象」として扱う視点は現代の認知科学とも接続する。",
-    "persona": "高校生:相当に難解／大学生:哲学の本格的な訓練になる／社会人:感情と自由の捉え方が変わる／専門家:西洋哲学の中核文献"
+    "persona": "高校生:相当に難解／大学生:哲学の本格的な訓練になる／社会人:感情と自由の捉え方が変わる／専門家:西洋哲学の中核文献",
+    "booklog_eval": 3.86,
+    "booklog_users": 334,
+    "bookmeter_eval": 73,
+    "bookmeter_users": 417,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "91",
@@ -1177,10 +1679,16 @@
     "summary": "懐疑論を批判し、人間本性に根ざした「常識（コモンセンス）」を思考の基礎に据えるべきと論じた、スコットランド常識学派トマス・リードの主著。",
     "importance": "C",
     "difficulty": "A",
-    "fame": "C",
+    "fame": "A",
     "principle": "A",
     "expert_comment": "知覚・記憶・観念論への批判を通じて「疑いの出発点をどこに置くか」を問う本。デカルト＝ヒューム的懐疑への対抗軸として押さえる価値がある。",
-    "persona": "高校生:難解で優先度は低い／大学生:近代認識論の重要な対抗軸／社会人:前提を疑う技術の限界を知れる／専門家:認識論史の必読文献"
+    "persona": "高校生:難解で優先度は低い／大学生:近代認識論の重要な対抗軸／社会人:前提を疑う技術の限界を知れる／専門家:認識論史の必読文献",
+    "booklog_eval": null,
+    "booklog_users": 94,
+    "bookmeter_eval": null,
+    "bookmeter_users": 54,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "92",
@@ -1193,7 +1701,13 @@
     "fame": "C",
     "principle": "B",
     "expert_comment": "数式をほぼ使わずに、時空・場・対称性という物理の基本原理を筋道立てて説明する。世界の成り立ちに対する解像度を上げる一冊。",
-    "persona": "高校生:物理への興味を強く刺激／大学生:専門課程の見取り図に／社会人:通勤中に読める良質な科学読み物／専門家:一般向け説明の型として参考になる"
+    "persona": "高校生:物理への興味を強く刺激／大学生:専門課程の見取り図に／社会人:通勤中に読める良質な科学読み物／専門家:一般向け説明の型として参考になる",
+    "booklog_eval": 3.75,
+    "booklog_users": 502,
+    "bookmeter_eval": 55,
+    "bookmeter_users": 272,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "93",
@@ -1205,8 +1719,14 @@
     "difficulty": "D",
     "fame": "C",
     "principle": "B",
-    "expert_comment": "中国語の語順原理（SVO＋修飾は前置）を軸に体系を一本の線でつなぐ構成。語学書だが「言語の構造を原理から掴む」という点でリストと整合する。",
-    "persona": "高校生:第二外国語の入口に最適／大学生:中国語履修の副読本／社会人:実務・旅行での土台づくり／専門家:入門書としては標準的"
+    "expert_comment": "中国語の語順原理（SVO＋修飾は前置）を軸に、文法の体系を一本の線でつなぐ構成。暗記に頼らず、言語の構造を原理からつかめる。",
+    "persona": "高校生:第二外国語の入口に最適／大学生:中国語履修の副読本／社会人:実務・旅行での土台づくり／専門家:入門書としては標準的",
+    "booklog_eval": 3.14,
+    "booklog_users": 195,
+    "bookmeter_eval": 64,
+    "bookmeter_users": 59,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "94",
@@ -1219,7 +1739,13 @@
     "fame": "D",
     "principle": "E",
     "expert_comment": "原理原則書ではなく、行動を促すためのリマインダ集。理屈より「継続の起点をつくる装置」として使うのが適切。",
-    "persona": "高校生:短く読めて刺さる／大学生:落ち込んだときの緩衝材／社会人:習慣・メンタル維持の補助／専門家:内容の新規性は低い"
+    "persona": "高校生:短く読めて刺さる／大学生:落ち込んだときの緩衝材／社会人:習慣・メンタル維持の補助／専門家:内容の新規性は低い",
+    "booklog_eval": 4.29,
+    "booklog_users": 55,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 21,
+    "reading_status": "積読",
+    "amazon_eval": 4.6
   },
   {
     "no": "95",
@@ -1227,12 +1753,18 @@
     "title": "人を動かす 完全版",
     "isbn": "978-4-10-506653-6",
     "summary": "人間関係を築き、相手の自発的な協力を得るための原則を、批判を避ける、相手に関心を持つ、傾聴する、相手の立場から考えるといった具体例で示す古典的実用書。",
-    "importance": "B",
+    "importance": "A",
     "difficulty": "D",
     "fame": "S",
     "principle": "A",
     "expert_comment": "対人関係を操作術ではなく、相手の尊厳と関心を起点に設計する本。事例や社会規範には時代性があるため、原則と具体例を分けて読む必要がある。",
-    "persona": "高校生:友人関係や部活動で実践しやすい／大学生:議論・協働・就職活動に有効／社会人:対話・交渉・マネジメントの基礎／専門家:歴史的影響は大きいが事例の時代性に注意"
+    "persona": "高校生:友人関係や部活動で実践しやすい／大学生:議論・協働・就職活動に有効／社会人:対話・交渉・マネジメントの基礎／専門家:歴史的影響は大きいが事例の時代性に注意",
+    "booklog_eval": 4.23,
+    "booklog_users": 826,
+    "bookmeter_eval": 54,
+    "bookmeter_users": 554,
+    "reading_status": "積読",
+    "amazon_eval": 4.6
   },
   {
     "no": "96",
@@ -1241,11 +1773,17 @@
     "isbn": "978-4-315-52190-0",
     "summary": "素粒子を極小のひもとして捉える超ひも理論を、ひもの振動、余剰次元、重力を含む統一理論の可能性などから図解する一般向け入門書。",
     "importance": "C",
-    "difficulty": "C",
-    "fame": "D",
+    "difficulty": "D",
+    "fame": "C",
     "principle": "C",
     "expert_comment": "数式を使わずに理論の全体像へ触れる入口。超ひも理論は未検証の理論枠組みであり、本書も短い概説なので、確立済みの自然法則と区別して読むべきである。",
-    "persona": "高校生:最先端物理への興味を作れる／大学生:専門課程前の概観に有用／社会人:図解中心で読みやすい科学教養／専門家:概念紹介に限定され数理的説明は省略"
+    "persona": "高校生:最先端物理への興味を作れる／大学生:専門課程前の概観に有用／社会人:図解中心で読みやすい科学教養／専門家:概念紹介に限定され数理的説明は省略",
+    "booklog_eval": 3.4,
+    "booklog_users": 235,
+    "bookmeter_eval": 49,
+    "bookmeter_users": 132,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "97",
@@ -1256,9 +1794,15 @@
     "importance": "C",
     "difficulty": "D",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "複雑な情報や連想を一枚に外部化する道具として有用。ただし、提示される脳科学的説明や作図規則を普遍的原理とみなさず、目的に応じて使い分ける必要がある。",
-    "persona": "高校生:ノート整理や発想に使いやすい／大学生:講義・研究テーマの構造化に有効／社会人:会議・企画・論点整理の補助／専門家:普及への影響は大きいが効用の一般化には注意"
+    "persona": "高校生:ノート整理や発想に使いやすい／大学生:講義・研究テーマの構造化に有効／社会人:会議・企画・論点整理の補助／専門家:普及への影響は大きいが効用の一般化には注意",
+    "booklog_eval": 3.47,
+    "booklog_users": 3723,
+    "bookmeter_eval": 64,
+    "bookmeter_users": 1706,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "98",
@@ -1266,12 +1810,18 @@
     "title": "マンキュー入門経済学 第3版",
     "isbn": "978-4-492-31521-7",
     "summary": "選択と機会費用、市場における需要と供給、政府の役割、外部性、国民所得、物価、失業など、ミクロ・マクロ経済学の基本原理を一冊で学ぶ入門教科書。",
-    "importance": "B",
+    "importance": "A",
     "difficulty": "B",
     "fame": "A",
     "principle": "A",
     "expert_comment": "価格・インセンティブ・市場・政策を同じ分析言語で捉える標準的入門書。モデルの仮定、実証結果、価値判断を区別し、異なる経済学的立場と併読するのが適切である。",
-    "persona": "高校生:数式を抑えつつ経済の見方を学べる／大学生:経済学概論の標準的土台／社会人:市場・政策・景気を読む基礎／専門家:国際的に普及した標準教科書として評価"
+    "persona": "高校生:数式を抑えつつ経済の見方を学べる／大学生:経済学概論の標準的土台／社会人:市場・政策・景気を読む基礎／専門家:国際的に普及した標準教科書として評価",
+    "booklog_eval": 3.61,
+    "booklog_users": 494,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 241,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "99",
@@ -1280,11 +1830,17 @@
     "isbn": "978-4-274-22794-3",
     "summary": "ソフトウェアプロセス、要求、設計、UX、品質保証、セキュリティ、テスト、構成管理、メトリクス、計画・リスク管理まで、開発ライフサイクルを体系的に解説する標準教科書。",
     "importance": "A",
-    "difficulty": "A",
+    "difficulty": "B",
     "fame": "A",
     "principle": "A",
     "expert_comment": "個別技法を横断し、要求から保守までを一つの工学体系として学べる基準書。扱う範囲が広いため、各領域を実務へ適用する際は専門書や最新の標準で補完する必要がある。",
-    "persona": "高校生:全体像は得られるが分量と専門用語の壁が高い／大学生:ソフトウェア工学の体系的教科書／社会人:担当外を含む開発全体の参照書／専門家:共通知識の確認と教育設計に有用"
+    "persona": "高校生:全体像は得られるが分量と専門用語の壁が高い／大学生:ソフトウェア工学の体系的教科書／社会人:担当外を含む開発全体の参照書／専門家:共通知識の確認と教育設計に有用",
+    "booklog_eval": 4.0,
+    "booklog_users": 172,
+    "bookmeter_eval": 40,
+    "bookmeter_users": 61,
+    "reading_status": "いま読んでる",
+    "amazon_eval": 4.7
   },
   {
     "no": "100",
@@ -1292,12 +1848,18 @@
     "title": "ファウスト 第一部",
     "isbn": "978-4-00-324062-5",
     "summary": "学問の限界に絶望したファウストが悪魔メフィストフェレスと契約し、若さと欲望を求めるなかで、グレートヒェンを悲劇へ巻き込む戯曲第一部。知、欲望、責任、救済を問う。",
-    "importance": "B",
+    "importance": "A",
     "difficulty": "A",
     "fame": "S",
-    "principle": "A",
+    "principle": "D",
     "expert_comment": "近代的人間の無限の探求心と、その行為が他者へ及ぼす代償を劇的に検討する古典。象徴、聖書、ドイツ文化への参照が多いため、訳注や解説を併用すると理解しやすい。",
-    "persona": "高校生:物語を追いながら欲望と責任を考えられる／大学生:近代文学・思想の基礎文献／社会人:知識や成功を求める生き方を再考する材料／専門家:受容史を含めて読むべき世界文学の古典"
+    "persona": "高校生:物語を追いながら欲望と責任を考えられる／大学生:近代文学・思想の基礎文献／社会人:知識や成功を求める生き方を再考する材料／専門家:受容史を含めて読むべき世界文学の古典",
+    "booklog_eval": 3.62,
+    "booklog_users": 1924,
+    "bookmeter_eval": 55,
+    "bookmeter_users": 2088,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "101",
@@ -1308,9 +1870,15 @@
     "importance": "B",
     "difficulty": "A",
     "fame": "S",
-    "principle": "A",
+    "principle": "D",
     "expert_comment": "神話、政治経済、自然哲学を重層的に組み込んだ完結編。第一部より抽象度が高く、植民、開発、労働、救済をめぐる解釈も分かれるため、歴史的背景と複数の解説を参照したい。",
-    "persona": "高校生:第一部より難しいが壮大な結末に触れられる／大学生:文学・思想・近代批判を横断して読める／社会人:創造的活動とその代償を考える材料／専門家:寓意と受容史を含む多層的な研究対象"
+    "persona": "高校生:第一部より難しいが壮大な結末に触れられる／大学生:文学・思想・近代批判を横断して読める／社会人:創造的活動とその代償を考える材料／専門家:寓意と受容史を含む多層的な研究対象",
+    "booklog_eval": 3.55,
+    "booklog_users": 1122,
+    "bookmeter_eval": 61,
+    "bookmeter_users": 1160,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "102",
@@ -1323,7 +1891,13 @@
     "fame": "B",
     "principle": "B",
     "expert_comment": "不正を道徳心の有無だけでなく、状況と自己正当化の相互作用として捉える視点が有用。行動科学の個別実験には再現性や研究設計上の議論があるため、本書だけで一般化しない姿勢が必要である。",
-    "persona": "高校生:身近な嘘やルール違反を考える入口／大学生:行動経済学と研究評価を学ぶ題材／社会人:利益相反や組織的不正の予防に示唆／専門家:個別研究の再現性と外的妥当性を要検討"
+    "persona": "高校生:身近な嘘やルール違反を考える入口／大学生:行動経済学と研究評価を学ぶ題材／社会人:利益相反や組織的不正の予防に示唆／専門家:個別研究の再現性と外的妥当性を要検討",
+    "booklog_eval": 3.85,
+    "booklog_users": 1096,
+    "bookmeter_eval": 61,
+    "bookmeter_users": 794,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "103",
@@ -1333,10 +1907,16 @@
     "summary": "ゲーテの著作、警句、独立した格言から、愛、人間性、科学、自然、信仰、行動、芸術、幸福、自由、社会、人生に関する言葉を高橋健二が選び、編訳した選集。",
     "importance": "C",
     "difficulty": "D",
-    "fame": "B",
-    "principle": "B",
+    "fame": "A",
+    "principle": "C",
     "expert_comment": "長い生涯と多領域の経験から生まれた洞察へ短い単位で触れられる。ただし、格言は原著の文脈から切り離されているため、体系的思想の代替ではなく原典への入口として扱うべきである。",
-    "persona": "高校生:短い言葉から人生や学問を考えられる／大学生:ゲーテの作品と思想への導入／社会人:経験を振り返る言葉の参照集／専門家:出典と文脈を確認して利用する選集"
+    "persona": "高校生:短い言葉から人生や学問を考えられる／大学生:ゲーテの作品と思想への導入／社会人:経験を振り返る言葉の参照集／専門家:出典と文脈を確認して利用する選集",
+    "booklog_eval": null,
+    "booklog_users": 2656,
+    "bookmeter_eval": 72,
+    "bookmeter_users": 2236,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "104",
@@ -1349,7 +1929,13 @@
     "fame": "C",
     "principle": "B",
     "expert_comment": "密教思想と図像体系を歴史的展開と結びつけて理解できる。マンダラを単なる装飾図像として扱わず、経典、儀礼、尊格の関係から読む一方、宗派や地域による多様性にも留意したい。",
-    "persona": "高校生:仏像やマンダラから仏教文化へ入れる／大学生:日本宗教史・美術史の基礎資料／社会人:寺院や宗教美術の理解が深まる／専門家:入門的整理として有用だが個別研究で補完が必要"
+    "persona": "高校生:仏像やマンダラから仏教文化へ入れる／大学生:日本宗教史・美術史の基礎資料／社会人:寺院や宗教美術の理解が深まる／専門家:入門的整理として有用だが個別研究で補完が必要",
+    "booklog_eval": 4.33,
+    "booklog_users": 102,
+    "bookmeter_eval": 58,
+    "bookmeter_users": 108,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "105",
@@ -1362,7 +1948,13 @@
     "fame": "C",
     "principle": "B",
     "expert_comment": "相手の選択が自分の成果を変える状況を、モデルで整理する基礎を得られる。1999年刊で事例には時代性があり、数学的厳密さも標準教科書より抑えられているため、理論書や新しい事例で補完したい。",
-    "persona": "高校生:簡単なゲームから戦略的相互作用を学べる／大学生:ゲーム理論のビジネス応用への導入／社会人:競争・交渉・契約の整理に有用／専門家:ケース教材として使えるが理論的補完が必要"
+    "persona": "高校生:簡単なゲームから戦略的相互作用を学べる／大学生:ゲーム理論のビジネス応用への導入／社会人:競争・交渉・契約の整理に有用／専門家:ケース教材として使えるが理論的補完が必要",
+    "booklog_eval": 3.16,
+    "booklog_users": 337,
+    "bookmeter_eval": 35,
+    "bookmeter_users": 122,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "106",
@@ -1373,9 +1965,15 @@
     "importance": "C",
     "difficulty": "D",
     "fame": "C",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "製造、購買、設計、品質、経理、情報システムの関係を俯瞰する最初の地図として有用。2004年刊のため、スマートファクトリー、IoT、脱炭素、供給網リスクなどの現在的論点は新しい資料で補う必要がある。",
-    "persona": "高校生:身近な製品が作られる流れを図で学べる／大学生:製造業の業務全体を知る入口／社会人:工場部門との共通言語を得られる／専門家:非専門職向け教育の概説資料"
+    "persona": "高校生:身近な製品が作られる流れを図で学べる／大学生:製造業の業務全体を知る入口／社会人:工場部門との共通言語を得られる／専門家:非専門職向け教育の概説資料",
+    "booklog_eval": 3.49,
+    "booklog_users": 451,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 393,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "107",
@@ -1385,10 +1983,16 @@
     "summary": "死の定義、死が悪い理由、不死の望ましさ、死への恐れ、自殺、人生の価値といった問題を、分析哲学の議論と反例を通して検討し、死を前提にどう生きるかを考える講義録。",
     "importance": "B",
     "difficulty": "C",
-    "fame": "A",
-    "principle": "A",
+    "fame": "B",
+    "principle": "B",
     "expert_comment": "死生観を情緒だけでなく、前提、推論、反例に分けて検討する訓練になる。本書は日本縮約版で、原書前半の形而上学的議論の多くを省いているため、全体を確認するには完全翻訳版が必要である。",
-    "persona": "高校生:死と生の価値を論理的に考える入口／大学生:分析哲学の議論方法を学べる／社会人:有限な時間と選択を見直す材料／専門家:普及版として有用だが省略部分の確認が必須"
+    "persona": "高校生:死と生の価値を論理的に考える入口／大学生:分析哲学の議論方法を学べる／社会人:有限な時間と選択を見直す材料／専門家:普及版として有用だが省略部分の確認が必須",
+    "booklog_eval": 3.27,
+    "booklog_users": 4380,
+    "bookmeter_eval": 76,
+    "bookmeter_users": 4227,
+    "reading_status": "積読",
+    "amazon_eval": 3.8
   },
   {
     "no": "108",
@@ -1401,7 +2005,13 @@
     "fame": "D",
     "principle": "C",
     "expert_comment": "社会存在論と美学を、新しいデジタル文化へ具体的に適用した先駆的研究。対象となる技術、制度、事例は急速に変化するため、持続的な概念枠組みと刊行時点に依存する観察を区別して読む必要がある。",
-    "persona": "高校生:身近な配信文化を哲学的に考えられる／大学生:存在論・美学の応用例として有用／社会人:デジタル上の人格や表現を捉え直せる／専門家:新領域の理論化として検討価値がある"
+    "persona": "高校生:身近な配信文化を哲学的に考えられる／大学生:存在論・美学の応用例として有用／社会人:デジタル上の人格や表現を捉え直せる／専門家:新領域の理論化として検討価値がある",
+    "booklog_eval": 3.67,
+    "booklog_users": 294,
+    "bookmeter_eval": 55,
+    "bookmeter_users": 256,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "109",
@@ -1412,9 +2022,15 @@
     "importance": "B",
     "difficulty": "B",
     "fame": "B",
-    "principle": "B",
+    "principle": "A",
     "expert_comment": "データ分析の技法だけでなく、ビジネス理解、モデル評価、分析プロジェクトの判断、組織での活用までをつなぐ。分析思考やモデルの基本概念は現在も有用だが、個別の技術・事例やデータ活用環境は刊行時点に依存するため、実装面は新しい資料で補う必要がある。",
-    "persona": "高校生:データ分析をビジネス課題へ応用する全体像をつかめる／大学生:データマイニングとビジネス意思決定の接点を学べる／社会人:分析案件の企画・評価に使う共通言語を得られる／専門家:基礎概念と経営課題を結ぶ実務的な整理として有用"
+    "persona": "高校生:データ分析をビジネス課題へ応用する全体像をつかめる／大学生:データマイニングとビジネス意思決定の接点を学べる／社会人:分析案件の企画・評価に使う共通言語を得られる／専門家:基礎概念と経営課題を結ぶ実務的な整理として有用",
+    "booklog_eval": 3.89,
+    "booklog_users": 500,
+    "bookmeter_eval": 77,
+    "bookmeter_users": 216,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "110",
@@ -1427,7 +2043,13 @@
     "fame": "C",
     "principle": "C",
     "expert_comment": "急な発言を求められる場面を分解し、使える型と練習法を示す。会話の成否は相手や状況にも左右されるため、型を万能な台本とせず応用するのがよい。",
-    "persona": "高校生:発表や面接の練習に使える／大学生:授業・就職活動の質疑応答に有効／社会人:会議やプレゼンで実践しやすい／専門家:コミュニケーション研修の補助教材"
+    "persona": "高校生:発表や面接の練習に使える／大学生:授業・就職活動の質疑応答に有効／社会人:会議やプレゼンで実践しやすい／専門家:コミュニケーション研修の補助教材",
+    "booklog_eval": 3.42,
+    "booklog_users": 1230,
+    "bookmeter_eval": 74,
+    "bookmeter_users": 331,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "111",
@@ -1438,9 +2060,15 @@
     "importance": "C",
     "difficulty": "D",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "記録と計画を同じ場所に置き、定期的な見直しで優先事項を選び直す仕組みが中核。細かな作法の再現より、自分の負荷や用途に合わせて運用を調整したい。",
-    "persona": "高校生:学習計画と記録をまとめられる／大学生:授業・研究・課外活動の整理に有効／社会人:タスクと振り返りの一元管理に使える／専門家:個人の実行管理を設計する実践例"
+    "persona": "高校生:学習計画と記録をまとめられる／大学生:授業・研究・課外活動の整理に有効／社会人:タスクと振り返りの一元管理に使える／専門家:個人の実行管理を設計する実践例",
+    "booklog_eval": 3.85,
+    "booklog_users": 3090,
+    "bookmeter_eval": 59,
+    "bookmeter_users": 1718,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "112",
@@ -1450,10 +2078,16 @@
     "summary": "忙しさや常時接続が集中、学習、判断に与える影響を論じ、仕事の進め方や職場環境を見直すための視点を示す。",
     "importance": "C",
     "difficulty": "C",
-    "fame": "D",
-    "principle": "B",
+    "fame": "C",
+    "principle": "D",
     "expert_comment": "個人の努力だけでなく、働き方や組織環境が認知と能力に与える影響へ目を向ける本。強い主張や一般化は、研究根拠と自分の職場の実態を分けて検討したい。",
-    "persona": "高校生:働き方と集中の関係を考える読み物／大学生:情報過多や学習環境を考える材料／社会人:忙しさを前提とする業務設計の見直しに有用／専門家:主張の根拠と適用範囲を点検して読む"
+    "persona": "高校生:働き方と集中の関係を考える読み物／大学生:情報過多や学習環境を考える材料／社会人:忙しさを前提とする業務設計の見直しに有用／専門家:主張の根拠と適用範囲を点検して読む",
+    "booklog_eval": 3.57,
+    "booklog_users": 723,
+    "bookmeter_eval": 69,
+    "bookmeter_users": 237,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "113",
@@ -1462,11 +2096,17 @@
     "isbn": "978-4-8158-0390-2",
     "summary": "命題論理・述語論理の言語と意味を導入し、真理表、タブロー、自然演繹、公理系などを組み立てながら、論理学の目的と各手法の有効性を説明する教科書。",
     "importance": "A",
-    "difficulty": "A",
-    "fame": "B",
+    "difficulty": "B",
+    "fame": "A",
     "principle": "A",
     "expert_comment": "完成した体系を覚えるだけでなく、論理学の道具をなぜ作るのか、その限界をどう扱うかまで追える。分量と形式的議論は重く、練習問題を解きながら進む構成に向く。",
-    "persona": "高校生:記号論理に関心があれば挑戦できる／大学生:哲学・数学・情報系の論理学学習に有効／社会人:推論の形式化を本格的に学びたい人向け／専門家:自習可能な体系的教科書"
+    "persona": "高校生:記号論理に関心があれば挑戦できる／大学生:哲学・数学・情報系の論理学学習に有効／社会人:推論の形式化を本格的に学びたい人向け／専門家:自習可能な体系的教科書",
+    "booklog_eval": 3.76,
+    "booklog_users": 870,
+    "bookmeter_eval": 52,
+    "bookmeter_users": 890,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "114",
@@ -1475,11 +2115,17 @@
     "isbn": "978-4-8144-0007-2",
     "summary": "Linuxを中心に、性能の測定・分析手法とツールを用いて、CPU、メモリ、ファイルシステム、ネットワークなどのシステム性能を調査・改善する方法を体系的に扱う。",
     "importance": "B",
-    "difficulty": "A",
+    "difficulty": "B",
     "fame": "B",
     "principle": "A",
     "expert_comment": "性能問題を測定、仮説、検証の反復として扱い、低レイヤの知識と実務ツールをつなぐ。コマンドや環境依存の記述は更新されるため、現行OSでの確認を併用したい。",
-    "persona": "高校生:前提知識が多く難しい／大学生:OS・ネットワーク学習後の応用に有効／社会人:本番環境の性能調査に直結／専門家:性能分析の体系的リファレンス"
+    "persona": "高校生:前提知識が多く難しい／大学生:OS・ネットワーク学習後の応用に有効／社会人:本番環境の性能調査に直結／専門家:性能分析の体系的リファレンス",
+    "booklog_eval": 4.2,
+    "booklog_users": 200,
+    "bookmeter_eval": 71,
+    "bookmeter_users": 79,
+    "reading_status": "積読",
+    "amazon_eval": 4.7
   },
   {
     "no": "115",
@@ -1487,12 +2133,18 @@
     "title": "詳解Linuxカーネル",
     "isbn": "978-4-87311-313-5",
     "summary": "Linuxカーネルのプロセス管理、メモリ管理、仮想ファイルシステム、デバイス、ネットワークなどの内部構造と実装を解説する専門書。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "A",
     "fame": "B",
     "principle": "A",
     "expert_comment": "OSの抽象概念がカーネル内部でどう実装されるかを具体的に追える。対象バージョンの違いや刊行後の変更があるため、現在のLinuxの挙動を説明する資料としてはソースや最新文書で補完する必要がある。",
-    "persona": "高校生:前提知識と読解力が必要／大学生:OS・カーネル学習の実装寄り参考書／社会人:Linux内部の調査や組込み開発に有用／専門家:歴史的実装の理解にも使えるが現行版との差分確認が必要"
+    "persona": "高校生:前提知識と読解力が必要／大学生:OS・カーネル学習の実装寄り参考書／社会人:Linux内部の調査や組込み開発に有用／専門家:歴史的実装の理解にも使えるが現行版との差分確認が必要",
+    "booklog_eval": 3.96,
+    "booklog_users": 365,
+    "bookmeter_eval": 62,
+    "bookmeter_users": 142,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "116",
@@ -1501,11 +2153,17 @@
     "isbn": "978-4-296-07009-1",
     "summary": "プロセッサ、命令セット、算術演算、データ表現などを題材に、ハードウェアとソフトウェアの境界やコンピュータの基本構成を学ぶ教科書の上巻。",
     "importance": "A",
-    "difficulty": "A",
+    "difficulty": "B",
     "fame": "A",
     "principle": "A",
     "expert_comment": "高水準言語の処理を命令や回路の構成へつなぎ、計算機を階層として理解する定番の教材。本文の演習と対応するアーキテクチャの前提を確認しながら読む必要がある。",
-    "persona": "高校生:論理回路やプログラミングの基礎があると読みやすい／大学生:計算機構成・アーキテクチャの教科書／社会人:低レイヤ理解や性能判断の土台／専門家:教育・設計の共通基盤として有用"
+    "persona": "高校生:論理回路やプログラミングの基礎があると読みやすい／大学生:計算機構成・アーキテクチャの教科書／社会人:低レイヤ理解や性能判断の土台／専門家:教育・設計の共通基盤として有用",
+    "booklog_eval": 4.33,
+    "booklog_users": 155,
+    "bookmeter_eval": 48,
+    "bookmeter_users": 88,
+    "reading_status": "積読",
+    "amazon_eval": 4.6
   },
   {
     "no": "117",
@@ -1514,11 +2172,17 @@
     "isbn": "978-4-296-07010-7",
     "summary": "記憶階層、入出力、並列処理などを通じて、コンピュータの構成と設計上のトレードオフを扱う教科書の下巻。上巻の命令・プロセッサの基礎を踏まえて学ぶ。",
     "importance": "A",
-    "difficulty": "A",
+    "difficulty": "B",
     "fame": "A",
     "principle": "A",
     "expert_comment": "性能を命令実行だけでなく、記憶階層や並列性を含むシステム全体の設計問題として考えられる。技術世代に依存する具体例は、現行アーキテクチャとの違いを意識して読む。",
-    "persona": "高校生:上巻の内容と計算機基礎が前提／大学生:アーキテクチャの発展的学習に有効／社会人:メモリ・I/O・並列性能の理解に役立つ／専門家:設計原則とトレードオフの教材"
+    "persona": "高校生:上巻の内容と計算機基礎が前提／大学生:アーキテクチャの発展的学習に有効／社会人:メモリ・I/O・並列性能の理解に役立つ／専門家:設計原則とトレードオフの教材",
+    "booklog_eval": 4.14,
+    "booklog_users": 117,
+    "bookmeter_eval": 29,
+    "bookmeter_users": 61,
+    "reading_status": "積読",
+    "amazon_eval": 4.7
   },
   {
     "no": "118",
@@ -1527,11 +2191,17 @@
     "isbn": "978-4-87311-585-6",
     "summary": "Linux/UNIXのシステムコールとライブラリを軸に、ファイル、プロセス、メモリ、シグナル、スレッド、IPC、ソケットなどのAPIと利用法を詳しく解説する。",
     "importance": "B",
-    "difficulty": "A",
+    "difficulty": "B",
     "fame": "B",
     "principle": "A",
     "expert_comment": "OSの機能を抽象的な説明だけでなく、APIの契約やエラー処理を含めて学べる厚いリファレンス。Linux/UNIX系の仕様差と刊行時点以降の更新を確認しながら参照したい。",
-    "persona": "高校生:システムプログラミング経験が前提／大学生:OS実習や低レイヤ学習に有効／社会人:Linux上の基盤ソフト開発で長く使える／専門家:API仕様を調べる詳細な参照書"
+    "persona": "高校生:システムプログラミング経験が前提／大学生:OS実習や低レイヤ学習に有効／社会人:Linux上の基盤ソフト開発で長く使える／専門家:API仕様を調べる詳細な参照書",
+    "booklog_eval": 4.44,
+    "booklog_users": 146,
+    "bookmeter_eval": 40,
+    "bookmeter_users": 62,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "119",
@@ -1542,9 +2212,15 @@
     "importance": "B",
     "difficulty": "B",
     "fame": "C",
-    "principle": "A",
+    "principle": "B",
     "expert_comment": "アプリケーションとカーネルの境界を、具体的なプログラムを通して理解できる。Linuxの版やAPIの変化に注意し、現在の開発では最新のマニュアルページも併用する。",
-    "persona": "高校生:C言語とOSの基礎を学んだ後に向く／大学生:OS・システムプログラミング演習に有効／社会人:Linux内部の理解を深めたい開発者向け／専門家:基礎概念と実装例の確認に使える"
+    "persona": "高校生:C言語とOSの基礎を学んだ後に向く／大学生:OS・システムプログラミング演習に有効／社会人:Linux内部の理解を深めたい開発者向け／専門家:基礎概念と実装例の確認に使える",
+    "booklog_eval": 3.65,
+    "booklog_users": 167,
+    "bookmeter_eval": 78,
+    "bookmeter_users": 67,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "120",
@@ -1557,7 +2233,13 @@
     "fame": "A",
     "principle": "A",
     "expert_comment": "機能の列挙に留まらず、C++の設計意図と抽象化の使い方を学べる基準書。対象版以降に追加・変更された標準機能があるため、現行規格の実務には新しい資料で補う必要がある。",
-    "persona": "高校生:C++経験を積んでから読む専門書／大学生:言語仕様と設計思想の体系的学習に有効／社会人:C++開発の判断根拠を深められる／専門家:言語設計者による重要な参照文献"
+    "persona": "高校生:C++経験を積んでから読む専門書／大学生:言語仕様と設計思想の体系的学習に有効／社会人:C++開発の判断根拠を深められる／専門家:言語設計者による重要な参照文献",
+    "booklog_eval": 4.62,
+    "booklog_users": 183,
+    "bookmeter_eval": 53,
+    "bookmeter_users": 91,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "121",
@@ -1568,9 +2250,15 @@
     "importance": "A",
     "difficulty": "A",
     "fame": "A",
-    "principle": "S",
+    "principle": "A",
     "expert_comment": "アルゴリズムを個別の解法集でなく、正しさと計算量を論証する学問として学べる標準的な大著。数学的な演習も多く、必要な章を選びながら継続して取り組むのが現実的。",
-    "persona": "高校生:数学とプログラミングの基礎があれば挑戦できる／大学生:アルゴリズム講義の主教材・参照書／社会人:設計判断や面接対策を超えた体系的再学習／専門家:古典的な標準リファレンス"
+    "persona": "高校生:数学とプログラミングの基礎があれば挑戦できる／大学生:アルゴリズム講義の主教材・参照書／社会人:設計判断や面接対策を超えた体系的再学習／専門家:古典的な標準リファレンス",
+    "booklog_eval": 4.0,
+    "booklog_users": 175,
+    "bookmeter_eval": 36,
+    "bookmeter_users": 99,
+    "reading_status": "積読",
+    "amazon_eval": 4.6
   },
   {
     "no": "122",
@@ -1580,10 +2268,16 @@
     "summary": "自分の得意な行動や関心を手がかりに強みを捉え、仕事や生活で活かす方法を紹介する自己理解・キャリア形成の実用書。",
     "importance": "C",
     "difficulty": "D",
-    "fame": "D",
+    "fame": "C",
     "principle": "C",
     "expert_comment": "強みを言語化して行動選択につなげるきっかけになる。一方、才能の分類や診断を固定的な適性判定とみなさず、経験や環境に応じて検証する必要がある。",
-    "persona": "高校生:興味や得意を考える進路選択の材料／大学生:就職活動や学び方の自己分析に使える／社会人:役割や働き方を見直す補助線／専門家:理論的診断より自己省察の実用書として扱う"
+    "persona": "高校生:興味や得意を考える進路選択の材料／大学生:就職活動や学び方の自己分析に使える／社会人:役割や働き方を見直す補助線／専門家:理論的診断より自己省察の実用書として扱う",
+    "booklog_eval": 3.8,
+    "booklog_users": 267,
+    "bookmeter_eval": 89,
+    "bookmeter_users": 73,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "123",
@@ -1594,9 +2288,15 @@
     "importance": "C",
     "difficulty": "C",
     "fame": "D",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "個別の技術より、現場で繰り返される組織・プロセス上の問題に目を向ける。事例を自組織へ当てはめる際は、背景や前提の違いを見極めたい。",
-    "persona": "高校生:IT職場の課題を知る読み物／大学生:開発組織や品質管理への導入／社会人:現場改善の論点整理に有用／専門家:事例を組織固有の条件と照らして読む"
+    "persona": "高校生:IT職場の課題を知る読み物／大学生:開発組織や品質管理への導入／社会人:現場改善の論点整理に有用／専門家:事例を組織固有の条件と照らして読む",
+    "booklog_eval": 3.42,
+    "booklog_users": 179,
+    "bookmeter_eval": 86,
+    "bookmeter_users": 115,
+    "reading_status": "積読",
+    "amazon_eval": 3.0
   },
   {
     "no": "124",
@@ -1605,11 +2305,17 @@
     "isbn": "978-4-00-431131-7",
     "summary": "疑似科学が信じられる仕組みや、科学的主張を見分けるための基準を、科学哲学と具体例から解説する。",
     "importance": "B",
-    "difficulty": "B",
-    "fame": "A",
-    "principle": "A",
+    "difficulty": "C",
+    "fame": "B",
+    "principle": "B",
     "expert_comment": "主張の真偽だけでなく、検証可能性や反証への態度、科学知識が成立する過程を考える入口になる。個別事例は刊行時点や研究状況を補って読むべきである。",
-    "persona": "高校生:情報を批判的に読む練習になる／大学生:科学哲学・科学リテラシーの入門／社会人:健康や社会の情報判断に役立つ／専門家:科学と疑似科学の境界を考える一般向け解説"
+    "persona": "高校生:情報を批判的に読む練習になる／大学生:科学哲学・科学リテラシーの入門／社会人:健康や社会の情報判断に役立つ／専門家:科学と疑似科学の境界を考える一般向け解説",
+    "booklog_eval": 3.25,
+    "booklog_users": 791,
+    "bookmeter_eval": 82,
+    "bookmeter_users": 778,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "125",
@@ -1622,7 +2328,13 @@
     "fame": "C",
     "principle": "C",
     "expert_comment": "働く時間を増やすのでなく、注意とエネルギーの配分を設計する実務的な視点が中心。企業事例をそのまま一般化せず、職種や裁量に応じて試したい。",
-    "persona": "高校生:勉強時間の使い方を考える材料／大学生:課題や就職活動の計画に応用／社会人:集中時間と会議の見直しに使える／専門家:組織環境を踏まえた実践例として読む"
+    "persona": "高校生:勉強時間の使い方を考える材料／大学生:課題や就職活動の計画に応用／社会人:集中時間と会議の見直しに使える／専門家:組織環境を踏まえた実践例として読む",
+    "booklog_eval": 3.64,
+    "booklog_users": 126,
+    "bookmeter_eval": 45,
+    "bookmeter_users": 44,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "126",
@@ -1630,12 +2342,18 @@
     "title": "UMLモデリングのエッセンス 標準オブジェクトモデリング言語入門",
     "isbn": "978-4-7981-0795-0",
     "summary": "UMLの主要な図と表記を通じて、ソフトウェア設計やオブジェクトモデルを表現する基本を解説する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "B",
     "fame": "B",
-    "principle": "A",
+    "principle": "B",
     "expert_comment": "UMLの記号を暗記するより、モデルで何を伝え、どの粒度で設計を検討するかを学べる。記法や開発慣行は更新されているため、現行のチーム規約と併用したい。",
-    "persona": "高校生:オブジェクト指向の基礎後に向く／大学生:設計演習やソフトウェア工学に有効／社会人:設計意図の共有に使える／専門家:モデル表現の基礎と歴史を確認できる"
+    "persona": "高校生:オブジェクト指向の基礎後に向く／大学生:設計演習やソフトウェア工学に有効／社会人:設計意図の共有に使える／専門家:モデル表現の基礎と歴史を確認できる",
+    "booklog_eval": 3.56,
+    "booklog_users": 475,
+    "bookmeter_eval": 64,
+    "bookmeter_users": 148,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "127",
@@ -1645,10 +2363,16 @@
     "summary": "ソフトウェア開発の変化を踏まえ、品質保証の役割、組織的な仕組み、活動や考え方の基本を整理する。",
     "importance": "B",
     "difficulty": "B",
-    "fame": "C",
+    "fame": "D",
     "principle": "A",
     "expert_comment": "テスト実施だけに限定せず、品質を開発プロセスと組織で作り込む視点を与える。規格や開発形態は変わるため、現在の標準・現場条件との照合が必要。",
-    "persona": "高校生:品質保証の全体像を知る入口／大学生:ソフトウェア工学の品質領域に有効／社会人:QA活動や体制の棚卸しに使える／専門家:品質保証の考え方を再確認する資料"
+    "persona": "高校生:品質保証の全体像を知る入口／大学生:ソフトウェア工学の品質領域に有効／社会人:QA活動や体制の棚卸しに使える／専門家:品質保証の考え方を再確認する資料",
+    "booklog_eval": 3.5,
+    "booklog_users": 54,
+    "bookmeter_eval": 55,
+    "bookmeter_users": 20,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "128",
@@ -1661,7 +2385,13 @@
     "fame": "A",
     "principle": "A",
     "expert_comment": "人とプロジェクトの力学を印象的な逸話で捉え、管理上の前提を問い直す古典。法則を字義どおり適用するのでなく、状況依存の洞察として読むべきである。",
-    "persona": "高校生:物語として開発現場に触れられる／大学生:チーム開発やPMの考え方を学べる／社会人:計画・組織運営の振り返りに有効／専門家:古典的なプロジェクト論として参照価値がある"
+    "persona": "高校生:物語として開発現場に触れられる／大学生:チーム開発やPMの考え方を学べる／社会人:計画・組織運営の振り返りに有効／専門家:古典的なプロジェクト論として参照価値がある",
+    "booklog_eval": 3.87,
+    "booklog_users": 862,
+    "bookmeter_eval": 66,
+    "bookmeter_users": 419,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "129",
@@ -1672,9 +2402,15 @@
     "importance": "C",
     "difficulty": "B",
     "fame": "D",
-    "principle": "A",
+    "principle": "C",
     "expert_comment": "失敗事例を個人の経験で終わらせず、検索・共有・設計審査へ接続する実践知が中心。記録の量より、原因と対策の妥当性や更新責任が成果を左右する。",
-    "persona": "高校生:品質管理の実例を知る読み物／大学生:設計・製造のリスク分析に有効／社会人:再発防止やレビュー改善に直結／専門家:組織知の運用方法を検討する資料"
+    "persona": "高校生:品質管理の実例を知る読み物／大学生:設計・製造のリスク分析に有効／社会人:再発防止やレビュー改善に直結／専門家:組織知の運用方法を検討する資料",
+    "booklog_eval": 4.0,
+    "booklog_users": 20,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 7,
+    "reading_status": "積読",
+    "amazon_eval": 3.5
   },
   {
     "no": "130",
@@ -1683,11 +2419,17 @@
     "isbn": "978-4-535-78771-1",
     "summary": "ベクトル空間、線形写像、行列、固有値などを扱う大学初年級向けの線形代数教科書。",
     "importance": "A",
-    "difficulty": "A",
+    "difficulty": "B",
     "fame": "B",
     "principle": "A",
     "expert_comment": "計算手順だけでなく、線形構造と写像として概念を捉える数学の基礎を築く。定義と証明を追う比重が高く、演習を通じた理解が必要。",
-    "persona": "高校生:大学数学への準備が必要／大学生:理工・情報・経済系の基礎科目／社会人:機械学習や数理モデルの前提確認／専門家:基礎事項の体系的参照"
+    "persona": "高校生:大学数学への準備が必要／大学生:理工・情報・経済系の基礎科目／社会人:機械学習や数理モデルの前提確認／専門家:基礎事項の体系的参照",
+    "booklog_eval": 3.82,
+    "booklog_users": 136,
+    "bookmeter_eval": 50,
+    "bookmeter_users": 81,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "131",
@@ -1696,11 +2438,17 @@
     "isbn": "978-4-320-11457-9",
     "summary": "実数と数列、極限、連続性、微分・積分など、解析学を学ぶための基礎概念と論証を体系的に扱う。",
     "importance": "B",
-    "difficulty": "A",
-    "fame": "C",
+    "difficulty": "B",
+    "fame": "D",
     "principle": "A",
     "expert_comment": "公式適用より、極限や連続性を定義と論証で理解する大学数学の訓練に向く。高校数学との形式の違いが大きく、証明問題を解きながら読む必要がある。",
-    "persona": "高校生:大学数学に進む人向け／大学生:微積分を厳密に学ぶ基礎書／社会人:数理・統計の再学習に有用／専門家:解析学の基礎確認に使える"
+    "persona": "高校生:大学数学に進む人向け／大学生:微積分を厳密に学ぶ基礎書／社会人:数理・統計の再学習に有用／専門家:解析学の基礎確認に使える",
+    "booklog_eval": 5.0,
+    "booklog_users": 27,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 8,
+    "reading_status": "積読",
+    "amazon_eval": 3.4
   },
   {
     "no": "132",
@@ -1710,10 +2458,16 @@
     "summary": "心理的安全性を軸に、人間中心のチーム運営とアジャイルな働き方を結びつけ、チームの協働や成果を高める方法を論じる。",
     "importance": "C",
     "difficulty": "C",
-    "fame": "C",
-    "principle": "B",
+    "fame": "D",
+    "principle": "C",
     "expert_comment": "心理的安全性を単なる居心地の良さとせず、率直な発言や学習を支えるチーム条件として扱う。アジャイルの導入だけで成果が保証されるわけではなく、権限や組織構造も見る必要がある。",
-    "persona": "高校生:チーム活動や部活動に応用できる／大学生:共同研究・開発の協働を考える材料／社会人:チーム運営やアジャイル導入に有用／専門家:人間中心の実践を検討する補助線"
+    "persona": "高校生:チーム活動や部活動に応用できる／大学生:共同研究・開発の協働を考える材料／社会人:チーム運営やアジャイル導入に有用／専門家:人間中心の実践を検討する補助線",
+    "booklog_eval": 2.59,
+    "booklog_users": 161,
+    "bookmeter_eval": 31,
+    "bookmeter_users": 52,
+    "reading_status": "積読",
+    "amazon_eval": 3.2
   },
   {
     "no": "133",
@@ -1724,9 +2478,15 @@
     "importance": "C",
     "difficulty": "B",
     "fame": "C",
-    "principle": "A",
+    "principle": "B",
     "expert_comment": "失敗を個人の責任追及で終わらせず、構造的な学習と次の設計へつなぐ視点がある。事例分析では、原因の単純化や後知恵を避けて読むことが重要。",
-    "persona": "高校生:失敗から学ぶ考え方の入口／大学生:設計・品質・技術者倫理の題材／社会人:不具合分析と未然防止に有用／専門家:失敗知を組織学習へつなげる参考書"
+    "persona": "高校生:失敗から学ぶ考え方の入口／大学生:設計・品質・技術者倫理の題材／社会人:不具合分析と未然防止に有用／専門家:失敗知を組織学習へつなげる参考書",
+    "booklog_eval": 3.67,
+    "booklog_users": 130,
+    "bookmeter_eval": 57,
+    "bookmeter_users": 74,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "134",
@@ -1737,9 +2497,15 @@
     "importance": "C",
     "difficulty": "B",
     "fame": "D",
-    "principle": "A",
+    "principle": "C",
     "expert_comment": "原因と対策の対応関係を吟味し、対策が別の失敗を生まないかまで考える実践的な視点が得られる。個別事例を一般則に広げすぎず、分析手順を学びたい。",
-    "persona": "高校生:事故や失敗の分析に関心があれば読める／大学生:工学・品質管理の事例学習に有効／社会人:原因分析と再発防止の見直しに使える／専門家:失敗分析の実務的補助資料"
+    "persona": "高校生:事故や失敗の分析に関心があれば読める／大学生:工学・品質管理の事例学習に有効／社会人:原因分析と再発防止の見直しに使える／専門家:失敗分析の実務的補助資料",
+    "booklog_eval": 4.25,
+    "booklog_users": 111,
+    "bookmeter_eval": 56,
+    "bookmeter_users": 47,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "135",
@@ -1752,7 +2518,13 @@
     "fame": "D",
     "principle": "C",
     "expert_comment": "組織で起こる行動を心理学の語彙で俯瞰する入門として使いやすい。図解による簡略化があるため、理論や研究結果の条件を深く知るには専門書で補完したい。",
-    "persona": "高校生:組織や集団行動に関心があれば読める／大学生:経営・心理学の概観に向く／社会人:チーム課題を言語化する入口／専門家:基本用語の共有や研修導入に使える"
+    "persona": "高校生:組織や集団行動に関心があれば読める／大学生:経営・心理学の概観に向く／社会人:チーム課題を言語化する入口／専門家:基本用語の共有や研修導入に使える",
+    "booklog_eval": 3.53,
+    "booklog_users": 149,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 49,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "136",
@@ -1765,7 +2537,13 @@
     "fame": "D",
     "principle": "C",
     "expert_comment": "用語の導入と実践の初手をつかむには手軽だが、概念を「仲良くすること」と混同しない注意が必要。組織の権力関係や仕事の設計まで含めて考えたい。",
-    "persona": "高校生:グループ活動の環境を考える入口／大学生:チーム研究や就職活動の準備に使える／社会人:職場での対話改善の入門／専門家:短時間の概説・共通認識づくり向け"
+    "persona": "高校生:グループ活動の環境を考える入口／大学生:チーム研究や就職活動の準備に使える／社会人:職場での対話改善の入門／専門家:短時間の概説・共通認識づくり向け",
+    "booklog_eval": 3.52,
+    "booklog_users": 137,
+    "bookmeter_eval": 47,
+    "bookmeter_users": 49,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "137",
@@ -1773,12 +2551,18 @@
     "title": "品質重視のアジャイル開発 成功率を高めるプラクティス・Doneの定義・開発チーム編成",
     "isbn": "978-4-8171-9717-7",
     "summary": "アジャイル開発で品質を継続的に作り込むため、実践プラクティス、Doneの定義、チーム構成などを解説する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "B",
-    "fame": "C",
-    "principle": "A",
+    "fame": "D",
+    "principle": "C",
     "expert_comment": "品質を後工程の検査に任せず、チームの定義・習慣・開発プロセスへ組み込む点が要点。プラクティスはチームの規模や製品リスクに合わせて選ぶ必要がある。",
-    "persona": "高校生:チーム開発の品質づくりを学べる／大学生:アジャイル演習の設計に有効／社会人:Doneや品質活動の再設計に使える／専門家:品質重視の開発プロセスを議論する材料"
+    "persona": "高校生:チーム開発の品質づくりを学べる／大学生:アジャイル演習の設計に有効／社会人:Doneや品質活動の再設計に使える／専門家:品質重視の開発プロセスを議論する材料",
+    "booklog_eval": 3.53,
+    "booklog_users": 57,
+    "bookmeter_eval": 83,
+    "bookmeter_users": 35,
+    "reading_status": "積読",
+    "amazon_eval": 3.9
   },
   {
     "no": "138",
@@ -1791,7 +2575,13 @@
     "fame": "S",
     "principle": "A",
     "expert_comment": "パターン名より、変化する部分を分離し、依存関係を調整する設計判断を読む本。現代の言語機能やフレームワークではより簡潔な表現もあり、文脈に応じた適用が必要。",
-    "persona": "高校生:オブジェクト指向経験後に挑戦／大学生:設計概念と共通語彙の基礎／社会人:既存設計の意図を読む助けになる／専門家:影響の大きい設計古典として批判的に参照"
+    "persona": "高校生:オブジェクト指向経験後に挑戦／大学生:設計概念と共通語彙の基礎／社会人:既存設計の意図を読む助けになる／専門家:影響の大きい設計古典として批判的に参照",
+    "booklog_eval": 3.65,
+    "booklog_users": 966,
+    "bookmeter_eval": 46,
+    "bookmeter_users": 355,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "139",
@@ -1799,12 +2589,18 @@
     "title": "計算機プログラムの構造と解釈",
     "isbn": "978-4-89471-163-1",
     "summary": "手続き抽象、データ抽象、評価器、メタ言語抽象などを通じ、計算機プログラムの構造と解釈を根本から学ぶ教科書。",
-    "importance": "A",
+    "importance": "S",
     "difficulty": "A",
-    "fame": "A",
+    "fame": "S",
     "principle": "S",
-    "expert_comment": "計算モデルや抽象化の核心を、自らインタプリタを構成する過程で学ぶCSの古典。カタログ内の第2版とは異なるISBNの版であり、内容・訳・収録範囲の差を意識して扱う。",
-    "persona": "高校生:プログラミングと数学の基礎があれば挑戦可／大学生:CSの原理を深く学べる／社会人:言語や抽象化の理解を再構築／専門家:歴史的影響の大きい基礎文献"
+    "expert_comment": "計算モデルや抽象化の核心を、自らインタプリタを構成する過程で学ぶCSの古典。版や訳によって内容と収録範囲が異なる点に注意する。",
+    "persona": "高校生:プログラミングと数学の基礎があれば挑戦可／大学生:CSの原理を深く学べる／社会人:言語や抽象化の理解を再構築／専門家:歴史的影響の大きい基礎文献",
+    "booklog_eval": 3.66,
+    "booklog_users": 491,
+    "bookmeter_eval": 54,
+    "bookmeter_users": 252,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "140",
@@ -1814,10 +2610,16 @@
     "summary": "割り込みや運用業務の多いエンジニアの仕事を題材に、時間の記録、優先順位、集中時間の確保などの管理法を説明する。",
     "importance": "C",
     "difficulty": "C",
-    "fame": "C",
+    "fame": "B",
     "principle": "B",
     "expert_comment": "時間管理を個人の意志力だけでなく、割り込みや仕事の流れを含むシステムとして扱う。技術環境や働き方の記述は刊行時点に依存するため、原則を現在の環境へ翻訳したい。",
-    "persona": "高校生:学習時間の管理にも応用できる／大学生:研究や課題の優先づけに有効／社会人:開発・運用業務の時間設計に役立つ／専門家:実務の時間管理を見直す参考書"
+    "persona": "高校生:学習時間の管理にも応用できる／大学生:研究や課題の優先づけに有効／社会人:開発・運用業務の時間設計に役立つ／専門家:実務の時間管理を見直す参考書",
+    "booklog_eval": 3.64,
+    "booklog_users": 1022,
+    "bookmeter_eval": 73,
+    "bookmeter_users": 518,
+    "reading_status": "読み終わった",
+    "amazon_eval": 4.0
   },
   {
     "no": "141",
@@ -1827,10 +2629,16 @@
     "summary": "性をめぐる概念や経験を哲学的に問い直し、性的であることの意味を社会的・倫理的な論点とともに考察する。",
     "importance": "C",
     "difficulty": "B",
-    "fame": "D",
+    "fame": "C",
     "principle": "B",
     "expert_comment": "日常的な前提を概念分析の対象にし、性をめぐる理解の枠組みを考える哲学的試み。論点には複数の立場があるため、著者の議論と経験的知見・規範的主張を区別して読む。",
-    "persona": "高校生:性や倫理を考える際は適切な文脈で読む／大学生:哲学・ジェンダー研究の議論材料／社会人:規範や概念を問い直す教養書／専門家:新しい哲学的論点として検討価値がある"
+    "persona": "高校生:性や倫理を考える際は適切な文脈で読む／大学生:哲学・ジェンダー研究の議論材料／社会人:規範や概念を問い直す教養書／専門家:新しい哲学的論点として検討価値がある",
+    "booklog_eval": 3.39,
+    "booklog_users": 1403,
+    "bookmeter_eval": 68,
+    "bookmeter_users": 661,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "142",
@@ -1838,12 +2646,18 @@
     "title": "How Google Works 私たちの働き方とマネジメント",
     "isbn": "978-4-532-19834-3",
     "summary": "Googleの経営者らが、採用、組織文化、意思決定、イノベーションを支える働き方とマネジメントの考え方を紹介する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
-    "fame": "A",
-    "principle": "B",
+    "fame": "B",
+    "principle": "D",
     "expert_comment": "技術系企業の人材・文化・経営に関する実践知を知る事例書。成功企業の説明には選択バイアスがあり、規模や市場の異なる組織へそのまま移植できるわけではない。",
-    "persona": "高校生:企業文化や働き方を知る読み物／大学生:経営・組織論のケースとして有効／社会人:採用や組織づくりを考える材料／専門家:成功事例を批判的に比較する際に使える"
+    "persona": "高校生:企業文化や働き方を知る読み物／大学生:経営・組織論のケースとして有効／社会人:採用や組織づくりを考える材料／専門家:成功事例を批判的に比較する際に使える",
+    "booklog_eval": 3.87,
+    "booklog_users": 1467,
+    "bookmeter_eval": 84,
+    "bookmeter_users": 438,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "143",
@@ -1852,11 +2666,17 @@
     "isbn": "978-4-7898-3807-8",
     "summary": "オブジェクトファイル、シンボル解決、リンク、ロードなど、ソースコードから実行ファイルができる仕組みを実践的に解説する。",
     "importance": "C",
-    "difficulty": "A",
+    "difficulty": "B",
     "fame": "C",
     "principle": "A",
     "expert_comment": "コンパイル後の成果物や実行時の構成を理解し、ビルド障害や低レイヤの挙動を追う土台になる。ツールチェーンや実行形式は環境依存なので、現行環境での確認が必要。",
-    "persona": "高校生:コンパイルやC言語の経験が前提／大学生:システムソフトウェア学習に有効／社会人:ビルド・実行時問題の調査に役立つ／専門家:リンカ・ローダの実装理解に使える"
+    "persona": "高校生:コンパイルやC言語の経験が前提／大学生:システムソフトウェア学習に有効／社会人:ビルド・実行時問題の調査に役立つ／専門家:リンカ・ローダの実装理解に使える",
+    "booklog_eval": 4.11,
+    "booklog_users": 163,
+    "bookmeter_eval": 43,
+    "bookmeter_users": 73,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "144",
@@ -1869,7 +2689,13 @@
     "fame": "A",
     "principle": "A",
     "expert_comment": "個々の作業見積もりの精度だけでなく、依存関係と資源制約が全体納期を決めるという見方を与える。適用条件や実績評価は、組織のプロジェクト特性と照らして検証したい。",
-    "persona": "高校生:物語から計画の難しさを理解できる／大学生:プロジェクト演習の補助線／社会人:納期と資源配分の見直しに有効／専門家:制約理論のプロジェクト応用として検討できる"
+    "persona": "高校生:物語から計画の難しさを理解できる／大学生:プロジェクト演習の補助線／社会人:納期と資源配分の見直しに有効／専門家:制約理論のプロジェクト応用として検討できる",
+    "booklog_eval": 3.8,
+    "booklog_users": 2222,
+    "bookmeter_eval": 61,
+    "bookmeter_users": 932,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "145",
@@ -1877,12 +2703,18 @@
     "title": "集合・位相入門",
     "isbn": "978-4-00-005424-9",
     "summary": "集合、写像、濃度、距離空間、位相など、現代数学の基礎となる概念を順に学ぶ入門書。",
-    "importance": "B",
-    "difficulty": "A",
+    "importance": "A",
+    "difficulty": "B",
     "fame": "A",
     "principle": "A",
     "expert_comment": "数学の諸分野に共通する集合と空間の言語を身につけられる。定義を精密に扱うため、直感的な図だけに頼らず、例と証明を往復して学ぶ必要がある。",
-    "persona": "高校生:抽象数学への強い関心があれば挑戦／大学生:数学専攻や解析学の基礎／社会人:数学的抽象化を再学習したい人向け／専門家:基礎概念の標準的参照書"
+    "persona": "高校生:抽象数学への強い関心があれば挑戦／大学生:数学専攻や解析学の基礎／社会人:数学的抽象化を再学習したい人向け／専門家:基礎概念の標準的参照書",
+    "booklog_eval": 3.85,
+    "booklog_users": 511,
+    "bookmeter_eval": 47,
+    "bookmeter_users": 576,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "146",
@@ -1891,11 +2723,17 @@
     "isbn": "978-4-00-005634-2",
     "summary": "群、環、体などの代数系を、演算と公理の構造に注目して学ぶ抽象代数学の入門書。",
     "importance": "B",
-    "difficulty": "A",
-    "fame": "B",
+    "difficulty": "B",
+    "fame": "A",
     "principle": "A",
     "expert_comment": "具体的な計算から共通構造を取り出し、公理的に扱う抽象化の力を鍛える。初学者には概念間の関係が見えにくいため、演習と具体例を丁寧に積むのがよい。",
-    "persona": "高校生:大学数学の基礎を学んでから向く／大学生:数学専攻の代数学入門／社会人:抽象代数を体系的に再学習できる／専門家:代数構造の基礎確認に使える"
+    "persona": "高校生:大学数学の基礎を学んでから向く／大学生:数学専攻の代数学入門／社会人:抽象代数を体系的に再学習できる／専門家:代数構造の基礎確認に使える",
+    "booklog_eval": 3.88,
+    "booklog_users": 148,
+    "bookmeter_eval": 40,
+    "bookmeter_users": 98,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "147",
@@ -1904,11 +2742,17 @@
     "isbn": "978-4-320-11012-0",
     "summary": "極限の定義に基づくイプシロン・デルタ論法を、基本問題から応用まで段階的な演習で身につける。",
     "importance": "C",
-    "difficulty": "A",
+    "difficulty": "B",
     "fame": "C",
-    "principle": "A",
+    "principle": "B",
     "expert_comment": "微積分の直感を厳密な量化と不等式操作へ移すための演習書。解法パターンの暗記で終わらせず、量化の順序と条件の選び方を説明できるようにしたい。",
-    "persona": "高校生:大学数学を先取りしたい人向け／大学生:解析学の証明演習に有効／社会人:極限の厳密な理解を補強／専門家:基本論法の演習用資料"
+    "persona": "高校生:大学数学を先取りしたい人向け／大学生:解析学の証明演習に有効／社会人:極限の厳密な理解を補強／専門家:基本論法の演習用資料",
+    "booklog_eval": 4.67,
+    "booklog_users": 107,
+    "bookmeter_eval": 40,
+    "bookmeter_users": 64,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "148",
@@ -1918,10 +2762,16 @@
     "summary": "数学の命題を読み、適切な証明方針を立てて論証を組み立てる練習を、基礎的な題材で行う演習書。",
     "importance": "C",
     "difficulty": "B",
-    "fame": "C",
-    "principle": "A",
+    "fame": "D",
+    "principle": "C",
     "expert_comment": "証明を完成済みの文章として読むだけでなく、自分で構成する技能を育てる。解答を読む前に方針を試し、仮定と結論の関係を明示する学習に向いている。",
-    "persona": "高校生:証明問題が好きなら発展教材になる／大学生:数学科目の証明力を鍛える／社会人:論理的記述の訓練に使える／専門家:基礎証明の演習素材として有用"
+    "persona": "高校生:証明問題が好きなら発展教材になる／大学生:数学科目の証明力を鍛える／社会人:論理的記述の訓練に使える／専門家:基礎証明の演習素材として有用",
+    "booklog_eval": null,
+    "booklog_users": 26,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 12,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "149",
@@ -1929,12 +2779,18 @@
     "title": "セックス・アンド・デス 生物学の哲学への招待",
     "isbn": "978-4-393-32323-6",
     "summary": "性、生殖、死などの生物学的現象を題材に、進化論や生物学の説明がどのような哲学的問題を含むかを検討する。",
-    "importance": "C",
-    "difficulty": "A",
+    "importance": "B",
+    "difficulty": "B",
     "fame": "C",
     "principle": "A",
     "expert_comment": "生物学の概念や説明の前提を哲学的に吟味し、科学と価値判断の境界を考える専門的な入門。生物学の基礎知識と、刊行後の議論を補いながら読むのが望ましい。",
-    "persona": "高校生:生物と哲学の両方に関心があれば挑戦／大学生:生物学の哲学・進化論の議論に有効／社会人:科学的説明の前提を考える教養書／専門家:分野横断の参照文献"
+    "persona": "高校生:生物と哲学の両方に関心があれば挑戦／大学生:生物学の哲学・進化論の議論に有効／社会人:科学的説明の前提を考える教養書／専門家:分野横断の参照文献",
+    "booklog_eval": 4.5,
+    "booklog_users": 67,
+    "bookmeter_eval": 53,
+    "bookmeter_users": 103,
+    "reading_status": "積読",
+    "amazon_eval": 3.5
   },
   {
     "no": "150",
@@ -1942,12 +2798,18 @@
     "title": "アイデア大全 創造力とブレイクスルーを生み出す42のツール",
     "isbn": "978-4-89451-745-5",
     "summary": "発想や問題解決に用いられてきた42の思考ツールを、由来や使い方とともに紹介する実践的な道具集。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "発想を個人のひらめきに任せず、多様な手順を試せる点に価値がある。ツールを万能視せず、課題に合うものを選び、出た案を検証する工程まで含めたい。",
-    "persona": "高校生:探究や創作の発想補助に使える／大学生:研究テーマや企画の探索に有効／社会人:企画・改善の発想を広げる／専門家:手法の選択肢を引くリファレンス"
+    "persona": "高校生:探究や創作の発想補助に使える／大学生:研究テーマや企画の探索に有効／社会人:企画・改善の発想を広げる／専門家:手法の選択肢を引くリファレンス",
+    "booklog_eval": 3.7,
+    "booklog_users": 2436,
+    "bookmeter_eval": 65,
+    "bookmeter_users": 2098,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "151",
@@ -1955,12 +2817,18 @@
     "title": "問題解決大全 ビジネスや人生のハードルを乗り越える37のツール",
     "isbn": "978-4-89451-780-6",
     "summary": "問題の発見、整理、選択、実行などに使える37の問題解決ツールを、背景と活用方法を交えてまとめる。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "思考法を手順や問いの形で引き出せる実践的な道具箱。問題の定義を誤ると道具選びもずれるため、状況把握と結果の検証を省略しないことが重要。",
-    "persona": "高校生:学習や探究の行き詰まりに使える／大学生:研究・就職活動の論点整理に有効／社会人:仕事上の課題を整理する補助／専門家:複数の方法論を比較する一覧として使える"
+    "persona": "高校生:学習や探究の行き詰まりに使える／大学生:研究・就職活動の論点整理に有効／社会人:仕事上の課題を整理する補助／専門家:複数の方法論を比較する一覧として使える",
+    "booklog_eval": 3.58,
+    "booklog_users": 1774,
+    "bookmeter_eval": 58,
+    "bookmeter_users": 1320,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "152",
@@ -1970,10 +2838,16 @@
     "summary": "コンピュータネットワークの基本構造を、TCP/IPの各層、主要プロトコル、セキュリティの観点から解説する入門書。",
     "importance": "B",
     "difficulty": "B",
-    "fame": "C",
+    "fame": "D",
     "principle": "A",
     "expert_comment": "プロトコル群の役割を層と相互作用から理解するための基礎書。ネットワーク技術やセキュリティ事情は進化しているため、現行標準・運用との違いを確認したい。",
-    "persona": "高校生:インターネットの仕組みを学ぶ入口／大学生:情報・通信系の基礎科目に有効／社会人:Webやネットワーク運用の基礎固め／専門家:基本概念の再確認に使える"
+    "persona": "高校生:インターネットの仕組みを学ぶ入口／大学生:情報・通信系の基礎科目に有効／社会人:Webやネットワーク運用の基礎固め／専門家:基本概念の再確認に使える",
+    "booklog_eval": null,
+    "booklog_users": 25,
+    "bookmeter_eval": 50,
+    "bookmeter_users": 15,
+    "reading_status": "積読",
+    "amazon_eval": 3.8
   },
   {
     "no": "153",
@@ -1981,12 +2855,18 @@
     "title": "ドーパミン中毒",
     "isbn": "978-4-10-610969-0",
     "summary": "快楽と苦痛の関係や報酬への過剰な依存を論じ、現代の刺激環境と行動、回復の方法を神経科学・臨床経験から考察する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
     "principle": "B",
     "expert_comment": "快楽追求と苦痛回避のバランスを考える刺激的な一般書。神経科学の説明や個人の回復談をすべての人へ一般化せず、医学的問題には専門的助言を優先する必要がある。",
-    "persona": "高校生:刺激と習慣の関係を考える材料／大学生:行動・依存・神経科学への導入／社会人:デジタル習慣や報酬行動を振り返る／専門家:一般書の主張と臨床知見を区別して読む"
+    "persona": "高校生:刺激と習慣の関係を考える材料／大学生:行動・依存・神経科学への導入／社会人:デジタル習慣や報酬行動を振り返る／専門家:一般書の主張と臨床知見を区別して読む",
+    "booklog_eval": 3.65,
+    "booklog_users": 2379,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 1547,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "154",
@@ -1994,12 +2874,18 @@
     "title": "苦しかったときの話をしようか ビジネスマンの父が我が子のために書きためた「働くことの本質」",
     "isbn": "978-4-478-10782-9",
     "summary": "キャリア選択や仕事上の困難に向き合うため、強みの見つけ方、職業選択、マーケティング思考などを著者の経験から論じる。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
-    "fame": "A",
-    "principle": "B",
+    "fame": "B",
+    "principle": "C",
     "expert_comment": "キャリアを自己理解と市場・組織の構造の両面から考える実践書。著者の経験や時代背景に基づく助言も含むため、唯一の成功モデルではなく判断材料として読むべきである。",
-    "persona": "高校生:進路や働く意味を考える入口／大学生:就職活動・キャリア設計に有用／社会人:仕事選びや強みの再検討に役立つ／専門家:個人の経験則と一般化可能な枠組みを区別して読む"
+    "persona": "高校生:進路や働く意味を考える入口／大学生:就職活動・キャリア設計に有用／社会人:仕事選びや強みの再検討に役立つ／専門家:個人の経験則と一般化可能な枠組みを区別して読む",
+    "booklog_eval": 4.24,
+    "booklog_users": 18303,
+    "bookmeter_eval": 44,
+    "bookmeter_users": 6968,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "155",
@@ -2012,7 +2898,13 @@
     "fame": "A",
     "principle": "A",
     "expert_comment": "定義・定理・証明を積み上げて解析学を学ぶ本格的な教科書。正編の基礎が前提となるため、公式集のように拾い読みするより演習を通じて読み進めたい。",
-    "persona": "高校生:大学数学の準備が十分に必要／大学生:数学・理工系の解析学学習に有効／社会人:厳密な微積分を再学習できる／専門家:古典的な解析学教科書として参照"
+    "persona": "高校生:大学数学の準備が十分に必要／大学生:数学・理工系の解析学学習に有効／社会人:厳密な微積分を再学習できる／専門家:古典的な解析学教科書として参照",
+    "booklog_eval": 3.67,
+    "booklog_users": 109,
+    "bookmeter_eval": null,
+    "bookmeter_users": 67,
+    "reading_status": "積読",
+    "amazon_eval": 4.8
   },
   {
     "no": "156",
@@ -2025,7 +2917,13 @@
     "fame": "A",
     "principle": "A",
     "expert_comment": "計算中心の微積分から、定義と証明に基づく解析学へ移るための定評ある基礎書。抽象的な議論に慣れるには、例題だけでなく演習を継続して解く必要がある。",
-    "persona": "高校生:大学数学に慣れてから向く／大学生:数学・理工系の解析学の主教材候補／社会人:微積分を厳密に学び直せる／専門家:基礎解析の標準的参照書"
+    "persona": "高校生:大学数学に慣れてから向く／大学生:数学・理工系の解析学の主教材候補／社会人:微積分を厳密に学び直せる／専門家:基礎解析の標準的参照書",
+    "booklog_eval": 4.18,
+    "booklog_users": 194,
+    "bookmeter_eval": 26,
+    "bookmeter_users": 139,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "157",
@@ -2036,9 +2934,15 @@
     "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "視覚的な説明と反復課題で、初学者が概念を使いながら身につけやすい構成。掲載コードやJavaの版は古いため、現在のJDK・言語機能との差分を補う必要がある。",
-    "persona": "高校生:Javaで学び始める人に向く／大学生:プログラミング基礎の副教材／社会人:Javaの基本を再確認できる／専門家:入門者向け説明の設計例として参照"
+    "persona": "高校生:Javaで学び始める人に向く／大学生:プログラミング基礎の副教材／社会人:Javaの基本を再確認できる／専門家:入門者向け説明の設計例として参照",
+    "booklog_eval": 3.71,
+    "booklog_users": 223,
+    "bookmeter_eval": 41,
+    "bookmeter_users": 75,
+    "reading_status": "読み終わった",
+    "amazon_eval": 4.3
   },
   {
     "no": "158",
@@ -2047,11 +2951,17 @@
     "isbn": "978-4-7687-0435-6",
     "summary": "ε-δ論法を出発点に、解析学の厳密な議論から位相の基本概念へ進む数学書。",
     "importance": "C",
-    "difficulty": "A",
-    "fame": "C",
+    "difficulty": "B",
+    "fame": "D",
     "principle": "A",
     "expert_comment": "極限の形式的理解を位相的な見方へ接続し、解析学の概念的な背景を捉える。初学者には前提が多く、定義と例を往復して進む必要がある。",
-    "persona": "高校生:大学数学の先取りとしては難しい／大学生:解析学から位相への橋渡しに有効／社会人:数学の厳密性を深める再学習向け／専門家:基礎概念の補助的参照"
+    "persona": "高校生:大学数学の先取りとしては難しい／大学生:解析学から位相への橋渡しに有効／社会人:数学の厳密性を深める再学習向け／専門家:基礎概念の補助的参照",
+    "booklog_eval": null,
+    "booklog_users": 23,
+    "bookmeter_eval": null,
+    "bookmeter_users": 13,
+    "reading_status": "積読",
+    "amazon_eval": 5.0
   },
   {
     "no": "159",
@@ -2060,11 +2970,17 @@
     "isbn": "978-4-254-11138-5",
     "summary": "微積分、線形代数、微分方程式など高等数学の公式や関係式をまとめた参照用便覧。",
     "importance": "C",
-    "difficulty": "C",
-    "fame": "C",
+    "difficulty": "D",
+    "fame": "D",
     "principle": "C",
     "expert_comment": "必要な公式を素早く確認する参照資料として便利だが、導出や適用条件を学ぶ教科書の代替ではない。記号や仮定を確かめ、原理理解と併用したい。",
-    "persona": "高校生:大学数学の公式に触れる資料／大学生:演習・研究中の確認用／社会人:数式や公式を参照したい場面に便利／専門家:導出済み結果を引く便覧"
+    "persona": "高校生:大学数学の公式に触れる資料／大学生:演習・研究中の確認用／社会人:数式や公式を参照したい場面に便利／専門家:導出済み結果を引く便覧",
+    "booklog_eval": null,
+    "booklog_users": 11,
+    "bookmeter_eval": null,
+    "bookmeter_users": 0,
+    "reading_status": "積読",
+    "amazon_eval": null
   },
   {
     "no": "160",
@@ -2074,10 +2990,16 @@
     "summary": "企画や資料作成の初稿を早く形にし、具体的なフィードバックを得ながら成果物を磨く「たたき台」の作り方と活用法を解説する。",
     "importance": "C",
     "difficulty": "D",
-    "fame": "D",
+    "fame": "C",
     "principle": "C",
     "expert_comment": "完成まで一人で抱えず、未完成案を早期に共有して認識合わせと改善を進める実務技法。たたき台の質だけでなく、相手や目的に応じた共有方法が重要になる。",
-    "persona": "高校生:発表資料や共同課題の初稿作りに応用／大学生:レポート・研究企画の相談に有効／社会人:企画書や会議資料の作成を進めやすくする／専門家:協働作業の具体的な実践法"
+    "persona": "高校生:発表資料や共同課題の初稿作りに応用／大学生:レポート・研究企画の相談に有効／社会人:企画書や会議資料の作成を進めやすくする／専門家:協働作業の具体的な実践法",
+    "booklog_eval": 3.46,
+    "booklog_users": 436,
+    "bookmeter_eval": 54,
+    "bookmeter_users": 200,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "161",
@@ -2085,12 +3007,18 @@
     "title": "冤罪と人類 道徳感情はなぜ人を誤らせるのか",
     "isbn": "978-4-15-050574-5",
     "summary": "冤罪や歴史的事件を手がかりに、人間の道徳感情、集団心理、事実認定が誤りへ向かう仕組みを検討する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "善悪の判断が証拠の評価や集団の反応を歪めうる点を考える材料になる。事件の再構成や歴史的主張は、著者の解釈と一次資料・研究上の確度を分けて読む必要がある。",
-    "persona": "高校生:司法や集団心理を考える題材／大学生:歴史・心理・法の横断的読書に有効／社会人:確証バイアスや道徳的断定を見直す材料／専門家:事件記述と根拠資料の検討が必要"
+    "persona": "高校生:司法や集団心理を考える題材／大学生:歴史・心理・法の横断的読書に有効／社会人:確証バイアスや道徳的断定を見直す材料／専門家:事件記述と根拠資料の検討が必要",
+    "booklog_eval": 3.13,
+    "booklog_users": 747,
+    "bookmeter_eval": 80,
+    "bookmeter_users": 589,
+    "reading_status": "積読",
+    "amazon_eval": 3.9
   },
   {
     "no": "162",
@@ -2100,10 +3028,16 @@
     "summary": "プロジェクトや組織運営で人を疲弊させるマネジメント上のアンチパターンを挙げ、問題の兆候や回避の視点を紹介する。",
     "importance": "C",
     "difficulty": "C",
-    "fame": "D",
-    "principle": "B",
+    "fame": "C",
+    "principle": "C",
     "expert_comment": "個人の根性論へ帰さず、計画・役割・コミュニケーションの設計が人へ与える影響を考える。アンチパターンのラベル貼りで終わらせず、背景条件と改善可能性を具体的に確認したい。",
-    "persona": "高校生:チーム活動の運営を考える読み物／大学生:プロジェクト型学習や就活に応用／社会人:チームの負荷や運営を点検する／専門家:現場の事例を分類し議論する材料"
+    "persona": "高校生:チーム活動の運営を考える読み物／大学生:プロジェクト型学習や就活に応用／社会人:チームの負荷や運営を点検する／専門家:現場の事例を分類し議論する材料",
+    "booklog_eval": 3.24,
+    "booklog_users": 1125,
+    "bookmeter_eval": 69,
+    "bookmeter_users": 513,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "163",
@@ -2111,12 +3045,18 @@
     "title": "新版 思考の整理学",
     "isbn": "978-4-480-43912-3",
     "summary": "知識を蓄えるだけでなく、忘却、寝かせる時間、情報の組み合わせを活かして自分の思考を育てる方法を論じる。",
-    "importance": "A",
+    "importance": "B",
     "difficulty": "C",
     "fame": "S",
-    "principle": "A",
+    "principle": "B",
     "expert_comment": "知的生産を、情報の取り込みと熟成・再構成の循環として捉えるロングセラー。エッセイ的な洞察と実証的な認知科学の知見は区別して受け取るべきである。",
-    "persona": "高校生:学び方や考え方を見直す入口／大学生:読書・研究・レポートの姿勢に有効／社会人:情報過多の中で発想を育てる材料／専門家:長く読まれる知的生産論として参照"
+    "persona": "高校生:学び方や考え方を見直す入口／大学生:読書・研究・レポートの姿勢に有効／社会人:情報過多の中で発想を育てる材料／専門家:長く読まれる知的生産論として参照",
+    "booklog_eval": 3.77,
+    "booklog_users": 5800,
+    "bookmeter_eval": 63,
+    "bookmeter_users": 1755,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "164",
@@ -2127,9 +3067,15 @@
     "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "D",
     "expert_comment": "読書を直線的な情報収集に限らず、異分野との偶然の接続を生む活動として捉える。乱読そのものを成果の保証とせず、関心や目的との往復が必要。",
-    "persona": "高校生:本選びの幅を広げるきっかけ／大学生:専門外の読書やテーマ探索に有効／社会人:固定化した関心をほぐす読書論／専門家:読書経験を振り返る短い補助線"
+    "persona": "高校生:本選びの幅を広げるきっかけ／大学生:専門外の読書やテーマ探索に有効／社会人:固定化した関心をほぐす読書論／専門家:読書経験を振り返る短い補助線",
+    "booklog_eval": 3.55,
+    "booklog_users": 2650,
+    "bookmeter_eval": 62,
+    "bookmeter_users": 2206,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "165",
@@ -2142,7 +3088,13 @@
     "fame": "B",
     "principle": "C",
     "expert_comment": "時間の有限性を起点に、注意や習慣の使い方を見直す実用的な議論。行動改善の助言は読者の健康や生活条件に左右されるため、過度な自己責任論にしないことが重要。",
-    "persona": "高校生:スマートフォンや勉強時間を振り返る材料／大学生:時間の使い方や習慣の見直しに有効／社会人:注意を奪う行動や仕事の優先度を考える／専門家:実用的主張と根拠の範囲を分けて読む"
+    "persona": "高校生:スマートフォンや勉強時間を振り返る材料／大学生:時間の使い方や習慣の見直しに有効／社会人:注意を奪う行動や仕事の優先度を考える／専門家:実用的主張と根拠の範囲を分けて読む",
+    "booklog_eval": 3.52,
+    "booklog_users": 4837,
+    "bookmeter_eval": 70,
+    "bookmeter_users": 2255,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "166",
@@ -2152,10 +3104,16 @@
     "summary": "計画が崩れることを前提に、挫折や中断への対処、目標の分解、実行を続ける仕組みを紹介する。",
     "importance": "C",
     "difficulty": "D",
-    "fame": "C",
+    "fame": "B",
     "principle": "C",
     "expert_comment": "失敗しない計画より、失敗後に復帰できる計画を重視する実践書。個々のテクニックの効果は状況差があるため、小さく試して継続可能性を確かめたい。",
-    "persona": "高校生:勉強計画の挫折対策に使える／大学生:課題や資格学習の継続を助ける／社会人:目標設定と習慣化の見直しに有用／専門家:行動計画を設計する実践例"
+    "persona": "高校生:勉強計画の挫折対策に使える／大学生:課題や資格学習の継続を助ける／社会人:目標設定と習慣化の見直しに有用／専門家:行動計画を設計する実践例",
+    "booklog_eval": 3.88,
+    "booklog_users": 1665,
+    "bookmeter_eval": 54,
+    "bookmeter_users": 1355,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "167",
@@ -2165,10 +3123,16 @@
     "summary": "読書を通じて自分の考えや言葉を育てる姿勢を、選書、読み方、書くこととの関係から論じる読書論。",
     "importance": "C",
     "difficulty": "C",
-    "fame": "C",
-    "principle": "B",
+    "fame": "B",
+    "principle": "D",
     "expert_comment": "読書量の達成より、読んだ内容を自分の経験や表現へ結びつける考え方に重点がある。著者の読書観を唯一の方法とせず、目的に応じて取り入れたい。",
-    "persona": "高校生:読書を続ける動機づけになる／大学生:専門と教養をつなぐ読書の参考／社会人:読む・考える・書く習慣を見直せる／専門家:読書文化や知的形成を考える随筆的実践書"
+    "persona": "高校生:読書を続ける動機づけになる／大学生:専門と教養をつなぐ読書の参考／社会人:読む・考える・書く習慣を見直せる／専門家:読書文化や知的形成を考える随筆的実践書",
+    "booklog_eval": 4.15,
+    "booklog_users": 2788,
+    "bookmeter_eval": 66,
+    "bookmeter_users": 1485,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "168",
@@ -2176,12 +3140,18 @@
     "title": "SQLアンチパターン",
     "isbn": "978-4-87311-589-4",
     "summary": "データベースの論理設計・物理設計、SQLクエリ、アプリケーション開発で生じる25のアンチパターンを取り上げ、問題の原因と代替策を解説する。",
-    "importance": "B",
+    "importance": "A",
     "difficulty": "B",
     "fame": "B",
-    "principle": "A",
-    "expert_comment": "失敗例からデータの整合性や設計上の判断を学べる実践書。各パターンを避ける理由と、例外的に許容できる条件を併せて読むことで、単なる禁止事項の暗記を越えられる。指定ISBNは2013年刊の版。",
-    "persona": "高校生:SQLの基礎を学んだ後の発展読書／大学生:データベース演習や開発課題の設計に有効／社会人:スキーマやクエリのレビューに役立つ／専門家:設計判断の理由を共有する教材"
+    "principle": "B",
+    "expert_comment": "失敗例からデータの整合性や設計上の判断を学べる実践書。各パターンを避ける理由と、例外的に許容できる条件を併せて読むことで、単なる禁止事項の暗記を越えられる。",
+    "persona": "高校生:SQLの基礎を学んだ後の発展読書／大学生:データベース演習や開発課題の設計に有効／社会人:スキーマやクエリのレビューに役立つ／専門家:設計判断の理由を共有する教材",
+    "booklog_eval": 4.24,
+    "booklog_users": 1262,
+    "bookmeter_eval": 52,
+    "bookmeter_users": 667,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "169",
@@ -2191,10 +3161,16 @@
     "summary": "ひろさちや監修による仏教の入門百科。思想、宗派、経典、名僧、仏像、寺院から葬儀や供養の作法まで、仏教に関わる基礎知識を図解で紹介する。",
     "importance": "C",
     "difficulty": "D",
-    "fame": "C",
-    "principle": "B",
-    "expert_comment": "仏教の教えと、日本の文化・生活に根づく慣習を広く見渡すための入口。関心のある項目を調べ、宗派や経典の専門的な学習へ進む際の見取り図として使える。指定ISBNは1999年刊の普及版。",
-    "persona": "高校生:歴史や文化に関わる仏教知識の入門／大学生:宗教・日本文化を学ぶ際の概観に有用／社会人:寺院や仏像、法要の基礎を調べられる／専門家:一般向けの説明や図解の参考"
+    "fame": "D",
+    "principle": "C",
+    "expert_comment": "仏教の教えと、日本の文化・生活に根づく慣習を広く見渡すための入口。関心のある項目を調べ、宗派や経典の専門的な学習へ進む際の見取り図として使える。",
+    "persona": "高校生:歴史や文化に関わる仏教知識の入門／大学生:宗教・日本文化を学ぶ際の概観に有用／社会人:寺院や仏像、法要の基礎を調べられる／専門家:一般向けの説明や図解の参考",
+    "booklog_eval": 3.33,
+    "booklog_users": 52,
+    "bookmeter_eval": 33,
+    "bookmeter_users": 11,
+    "reading_status": "積読",
+    "amazon_eval": 3.8
   },
   {
     "no": "170",
@@ -2203,11 +3179,17 @@
     "isbn": "978-4-335-35392-5",
     "summary": "要件事実の基礎概念と民法・民事訴訟法との関係を整理し、売買や賃貸借などの設例、事実摘示例、図を通して学ぶ法科大学院向けの教材。",
     "importance": "C",
-    "difficulty": "A",
+    "difficulty": "B",
     "fame": "C",
     "principle": "A",
-    "expert_comment": "法律上の要件と具体的な事実を対応づけ、民事紛争を整理する考え方を学ぶ専門書。民法・民事訴訟法の基礎を前提とする。指定ISBNは2007年刊の初版であり、現行法への適用には刊行後の改正や判例の確認が必要。",
-    "persona": "高校生:法学の基礎を学んでから読む本／大学生:法学部後半・法科大学院での学修に有効／社会人:民事紛争の法的な整理を学ぶ専門教材／専門家:要件事実の基礎を復習する際は法改正を補う"
+    "expert_comment": "法律上の要件と具体的な事実を対応づけ、民事紛争を整理する考え方を学ぶ専門書。民法・民事訴訟法の基礎を前提とする。2007年刊の初版なので、現行法への適用には刊行後の改正や判例の確認が必要。",
+    "persona": "高校生:法学の基礎を学んでから読む本／大学生:法学部後半・法科大学院での学修に有効／社会人:民事紛争の法的な整理を学ぶ専門教材／専門家:要件事実の基礎を復習する際は法改正を補う",
+    "booklog_eval": 3.69,
+    "booklog_users": 54,
+    "bookmeter_eval": 40,
+    "bookmeter_users": 7,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "171",
@@ -2217,10 +3199,16 @@
     "summary": "法律になじみのない学生に向け、身近な問題から法的な考え方を解説する法学入門書。第二版では消費者問題と交通事故に関する項目を加えている。",
     "importance": "C",
     "difficulty": "C",
-    "fame": "D",
+    "fame": "E",
     "principle": "B",
-    "expert_comment": "条文の暗記より、生活上の問題を法的な観点から捉えるための基礎づくりに向く。指定ISBNは1995年刊の第二版。考え方の学習と現行制度の確認を分け、具体的な法律問題では最新の法令・資料を参照する必要がある。",
-    "persona": "高校生:社会生活と法律の関係を学ぶ入口／大学生:専門外から法学を学ぶ基礎教材／社会人:日常の問題を法的に考える練習に有用／専門家:初学者向けの導入方法を検討する資料"
+    "expert_comment": "条文の暗記より、生活上の問題を法的な観点から捉えるための基礎づくりに向く。1995年刊の第二版なので、考え方の学習と現行制度の確認を分け、具体的な法律問題では最新の法令・資料を参照する必要がある。",
+    "persona": "高校生:社会生活と法律の関係を学ぶ入口／大学生:専門外から法学を学ぶ基礎教材／社会人:日常の問題を法的に考える練習に有用／専門家:初学者向けの導入方法を検討する資料",
+    "booklog_eval": null,
+    "booklog_users": 2,
+    "bookmeter_eval": null,
+    "bookmeter_users": 0,
+    "reading_status": "いま読んでる",
+    "amazon_eval": 3.0
   },
   {
     "no": "172",
@@ -2231,9 +3219,15 @@
     "importance": "C",
     "difficulty": "C",
     "fame": "C",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "読了そのものを目標にせず、仕事や学習で何を得たいかから読み方を選ぶ実践書。必要な情報を取り出す読書や難しい本への取り組み方を、自分の目的に合わせて見直す材料になる。",
-    "persona": "高校生:難しい本への苦手意識をほぐすヒント／大学生:専門書やレポートのための読書に応用／社会人:仕事の成果につながる選書と読み方を考える／専門家:読書の方法を教える際の実践例"
+    "persona": "高校生:難しい本への苦手意識をほぐすヒント／大学生:専門書やレポートのための読書に応用／社会人:仕事の成果につながる選書と読み方を考える／専門家:読書の方法を教える際の実践例",
+    "booklog_eval": 3.63,
+    "booklog_users": 1079,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 942,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "173",
@@ -2244,9 +3238,15 @@
     "importance": "C",
     "difficulty": "D",
     "fame": "C",
-    "principle": "C",
+    "principle": "D",
     "expert_comment": "二人の経験や価値観を通して、親密な関係や社会の規範を考える読み物。個別の見解を男女全般の性質へ一般化せず、自分と異なる人生観を検討する対談として読むのが適している。",
-    "persona": "高校生:恋愛や結婚を巡る大人の価値観に触れる／大学生:ジェンダーや親密な関係を議論する材料／社会人:結婚観や人間関係を振り返る読み物／専門家:同時代の男女観を知る一般向け対談資料"
+    "persona": "高校生:恋愛や結婚を巡る大人の価値観に触れる／大学生:ジェンダーや親密な関係を議論する材料／社会人:結婚観や人間関係を振り返る読み物／専門家:同時代の男女観を知る一般向け対談資料",
+    "booklog_eval": 3.14,
+    "booklog_users": 367,
+    "bookmeter_eval": 83,
+    "bookmeter_users": 724,
+    "reading_status": "積読",
+    "amazon_eval": 3.8
   },
   {
     "no": "174",
@@ -2254,12 +3254,18 @@
     "title": "新トヨタシステム",
     "isbn": "978-4-06-205346-4",
     "summary": "門田安弘が、ジャストインタイムの思想に情報システムの技術を加えたトヨタの生産システムを体系化する。かんばん方式、平準化生産、段取り替え、標準作業、多能工、改善、自働化などの技法から、順序計画やかんばん枚数決定の計量的手法、導入手順までを扱う。",
-    "importance": "C",
+    "importance": "B",
     "difficulty": "B",
     "fame": "C",
     "principle": "A",
-    "expert_comment": "在庫、品質、人の配置、部品メーカーとの情報連携を、一つの生産システムとして設計する考え方を学べる。かんばんで仕掛かりを抑え、異常があれば止める仕組みは、リーン開発やカンバンなどソフトウェア開発の手法の源流でもある。指定ISBNは1991年刊の611ページの専門書で、情報システムや工場の制御技術の記述は当時のものとして読む必要がある。",
-    "persona": "高校生:分量が多く専門的。工場の基礎を知ってから読む本／大学生:生産管理・経営工学の体系的な教材に有効／社会人:製造業の改善やリーン手法の原理を学べる／専門家:生産管理の研究で参照される体系書"
+    "expert_comment": "在庫、品質、人の配置、部品メーカーとの情報連携を、一つの生産システムとして設計する考え方を学べる。かんばんで仕掛かりを抑え、異常があれば止める仕組みは、リーン開発やカンバンなどソフトウェア開発の手法の源流でもある。1991年刊の専門書なので、情報システムや工場の制御技術の記述は当時のものとして読む必要がある。",
+    "persona": "高校生:分量が多く専門的。工場の基礎を知ってから読む本／大学生:生産管理・経営工学の体系的な教材に有効／社会人:製造業の改善やリーン手法の原理を学べる／専門家:生産管理の研究で参照される体系書",
+    "booklog_eval": null,
+    "booklog_users": 12,
+    "bookmeter_eval": 50,
+    "bookmeter_users": 7,
+    "reading_status": "積読",
+    "amazon_eval": 5.0
   },
   {
     "no": "175",
@@ -2271,8 +3277,14 @@
     "difficulty": "D",
     "fame": "C",
     "principle": "C",
-    "expert_comment": "正しい戦略や理屈を示すだけでは人は動かないという前提から、会議や組織変革で人の気持ちと行動を変える進め方を学ぶ。物語なので場面はつかみやすいが、自分の現場で使うには技法の要点を抜き出して整理する読み方が向く。指定ISBNは2007年刊。",
-    "persona": "高校生:組織の話が多いが物語として読める／大学生:グループワークの進め方の参考に／社会人:会議や変革を進める立場で役立つ／専門家:ファシリテーション研修の事例教材"
+    "expert_comment": "正しい戦略や理屈を示すだけでは人は動かないという前提から、会議や組織変革で人の気持ちと行動を変える進め方を学ぶ。物語なので場面はつかみやすいが、自分の現場で使うには技法の要点を抜き出して整理する読み方が向く。",
+    "persona": "高校生:組織の話が多いが物語として読める／大学生:グループワークの進め方の参考に／社会人:会議や変革を進める立場で役立つ／専門家:ファシリテーション研修の事例教材",
+    "booklog_eval": 3.69,
+    "booklog_users": 724,
+    "bookmeter_eval": 49,
+    "bookmeter_users": 302,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "176",
@@ -2283,9 +3295,15 @@
     "importance": "C",
     "difficulty": "D",
     "fame": "C",
-    "principle": "B",
-    "expert_comment": "表現の巧みさより「何を言うか」とテストによる検証を重視する、ダイレクト・マーケティングの考え方が軸。見出しの型は便利だが、型をまねる前に、誰に何を約束するかを決める必要がある。指定ISBNは2016年刊で、事例は当時のもの。",
-    "persona": "高校生:広告の仕組みを知る読み物／大学生:マーケティングや広告表現の入門に有用／社会人:販促文や広告の改善に直結／専門家:古典の要点を見直す要約版"
+    "principle": "C",
+    "expert_comment": "表現の巧みさより「何を言うか」とテストによる検証を重視する、ダイレクト・マーケティングの考え方が軸。見出しの型は便利だが、型をまねる前に、誰に何を約束するかを決める必要がある。事例は2016年の刊行当時のもの。",
+    "persona": "高校生:広告の仕組みを知る読み物／大学生:マーケティングや広告表現の入門に有用／社会人:販促文や広告の改善に直結／専門家:古典の要点を見直す要約版",
+    "booklog_eval": 3.72,
+    "booklog_users": 685,
+    "bookmeter_eval": 64,
+    "bookmeter_users": 342,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "177",
@@ -2297,8 +3315,14 @@
     "difficulty": "C",
     "fame": "D",
     "principle": "B",
-    "expert_comment": "分野ごとにばらばらになりがちな組込みの要素技術を、一つの地図に整理する入門書。個々の技術を深く学ぶ前に、全体の関係をつかむのに向く。指定ISBNは2008年刊で、事例や技術動向は現在の車載・IoTの資料で補う必要がある。",
-    "persona": "高校生:電子工作やプログラミングの経験があると読める／大学生:組込み系の講義や研究の入口／社会人:組込み開発の全体像の確認に有用／専門家:新人教育の概説資料"
+    "expert_comment": "分野ごとにばらばらになりがちな組込みの要素技術を、一つの地図に整理する入門書。個々の技術を深く学ぶ前に、全体の関係をつかむのに向く。2008年刊なので、事例や技術動向は現在の車載・IoTの資料で補う必要がある。",
+    "persona": "高校生:電子工作やプログラミングの経験があると読める／大学生:組込み系の講義や研究の入口／社会人:組込み開発の全体像の確認に有用／専門家:新人教育の概説資料",
+    "booklog_eval": 3.44,
+    "booklog_users": 38,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 11,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "178",
@@ -2310,8 +3334,14 @@
     "difficulty": "C",
     "fame": "C",
     "principle": "B",
-    "expert_comment": "指標の計算方法より、数字の違いを業界の特性や企業の戦略から説明する読み方を学べる。決算書を企業の実態をつかむ材料として使う練習になる。指定ISBNは2009年刊で、事例企業の数値や会計基準は現在の決算資料で確かめる必要がある。",
-    "persona": "高校生:会計の基礎がないと難しい／大学生:会計・経営の講義の応用に有用／社会人:取引先や自社の決算を読む力がつく／専門家:研修やケース教材の参考"
+    "expert_comment": "指標の計算方法より、数字の違いを業界の特性や企業の戦略から説明する読み方を学べる。決算書を企業の実態をつかむ材料として使う練習になる。2009年刊なので、事例企業の数値や会計基準は現在の決算資料で確かめる必要がある。",
+    "persona": "高校生:会計の基礎がないと難しい／大学生:会計・経営の講義の応用に有用／社会人:取引先や自社の決算を読む力がつく／専門家:研修やケース教材の参考",
+    "booklog_eval": 4.06,
+    "booklog_users": 273,
+    "bookmeter_eval": 47,
+    "bookmeter_users": 78,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "179",
@@ -2319,12 +3349,18 @@
     "title": "マネジメント【エッセンシャル版】 基本と原則",
     "isbn": "978-4-478-41023-3",
     "summary": "ドラッカーの大著『マネジメント――課題、責任、実践』のエッセンスを、上田惇生の編訳で初心者向けに一冊にまとめた入門書。企業と公的機関の成果、仕事と人間、社会的責任、マネジャーの仕事と技能、組織、トップマネジメントと戦略を論じる。",
-    "importance": "A",
+    "importance": "S",
     "difficulty": "B",
     "fame": "S",
     "principle": "A",
-    "expert_comment": "マネジメントを組織に成果を上げさせる仕事と定義し、使命、人を生かす方法、社会的責任までを一貫して考える基本文献。管理職でなくても、組織の中で自分の仕事を位置づける視点が得られる。1970年代の大著の抄訳で、指定ISBNは2001年刊のエッセンシャル版。",
-    "persona": "高校生:抽象的だが働くことの意味を考えられる／大学生:経営学の古典への入口／社会人:管理職でなくても仕事の目的を見直せる／専門家:マネジメント論の基本文献"
+    "expert_comment": "マネジメントを組織に成果を上げさせる仕事と定義し、使命、人を生かす方法、社会的責任までを一貫して考える基本文献。管理職でなくても、組織の中で自分の仕事を位置づける視点が得られる。1970年代の大著の抄訳である。",
+    "persona": "高校生:抽象的だが働くことの意味を考えられる／大学生:経営学の古典への入口／社会人:管理職でなくても仕事の目的を見直せる／専門家:マネジメント論の基本文献",
+    "booklog_eval": 3.92,
+    "booklog_users": 15351,
+    "bookmeter_eval": 55,
+    "bookmeter_users": 8118,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "180",
@@ -2336,8 +3372,14 @@
     "difficulty": "D",
     "fame": "D",
     "principle": "C",
-    "expert_comment": "部下やチームの仕事に時間を取られる管理職向けに、自分で仕事を増やす習慣を減らす実践策をまとめる。対比形式で自分の課題に気づきやすい反面、効果は職場の条件で変わるため、試す項目を選んで使う読み方が向く。指定ISBNは2025年刊。",
-    "persona": "高校生:リーダー職の話で実感しにくい／大学生:サークルやチーム運営に一部応用できる／社会人:リーダーやプレイングマネージャーに直結／専門家:管理職研修の実践例"
+    "expert_comment": "部下やチームの仕事に時間を取られる管理職向けに、自分で仕事を増やす習慣を減らす実践策をまとめる。対比形式で自分の課題に気づきやすい反面、効果は職場の条件で変わるため、試す項目を選んで使う読み方が向く。",
+    "persona": "高校生:リーダー職の話で実感しにくい／大学生:サークルやチーム運営に一部応用できる／社会人:リーダーやプレイングマネージャーに直結／専門家:管理職研修の実践例",
+    "booklog_eval": 3.32,
+    "booklog_users": 171,
+    "bookmeter_eval": 59,
+    "bookmeter_users": 57,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "181",
@@ -2345,12 +3387,18 @@
     "title": "新装版 はじめてのGTD ストレスフリーの整理術",
     "isbn": "978-4-576-25042-7",
     "summary": "デビッド・アレンが、気になることをすべて把握し、見極め、整理し、更新し、行動を選ぶGTDの5つのステップと、プロジェクトの計画法を解説する。原著改訂版の翻訳で、GTDと認知科学の関係も扱う。",
-    "importance": "B",
+    "importance": "A",
     "difficulty": "C",
     "fame": "A",
     "principle": "A",
-    "expert_comment": "やるべきことを頭で覚えず信頼できる仕組みに移し、次にとる行動を決めて集中するという原則を学べる。ツールより原則が中心で、紙でもアプリでも実装できる。定期的な見直しを続けないと仕組みが崩れる点に注意。指定ISBNは2025年刊の新装版で、2015年刊の全面改訂版を再編集したもの。",
-    "persona": "高校生:勉強や予定の管理に応用できるが分量は多い／大学生:課題や研究の管理に有効／社会人:仕事と生活のタスク管理の基本／専門家:タスク管理法の古典として参照"
+    "expert_comment": "やるべきことを頭で覚えず信頼できる仕組みに移し、次にとる行動を決めて集中するという原則を学べる。ツールより原則が中心で、紙でもアプリでも実装できる。定期的な見直しを続けないと仕組みが崩れる点に注意。新装版は2015年刊の全面改訂版を再編集したもの。",
+    "persona": "高校生:勉強や予定の管理に応用できるが分量は多い／大学生:課題や研究の管理に有効／社会人:仕事と生活のタスク管理の基本／専門家:タスク管理法の古典として参照",
+    "booklog_eval": 3.9,
+    "booklog_users": 245,
+    "bookmeter_eval": 95,
+    "bookmeter_users": 68,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "182",
@@ -2361,9 +3409,15 @@
     "importance": "C",
     "difficulty": "D",
     "fame": "C",
-    "principle": "B",
-    "expert_comment": "プレゼンを情報の伝達でなく、聴き手の発想を引き出す場として設計する視点を与える。パターン・ランゲージの形式なので、通読より、準備の際に必要なパターンを選んで使う読み方が向く。指定ISBNは2013年刊。",
-    "persona": "高校生:発表の準備に使いやすい／大学生:ゼミや研究発表の改善に有効／社会人:提案や社内発表の見直しに使える／専門家:パターン・ランゲージの実例としても参考"
+    "principle": "C",
+    "expert_comment": "プレゼンを情報の伝達でなく、聴き手の発想を引き出す場として設計する視点を与える。パターン・ランゲージの形式なので、通読より、準備の際に必要なパターンを選んで使う読み方が向く。",
+    "persona": "高校生:発表の準備に使いやすい／大学生:ゼミや研究発表の改善に有効／社会人:提案や社内発表の見直しに使える／専門家:パターン・ランゲージの実例としても参考",
+    "booklog_eval": 3.7,
+    "booklog_users": 550,
+    "bookmeter_eval": 79,
+    "bookmeter_users": 210,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "183",
@@ -2373,10 +3427,16 @@
     "summary": "齋藤嘉則が、ゼロベース思考と仮説思考の2つの思考、MECEとロジックツリーの2つの技術、ソリューション・システムというプロセスを通じて、ビジネスの問題解決の進め方を図解する。新版では企業事例と演習課題を刷新。",
     "importance": "B",
     "difficulty": "C",
-    "fame": "B",
-    "principle": "A",
-    "expert_comment": "戦略コンサルタントの問題解決の基本を、課題の設定から解決策の仮説と検証まで一つの流れとして整理する。MECEやロジックツリーは道具であり、問いの設定と仮説の検証を伴って初めて役立つ点を押さえたい。指定ISBNは2010年刊の新版で、初版は1997年刊。",
-    "persona": "高校生:ビジネス事例中心だが考え方は応用できる／大学生:レポートや就職活動の思考整理に有効／社会人:問題解決の基本の型として直結／専門家:コンサルティングの基本技法の確認"
+    "fame": "A",
+    "principle": "B",
+    "expert_comment": "戦略コンサルタントの問題解決の基本を、課題の設定から解決策の仮説と検証まで一つの流れとして整理する。MECEやロジックツリーは道具であり、問いの設定と仮説の検証を伴って初めて役立つ点を押さえたい。",
+    "persona": "高校生:ビジネス事例中心だが考え方は応用できる／大学生:レポートや就職活動の思考整理に有効／社会人:問題解決の基本の型として直結／専門家:コンサルティングの基本技法の確認",
+    "booklog_eval": 3.82,
+    "booklog_users": 4146,
+    "bookmeter_eval": 40,
+    "bookmeter_users": 2088,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "184",
@@ -2388,8 +3448,14 @@
     "difficulty": "C",
     "fame": "B",
     "principle": "B",
-    "expert_comment": "テストケースを思いつきで列挙せず、技法に基づいて設計するための入門書。工程・技法・文書を一通り学べるので、実務経験と結びつけて読むと使いやすい。指定ISBNは2021年刊の増補改訂第2版。",
-    "persona": "高校生:プログラミング経験があれば理解しやすい／大学生:ソフトウェア工学の実習に有効／社会人:テスト設計の基礎固めに直結／専門家:新人教育の体系的な教材"
+    "expert_comment": "テストケースを思いつきで列挙せず、技法に基づいて設計するための入門書。工程・技法・文書を一通り学べるので、実務経験と結びつけて読むと使いやすい。",
+    "persona": "高校生:プログラミング経験があれば理解しやすい／大学生:ソフトウェア工学の実習に有効／社会人:テスト設計の基礎固めに直結／専門家:新人教育の体系的な教材",
+    "booklog_eval": 3.91,
+    "booklog_users": 309,
+    "bookmeter_eval": 52,
+    "bookmeter_users": 151,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "185",
@@ -2399,10 +3465,16 @@
     "summary": "杉原厚吉が、立体に見えるのに実在しないように感じられる不可能図形を題材に、現象を数理モデルで捉える方法を解説する。だまし絵の分析を通じて、線形代数が具体的な問題にどう役立つかを学ぶ。",
     "importance": "C",
     "difficulty": "B",
-    "fame": "C",
-    "principle": "A",
-    "expert_comment": "図形の印象を数式で扱うことで、見た目の不思議さを検証できる問題へ変える例を学べる。線形代数の計算練習を補う応用読み物として向く。指定ISBNは2012年刊。",
-    "persona": "高校生:図形は楽しめるが大学数学の予習が必要／大学生:線形代数の応用例として有効／社会人:数理モデルで考える練習になる／専門家:数学教育や錯視の題材"
+    "fame": "D",
+    "principle": "B",
+    "expert_comment": "図形の印象を数式で扱うことで、見た目の不思議さを検証できる問題へ変える例を学べる。線形代数の計算練習を補う応用読み物として向く。",
+    "persona": "高校生:図形は楽しめるが大学数学の予習が必要／大学生:線形代数の応用例として有効／社会人:数理モデルで考える練習になる／専門家:数学教育や錯視の題材",
+    "booklog_eval": 3.5,
+    "booklog_users": 38,
+    "bookmeter_eval": 50,
+    "bookmeter_users": 20,
+    "reading_status": "積読",
+    "amazon_eval": 2.3
   },
   {
     "no": "186",
@@ -2414,8 +3486,14 @@
     "difficulty": "B",
     "fame": "B",
     "principle": "A",
-    "expert_comment": "パターンの形を暗記するより、どのような設計上の問題を解くものか考える読み方が向く。オブジェクト指向の基礎知識と小規模な実装経験がある段階で読みたい。指定ISBNは丸善出版の再刊版。",
-    "persona": "高校生:クラスを使った実装経験が前提／大学生:設計演習と併読すると有効／社会人:変更に強い設計を考える基礎／専門家:パターン教育の考え方を確認できる"
+    "expert_comment": "パターンの形を暗記するより、どのような設計上の問題を解くものか考える読み方が向く。オブジェクト指向の基礎知識と小規模な実装経験がある段階で読みたい。",
+    "persona": "高校生:クラスを使った実装経験が前提／大学生:設計演習と併読すると有効／社会人:変更に強い設計を考える基礎／専門家:パターン教育の考え方を確認できる",
+    "booklog_eval": 4.27,
+    "booklog_users": 329,
+    "bookmeter_eval": 58,
+    "bookmeter_users": 175,
+    "reading_status": "読み終わった",
+    "amazon_eval": 4.4
   },
   {
     "no": "187",
@@ -2425,10 +3503,16 @@
     "summary": "坂井丈泰と坂井弘亮が、C言語のプログラムでバグが生まれる仕組み、原因の調べ方、対処と予防を解説する。初歩的なバグから難しい問題へ段階的に進み、デバッグの考え方を身につける。",
     "importance": "C",
     "difficulty": "B",
-    "fame": "C",
-    "principle": "A",
-    "expert_comment": "修正手順だけでなく、なぜその不具合が発生したのかまで理解するための本。Cの実装と実行環境を意識した読解が必要で、現行環境で例を試す際は差異を確認したい。指定ISBNは2008年刊。",
-    "persona": "高校生:Cの基礎文法を学んだ後に向く／大学生:実験や演習の不具合調査に有効／社会人:Cや組込み開発の原因調査を補う／専門家:デバッグ教育の事例集"
+    "fame": "D",
+    "principle": "C",
+    "expert_comment": "修正手順だけでなく、なぜその不具合が発生したのかまで理解するための本。Cの実装と実行環境を意識した読解が必要で、現行環境で例を試す際は差異を確認したい。",
+    "persona": "高校生:Cの基礎文法を学んだ後に向く／大学生:実験や演習の不具合調査に有効／社会人:Cや組込み開発の原因調査を補う／専門家:デバッグ教育の事例集",
+    "booklog_eval": null,
+    "booklog_users": 49,
+    "bookmeter_eval": 60,
+    "bookmeter_users": 29,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "188",
@@ -2438,10 +3522,16 @@
     "summary": "前橋和弥が、C言語の難所であるポインタの意味と使い方を解説する。ポインタを曖昧な暗記で扱わず、Cの仕組みに沿って理解し、プログラムの読み書きへ結びつけるための本。",
     "importance": "B",
     "difficulty": "B",
-    "fame": "B",
-    "principle": "A",
-    "expert_comment": "Cの基本文法を覚えた後、ポインタで理解が止まった人の補助となる。実際にコードを動かし、指し示す対象やデータの寿命を確認しながら読みたい。指定ISBNは2001年刊の版。",
-    "persona": "高校生:Cの基礎を終えた段階で役立つ／大学生:システムプログラミングの土台／社会人:Cコードの読解や保守に有効／専門家:ポインタの説明方法の参考"
+    "fame": "A",
+    "principle": "B",
+    "expert_comment": "Cの基本文法を覚えた後、ポインタで理解が止まった人の補助となる。実際にコードを動かし、指し示す対象やデータの寿命を確認しながら読みたい。",
+    "persona": "高校生:Cの基礎を終えた段階で役立つ／大学生:システムプログラミングの土台／社会人:Cコードの読解や保守に有効／専門家:ポインタの説明方法の参考",
+    "booklog_eval": 4.0,
+    "booklog_users": 468,
+    "bookmeter_eval": 56,
+    "bookmeter_users": 207,
+    "reading_status": "積読",
+    "amazon_eval": 3.9
   },
   {
     "no": "189",
@@ -2449,12 +3539,18 @@
     "title": "理科系の作文技術",
     "isbn": "978-4-12-100624-0",
     "summary": "木下是雄が、研究者・技術者・学生に向けて、論文、レポート、説明書、仕事の手紙、学会講演の組み立て方を解説する。伝える内容を選び、事実と意見を整理し、明快で簡潔な文章にする方法を扱う。",
-    "importance": "A",
+    "importance": "S",
     "difficulty": "C",
     "fame": "S",
     "principle": "A",
-    "expert_comment": "読み手が情報を正確に受け取れるように内容と構成を設計するための基本書。理工系以外の報告書にも応用しやすい。指定ISBNは1981年刊の中公新書。",
-    "persona": "高校生:実験レポートの書き方に直結／大学生:論文や研究発表の基礎／社会人:報告書や説明文の改善に有効／専門家:技術文書の原則を確認できる"
+    "expert_comment": "読み手が情報を正確に受け取れるように内容と構成を設計するための基本書。理工系以外の報告書にも応用しやすい。",
+    "persona": "高校生:実験レポートの書き方に直結／大学生:論文や研究発表の基礎／社会人:報告書や説明文の改善に有効／専門家:技術文書の原則を確認できる",
+    "booklog_eval": 3.83,
+    "booklog_users": 7540,
+    "bookmeter_eval": 44,
+    "bookmeter_users": 5873,
+    "reading_status": "読み終わった",
+    "amazon_eval": 4.2
   },
   {
     "no": "190",
@@ -2465,9 +3561,15 @@
     "importance": "B",
     "difficulty": "C",
     "fame": "C",
-    "principle": "B",
-    "expert_comment": "業務担当者との会話や要求の理解に必要な共通知識を得るために使える。個別企業の業務は本の分類だけで判断せず、現場で確認する必要がある。指定ISBNは2019年刊の第5版で、制度や法規の記述は刊行時点のもの。",
-    "persona": "高校生:企業活動を知る入門として読める／大学生:情報システムと経営の橋渡し／社会人:業務システム担当者の基礎固め／専門家:未経験業務の見取り図"
+    "principle": "C",
+    "expert_comment": "業務担当者との会話や要求の理解に必要な共通知識を得るために使える。個別企業の業務は本の分類だけで判断せず、現場で確認する必要がある。制度や法規の記述は2019年の刊行時点のもの。",
+    "persona": "高校生:企業活動を知る入門として読める／大学生:情報システムと経営の橋渡し／社会人:業務システム担当者の基礎固め／専門家:未経験業務の見取り図",
+    "booklog_eval": 3.65,
+    "booklog_users": 431,
+    "bookmeter_eval": 48,
+    "bookmeter_users": 176,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "191",
@@ -2478,9 +3580,15 @@
     "importance": "C",
     "difficulty": "C",
     "fame": "C",
-    "principle": "B",
-    "expert_comment": "仕事での感情やストレスとの付き合い方を考える実践書として読める。トレーニングの提案と効果の根拠は区別し、自分の状況で試す項目を選びたい。指定ISBNは1998年刊で、現在の研究の総説ではない。",
-    "persona": "高校生:競技や試験への向き合い方の参考／大学生:学業や活動での自己管理に応用／社会人:仕事の負荷と感情を見直す材料／専門家:実践的指導法の一例"
+    "principle": "C",
+    "expert_comment": "仕事での感情やストレスとの付き合い方を考える実践書として読める。トレーニングの提案と効果の根拠は区別し、自分の状況で試す項目を選びたい。1998年刊で、現在の研究の総説ではない。",
+    "persona": "高校生:競技や試験への向き合い方の参考／大学生:学業や活動での自己管理に応用／社会人:仕事の負荷と感情を見直す材料／専門家:実践的指導法の一例",
+    "booklog_eval": 3.92,
+    "booklog_users": 262,
+    "bookmeter_eval": 70,
+    "bookmeter_users": 139,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "192",
@@ -2491,9 +3599,15 @@
     "importance": "B",
     "difficulty": "C",
     "fame": "C",
-    "principle": "B",
-    "expert_comment": "画面の見た目だけでなく、利用者が迷わず操作できるかを点検する材料となる。ルールを機械的に適用せず、利用者と目的を踏まえて検証したい。指定ISBNは2019年刊の日本語版。",
-    "persona": "高校生:アプリやWeb制作の改善に使える／大学生:UI設計の課題に有効／社会人:画面レビューの観点を増やせる／専門家:基本指針の確認やチーム共有に向く"
+    "principle": "C",
+    "expert_comment": "画面の見た目だけでなく、利用者が迷わず操作できるかを点検する材料となる。ルールを機械的に適用せず、利用者と目的を踏まえて検証したい。",
+    "persona": "高校生:アプリやWeb制作の改善に使える／大学生:UI設計の課題に有効／社会人:画面レビューの観点を増やせる／専門家:基本指針の確認やチーム共有に向く",
+    "booklog_eval": 3.87,
+    "booklog_users": 324,
+    "bookmeter_eval": 49,
+    "bookmeter_users": 102,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "193",
@@ -2503,10 +3617,16 @@
     "summary": "森田浩が、実験を効率よく計画し、得られたデータを解析する手法を図解する。統計的手法と実験計画法の基礎、直交配列表実験、Excelを使った実践を扱う。",
     "importance": "C",
     "difficulty": "B",
-    "fame": "C",
+    "fame": "D",
     "principle": "B",
-    "expert_comment": "実験の条件を一つずつ試すだけでなく、調べたい要因に合わせてデータの取り方を設計する入口。統計の基礎と併読すると理解しやすい。指定ISBNは2010年刊の版で、後続の第2版とは区別する。",
-    "persona": "高校生:確率・統計を学んでから向く／大学生:研究や実験の設計に有効／社会人:品質改善や検証計画の基礎／専門家:実験計画法の導入教材"
+    "expert_comment": "実験の条件を一つずつ試すだけでなく、調べたい要因に合わせてデータの取り方を設計する入口。統計の基礎と併読すると理解しやすい。2010年刊の版で、後に第2版が出ている。",
+    "persona": "高校生:確率・統計を学んでから向く／大学生:研究や実験の設計に有効／社会人:品質改善や検証計画の基礎／専門家:実験計画法の導入教材",
+    "booklog_eval": 3.36,
+    "booklog_users": 79,
+    "bookmeter_eval": 50,
+    "bookmeter_users": 29,
+    "reading_status": "積読",
+    "amazon_eval": 3.3
   },
   {
     "no": "194",
@@ -2516,10 +3636,16 @@
     "summary": "白木三秀編著の人的資源管理の教科書。労働市場と経営戦略を背景に、採用、訓練、業績管理、評価、報酬、リーダーシップ、キャリア形成、グローバル人材開発、多様性などを体系的に扱う。",
     "importance": "B",
     "difficulty": "B",
-    "fame": "C",
+    "fame": "D",
     "principle": "A",
-    "expert_comment": "人事施策を個別のノウハウでなく、労働市場・戦略・組織の関係から考えるための基礎文献。人事担当以外の管理職にも全体像を与える。指定ISBNは2018年刊で、制度や統計は当時のもの。",
-    "persona": "高校生:働く仕組みへの関心があれば読める／大学生:人的資源管理の基礎科目に有効／社会人:人事制度や育成の背景を理解できる／専門家:HRMの論点を体系的に確認"
+    "expert_comment": "人事施策を個別のノウハウでなく、労働市場・戦略・組織の関係から考えるための基礎文献。人事担当以外の管理職にも全体像を与える。2018年刊なので、制度や統計は当時のもの。",
+    "persona": "高校生:働く仕組みへの関心があれば読める／大学生:人的資源管理の基礎科目に有効／社会人:人事制度や育成の背景を理解できる／専門家:HRMの論点を体系的に確認",
+    "booklog_eval": 5.0,
+    "booklog_users": 18,
+    "bookmeter_eval": null,
+    "bookmeter_users": 5,
+    "reading_status": "積読",
+    "amazon_eval": 3.7
   },
   {
     "no": "195",
@@ -2531,8 +3657,14 @@
     "difficulty": "C",
     "fame": "C",
     "principle": "B",
-    "expert_comment": "発注者も開発の当事者として、目的や業務を説明し判断する必要があると学べる。ベンダー任せになりがちな非技術者の入門に向く。指定ISBNは2017年刊で、契約や裁判例の説明は刊行時点のもの。",
-    "persona": "高校生:仕事の事例中心で実感しにくい／大学生:発注側の役割を知る教材／社会人:業務部門や情報システム部門に直結／専門家:顧客との認識合わせに使える"
+    "expert_comment": "発注者も開発の当事者として、目的や業務を説明し判断する必要があると学べる。ベンダー任せになりがちな非技術者の入門に向く。契約や裁判例の説明は2017年の刊行時点のもの。",
+    "persona": "高校生:仕事の事例中心で実感しにくい／大学生:発注側の役割を知る教材／社会人:業務部門や情報システム部門に直結／専門家:顧客との認識合わせに使える",
+    "booklog_eval": 3.86,
+    "booklog_users": 617,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 352,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "196",
@@ -2543,9 +3675,15 @@
     "importance": "C",
     "difficulty": "B",
     "fame": "C",
-    "principle": "A",
-    "expert_comment": "条項の意味や取引ごとの検討事項を確認する参照書として有用。雛形をそのまま使わず、取引条件と刊行後の法改正を確認する読み方が必要。指定ISBNは2019年刊の第2版。",
-    "persona": "高校生:法律用語が多く難しい／大学生:民法や契約法を学んだ後に向く／社会人:契約担当者の参照書／専門家:雛形と論点の確認に使える"
+    "principle": "C",
+    "expert_comment": "条項の意味や取引ごとの検討事項を確認する参照書として有用。雛形をそのまま使わず、取引条件と刊行後の法改正を確認する読み方が必要。",
+    "persona": "高校生:法律用語が多く難しい／大学生:民法や契約法を学んだ後に向く／社会人:契約担当者の参照書／専門家:雛形と論点の確認に使える",
+    "booklog_eval": 4.38,
+    "booklog_users": 206,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 29,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "197",
@@ -2555,10 +3693,16 @@
     "summary": "JMAMマネジメント教育研究会が、管理者の役割と基本知識を、自分の成長、業務・組織の運営、メンバーの主体性という観点から整理する。職場を想定して問いかけながら、実践へ結びつける教科書。",
     "importance": "C",
     "difficulty": "C",
-    "fame": "C",
+    "fame": "D",
     "principle": "B",
-    "expert_comment": "新任管理者が役割を整理し、自分の職場で取る行動を考える入口となる。理論の深掘りより、日々の管理業務や人材育成の見直しに向く。指定ISBNは2020年刊。",
-    "persona": "高校生:管理者の仕事は実感しにくい／大学生:チーム運営の参考になる／社会人:新任管理職の基礎固めに有効／専門家:管理職研修の導入教材"
+    "expert_comment": "新任管理者が役割を整理し、自分の職場で取る行動を考える入口となる。理論の深掘りより、日々の管理業務や人材育成の見直しに向く。",
+    "persona": "高校生:管理者の仕事は実感しにくい／大学生:チーム運営の参考になる／社会人:新任管理職の基礎固めに有効／専門家:管理職研修の導入教材",
+    "booklog_eval": 3.14,
+    "booklog_users": 43,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 16,
+    "reading_status": "積読",
+    "amazon_eval": 3.4
   },
   {
     "no": "198",
@@ -2570,8 +3714,14 @@
     "difficulty": "B",
     "fame": "A",
     "principle": "A",
-    "expert_comment": "科学の結論だけでなく、何を仮定し、どのように理論を組み立てるかを考える古典。物理学の記述は歴史的背景と合わせて読む必要がある。指定ISBNは河野伊三郎訳の旧訳版で、新訳版とは区別する。",
-    "persona": "高校生:数学・物理への関心がある人向け／大学生:科学哲学や科学史の基礎読書／社会人:モデルと現実の関係を考える材料／専門家:科学方法論の歴史的文献"
+    "expert_comment": "科学の結論だけでなく、何を仮定し、どのように理論を組み立てるかを考える古典。物理学の記述は歴史的背景と合わせて読む必要がある。河野伊三郎訳の旧訳で、新訳もある。",
+    "persona": "高校生:数学・物理への関心がある人向け／大学生:科学哲学や科学史の基礎読書／社会人:モデルと現実の関係を考える材料／専門家:科学方法論の歴史的文献",
+    "booklog_eval": 3.41,
+    "booklog_users": 362,
+    "bookmeter_eval": 53,
+    "bookmeter_users": 367,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "199",
@@ -2579,12 +3729,18 @@
     "title": "Software Design 2024年6月号",
     "isbn": "978-4-297-14095-3",
     "summary": "SQLの実行計画とインデックスを主題に、RDBMSがクエリを処理する仕組みを解説する。第2特集はJavaScriptランタイムBunの機能・利用法・Node.jsとの比較。依存性注入の狙いを扱う特別企画も収録。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "SQLを速くする前に実行の仕組みを理解するという観点が有用。Bunの比較結果は掲載時のバージョンに依存するため、設計原則と当時の製品情報を分けて読む。",
-    "persona": "高校生:SQLやJavaScriptの経験が前提／大学生:データベースの実践学習に有効／社会人:SQL性能改善の基礎固め／専門家:実行計画やインデックスの説明を確認"
+    "persona": "高校生:SQLやJavaScriptの経験が前提／大学生:データベースの実践学習に有効／社会人:SQL性能改善の基礎固め／専門家:実行計画やインデックスの説明を確認",
+    "booklog_eval": 4.0,
+    "booklog_users": 21,
+    "bookmeter_eval": null,
+    "bookmeter_users": 1,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "200",
@@ -2592,12 +3748,18 @@
     "title": "Software Design 2024年7月号",
     "isbn": "978-4-297-14096-0",
     "summary": "GitHub Actionsを使ってCI/CDを実装し、導入時の課題に対応する方法を特集する。第2特集では攻撃事例と脆弱性診断の基本、脆弱性の原因や対策を紹介する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "開発の自動化とセキュリティ確認を、実装や運用に結びつけて学べる号。ワークフローの例や診断ツールの仕様は掲載時点のもので、利用時に確認が必要。",
-    "persona": "高校生:GitとWeb開発の経験がある人向け／大学生:チーム開発のCI導入に有効／社会人:CI/CDや診断の導入を補う／専門家:運用設計の論点を確認"
+    "persona": "高校生:GitとWeb開発の経験がある人向け／大学生:チーム開発のCI導入に有効／社会人:CI/CDや診断の導入を補う／専門家:運用設計の論点を確認",
+    "booklog_eval": null,
+    "booklog_users": 17,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 2,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "201",
@@ -2610,7 +3772,13 @@
     "fame": "B",
     "principle": "C",
     "expert_comment": "LLMを使うアプリとエッジ実行環境の入口をまとめた号。APIやライブラリの変化が大きい分野なので、実装例を使う際は当時のバージョンを確認したい。",
-    "persona": "高校生:プログラミングとWebの基礎が必要／大学生:LLMアプリの試作の入口／社会人:LLM連携やエッジ活用の検討材料／専門家:2024年時点の技術動向の記録"
+    "persona": "高校生:プログラミングとWebの基礎が必要／大学生:LLMアプリの試作の入口／社会人:LLM連携やエッジ活用の検討材料／専門家:2024年時点の技術動向の記録",
+    "booklog_eval": null,
+    "booklog_users": 18,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 3,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "202",
@@ -2618,12 +3786,18 @@
     "title": "Software Design 2024年9月号",
     "isbn": "978-4-297-14098-4",
     "summary": "GraphQLを用いたアプリケーション開発について、実際の開発現場での活用を解説する。第2特集ではGoのエラーハンドリングを取り上げ、言語設計の意図とエラー処理の設計方法を考える。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "APIの選択とエラーの扱いを、構文だけでなく設計判断として考える材料になる。GraphQLやGoの基本を学んだ後、実装上の疑問と照らして読みたい。",
-    "persona": "高校生:Web APIやGoの学習後に向く／大学生:API設計の演習に有効／社会人:GraphQL導入やエラー設計を補う／専門家:設計上の判断材料を確認"
+    "persona": "高校生:Web APIやGoの学習後に向く／大学生:API設計の演習に有効／社会人:GraphQL導入やエラー設計を補う／専門家:設計上の判断材料を確認",
+    "booklog_eval": null,
+    "booklog_users": 16,
+    "bookmeter_eval": null,
+    "bookmeter_users": 2,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "203",
@@ -2631,12 +3805,18 @@
     "title": "Software Design 2024年10月号",
     "isbn": "978-4-297-14417-3",
     "summary": "設計ドキュメントの二重管理や陳腐化をどう防ぐか、複数の開発現場の取り組みを紹介する。第2特集ではeKYCなど、オンラインでの個人認証・本人確認の仕組みを解説する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "文書を作るかどうかだけでなく、何の合意や共有に使うかを考える材料になる。本人確認の実装・運用条件はサービスや制度に依存するため、掲載例の前提も確認したい。",
-    "persona": "高校生:開発チームの話は経験が必要／大学生:共同開発の文書化に有効／社会人:設計情報の維持や本人確認の検討に使える／専門家:文書運用の事例を比較"
+    "persona": "高校生:開発チームの話は経験が必要／大学生:共同開発の文書化に有効／社会人:設計情報の維持や本人確認の検討に使える／専門家:文書運用の事例を比較",
+    "booklog_eval": 3.5,
+    "booklog_users": 18,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 2,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "204",
@@ -2647,9 +3827,15 @@
     "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "AIを開発工程へ組み込む初期の実践例と、複数の防御を組み合わせる視点を学べる。AIツールや攻撃手法に関する記述は2024年時点のもの。",
-    "persona": "高校生:開発工程とネットワークの基礎が必要／大学生:AI支援開発を試す材料／社会人:AI導入や防御策の検討を補う／専門家:当時の実践と課題の記録"
+    "persona": "高校生:開発工程とネットワークの基礎が必要／大学生:AI支援開発を試す材料／社会人:AI導入や防御策の検討を補う／専門家:当時の実践と課題の記録",
+    "booklog_eval": null,
+    "booklog_users": 21,
+    "bookmeter_eval": null,
+    "bookmeter_users": 2,
+    "reading_status": "積読",
+    "amazon_eval": 4.7
   },
   {
     "no": "205",
@@ -2657,12 +3843,18 @@
     "title": "Software Design 2024年12月号",
     "isbn": "978-4-297-14419-7",
     "summary": "シェルスクリプトの基本と、バグや環境の破損につながる落とし穴を特集する。第2特集ではSwiftの進化とSwift 6の機能、既存アプリを移行する際の考え方を紹介する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "日常の自動化で使うシェルの挙動を理解し直す材料になる。Swift 6の解説は掲載時の言語・開発環境が前提なので、移行時には現在の環境との差を確認する。",
-    "persona": "高校生:コマンドラインの基礎を学んでから／大学生:実験や開発の自動化に有効／社会人:シェルの不具合予防やSwift移行に使える／専門家:言語仕様上の注意点を確認"
+    "persona": "高校生:コマンドラインの基礎を学んでから／大学生:実験や開発の自動化に有効／社会人:シェルの不具合予防やSwift移行に使える／専門家:言語仕様上の注意点を確認",
+    "booklog_eval": null,
+    "booklog_users": 9,
+    "bookmeter_eval": null,
+    "bookmeter_users": 2,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "206",
@@ -2670,12 +3862,18 @@
     "title": "Software Design 2025年1月号",
     "isbn": "978-4-297-14420-3",
     "summary": "パスワードレス認証のパスキーについて、仕組みと実装を解説する。第2特集ではWeb APIテストの意義を、テストピラミッドや対象範囲から整理し、実践方法を紹介する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "認証機能の設計とAPIの品質確認を結びつけて考えられる号。認証やテストツールの実装例は掲載時の条件を確認し、対象サービスの要件に合わせて読む。",
-    "persona": "高校生:Web開発と認証の基礎が必要／大学生:認証実装とAPIテストの演習に有効／社会人:パスキー導入やテスト設計を補う／専門家:方式とテスト範囲の論点を確認"
+    "persona": "高校生:Web開発と認証の基礎が必要／大学生:認証実装とAPIテストの演習に有効／社会人:パスキー導入やテスト設計を補う／専門家:方式とテスト範囲の論点を確認",
+    "booklog_eval": null,
+    "booklog_users": 15,
+    "bookmeter_eval": 50,
+    "bookmeter_users": 4,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "207",
@@ -2683,12 +3881,18 @@
     "title": "Software Design 2025年2月号",
     "isbn": "978-4-297-14421-0",
     "summary": "Pythonの新機能と、読みやすく保守しやすいコードを書くための実装技法を解説する。第2特集はPostgreSQL 17で、内部構造、レプリケーション、SQL、ユーティリティの機能を紹介する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "普段使う言語やデータベースの更新を追いながら、コード品質や実行基盤を見直す材料となる。解説対象はPythonの掲載時の仕様とPostgreSQL 17。",
-    "persona": "高校生:Python入門を終えてから向く／大学生:コード改善やDB演習に有効／社会人:Python保守やPostgreSQL更新を補う／専門家:対象バージョンの変更点を確認"
+    "persona": "高校生:Python入門を終えてから向く／大学生:コード改善やDB演習に有効／社会人:Python保守やPostgreSQL更新を補う／専門家:対象バージョンの変更点を確認",
+    "booklog_eval": null,
+    "booklog_users": 10,
+    "bookmeter_eval": null,
+    "bookmeter_users": 1,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "208",
@@ -2701,7 +3905,13 @@
     "fame": "B",
     "principle": "C",
     "expert_comment": "エディタ選びを機能の数だけで判断せず、自分の作業と道具の思想から考える参考になる。ツールの紹介や設定例は掲載時点のもの。",
-    "persona": "高校生:コードを書き始めた人にも役立つ／大学生:開発環境を整える材料／社会人:日常の編集作業の改善に使える／専門家:異なる道具の開発思想を比較"
+    "persona": "高校生:コードを書き始めた人にも役立つ／大学生:開発環境を整える材料／社会人:日常の編集作業の改善に使える／専門家:異なる道具の開発思想を比較",
+    "booklog_eval": 4.0,
+    "booklog_users": 15,
+    "bookmeter_eval": 50,
+    "bookmeter_users": 9,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "209",
@@ -2709,12 +3919,18 @@
     "title": "Software Design 2025年4月号",
     "isbn": "978-4-297-14812-6",
     "summary": "エンジニアがドメイン知識をどう学び、ビジネスの成長に結びつけるかを特集する。第2特集では公式リファレンス、man、RFCなどの一次情報を、目的に合わせて読み取る方法を扱う。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "技術の学習と事業の理解を切り離さず、必要な知識を得る方法を考える号。公式資料を調べる習慣は、個別技術の流行が変わっても応用しやすい。",
-    "persona": "高校生:技術資料を調べる方法が参考になる／大学生:調査やチーム開発に有効／社会人:業務理解と技術調査の改善に直結／専門家:知識共有や新人育成の材料"
+    "persona": "高校生:技術資料を調べる方法が参考になる／大学生:調査やチーム開発に有効／社会人:業務理解と技術調査の改善に直結／専門家:知識共有や新人育成の材料",
+    "booklog_eval": null,
+    "booklog_users": 14,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 3,
+    "reading_status": "積読",
+    "amazon_eval": 3.9
   },
   {
     "no": "210",
@@ -2722,12 +3938,18 @@
     "title": "Software Design 2025年5月号",
     "isbn": "978-4-297-14813-3",
     "summary": "可観測性の基本とOpenTelemetryを解説し、分断されたシステムの情報を総合して扱う方法を紹介する。第2特集ではモジュール性、関心の分離、依存関係からクラス設計を考える。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "運用で状態を把握する仕組みと、変更しやすいコード構造の両方を学べる。OpenTelemetryの設定例は掲載時点の仕様と環境が前提。",
-    "persona": "高校生:オブジェクト指向と運用の経験が必要／大学生:設計と観測の演習に有効／社会人:可観測性導入やクラス設計を補う／専門家:設計・運用の論点を整理"
+    "persona": "高校生:オブジェクト指向と運用の経験が必要／大学生:設計と観測の演習に有効／社会人:可観測性導入やクラス設計を補う／専門家:設計・運用の論点を整理",
+    "booklog_eval": null,
+    "booklog_users": 10,
+    "bookmeter_eval": null,
+    "bookmeter_users": 2,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "211",
@@ -2735,12 +3957,18 @@
     "title": "Software Design 2025年6月号",
     "isbn": "978-4-297-14814-0",
     "summary": "ITアクセシビリティの基本を特集し、多様な利用者が使えるサービスを考える。第2特集ではターミナルエミュレータ、tmux、CLIツールなどを通じて、自分に合う作業環境の整え方を紹介する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "利用者にとっての使いやすさと、開発者自身の作業環境をそれぞれ見直せる号。ツール選びの具体例は環境に依存するため、目的に合わせて試すとよい。",
-    "persona": "高校生:Web制作とCLI学習の参考／大学生:アクセシビリティを意識した制作に有効／社会人:サービスや作業環境の改善に使える／専門家:チーム教育の題材"
+    "persona": "高校生:Web制作とCLI学習の参考／大学生:アクセシビリティを意識した制作に有効／社会人:サービスや作業環境の改善に使える／専門家:チーム教育の題材",
+    "booklog_eval": null,
+    "booklog_users": 8,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 7,
+    "reading_status": "積読",
+    "amazon_eval": 3.7
   },
   {
     "no": "212",
@@ -2748,12 +3976,18 @@
     "title": "Software Design 2025年7月号",
     "isbn": "978-4-297-14815-7",
     "summary": "Rustでつまずきやすい主要機能を取り上げ、その基本を解説する。第2特集はデータ分析のためのSQLで、クエリの書き方、設計、データの加工処理を扱う。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "言語機能やSQLを知識で終わらせず、実装や分析の作業に結びつける材料になる。Rustの特集は初歩的なコードを書いた経験があると読みやすい。",
-    "persona": "高校生:RustやSQLの基礎を学んでから／大学生:安全な実装や分析の演習に有効／社会人:Rust学習やSQL活用を補う／専門家:基礎機能の教え方を確認"
+    "persona": "高校生:RustやSQLの基礎を学んでから／大学生:安全な実装や分析の演習に有効／社会人:Rust学習やSQL活用を補う／専門家:基礎機能の教え方を確認",
+    "booklog_eval": null,
+    "booklog_users": 5,
+    "bookmeter_eval": null,
+    "bookmeter_users": 1,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "213",
@@ -2761,12 +3995,18 @@
     "title": "Software Design 2025年8月号",
     "isbn": "978-4-297-14816-4",
     "summary": "リファクタリングを実行するか見送るか、その時期とビジネス上の価値から考える。第2特集はファイルシステムとストレージの仕組み。2038年問題を考える特別企画も収録する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "コード改善を目的化せず、事業の状況や投資する労力から判断する観点が有用。データ管理や時刻表現の基礎も、保守上の課題と結びつけて読める。",
-    "persona": "高校生:実装とOSの基礎知識が必要／大学生:保守やデータ管理を学ぶ材料／社会人:改修の優先順位や長期保守に有効／専門家:改善判断の議論に使える"
+    "persona": "高校生:実装とOSの基礎知識が必要／大学生:保守やデータ管理を学ぶ材料／社会人:改修の優先順位や長期保守に有効／専門家:改善判断の議論に使える",
+    "booklog_eval": null,
+    "booklog_users": 8,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 3,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "214",
@@ -2777,9 +4017,15 @@
     "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "新しいAI連携の方式と、長く必要とされる文字処理の基礎を併せて学べる号。MCPの実装例や対応サービスは2025年時点のものとして読む必要がある。",
-    "persona": "高校生:Web APIや文字処理の基礎が必要／大学生:AI連携と文字データの演習に有効／社会人:MCP導入や文字化け調査を補う／専門家:連携方式と文字処理の論点を確認"
+    "persona": "高校生:Web APIや文字処理の基礎が必要／大学生:AI連携と文字データの演習に有効／社会人:MCP導入や文字化け調査を補う／専門家:連携方式と文字処理の論点を確認",
+    "booklog_eval": null,
+    "booklog_users": 8,
+    "bookmeter_eval": 44,
+    "bookmeter_users": 11,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "215",
@@ -2787,12 +4033,18 @@
     "title": "Software Design 2025年10月号",
     "isbn": "978-4-297-15152-2",
     "summary": "Web開発とインフラに関わるネットワークの基礎を整理する。第2特集ではPrismaとDrizzleを題材に、型安全なデータベース操作とORMの考え方を紹介する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "アプリケーションと通信・データ層をつなげて理解する材料となる。ネットワークの原則と、掲載時のORMのAPIや機能を区別して読むと役立つ。",
-    "persona": "高校生:Web開発の経験がある人向け／大学生:ネットワークとDB連携の補助教材／社会人:基盤知識の再確認やORM選定に有効／専門家:技術選択の説明材料"
+    "persona": "高校生:Web開発の経験がある人向け／大学生:ネットワークとDB連携の補助教材／社会人:基盤知識の再確認やORM選定に有効／専門家:技術選択の説明材料",
+    "booklog_eval": null,
+    "booklog_users": 6,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 4,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "216",
@@ -2805,7 +4057,13 @@
     "fame": "B",
     "principle": "C",
     "expert_comment": "AI開発ツールの比較と、障害対応を支える運用の基本を学ぶ号。ツールの機能や利用条件は変わりやすく、2025年時点の比較をそのまま現在の選定基準にはできない。",
-    "persona": "高校生:開発や運用の仕事を知る材料／大学生:AIツールや障害対応の入口／社会人:ツール選定やオンコール改善に有効／専門家:当時の製品比較と実践例の記録"
+    "persona": "高校生:開発や運用の仕事を知る材料／大学生:AIツールや障害対応の入口／社会人:ツール選定やオンコール改善に有効／専門家:当時の製品比較と実践例の記録",
+    "booklog_eval": null,
+    "booklog_users": 7,
+    "bookmeter_eval": 80,
+    "bookmeter_users": 5,
+    "reading_status": "積読",
+    "amazon_eval": 3.9
   },
   {
     "no": "217",
@@ -2813,12 +4071,18 @@
     "title": "Software Design 2025年12月号",
     "isbn": "978-4-297-15154-6",
     "summary": "認証基盤を構築する際に必要なID管理の基本を解説する。第2特集はAIセキュリティで、AIエージェントへの攻撃と防御を扱う。量子コンピュータの仕組みを説明する特別企画も収録。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "IDと権限の管理を、AIを利用するシステムの防御とも結びつけて考える材料となる。攻撃例や製品の対策機能は掲載時点の情報である。",
-    "persona": "高校生:認証とネットワークの基礎が必要／大学生:認証基盤やAI安全性の学習に有効／社会人:ID管理とAI連携の設計を補う／専門家:脅威と防御の観点を整理"
+    "persona": "高校生:認証とネットワークの基礎が必要／大学生:認証基盤やAI安全性の学習に有効／社会人:ID管理とAI連携の設計を補う／専門家:脅威と防御の観点を整理",
+    "booklog_eval": null,
+    "booklog_users": 5,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 7,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "218",
@@ -2826,12 +4090,18 @@
     "title": "Software Design 2026年1月号",
     "isbn": "978-4-297-15155-3",
     "summary": "LLMをブラックボックスにせず、基本構造、学習、推論やモデルの仕組みから理解する特集。第2特集では、アルゴリズムとデータ構造がプログラムの性能改善にどう役立つかを解説する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "APIの利用手順を超えて、計算の仕組みや性能を考える入口となる号。LLMの具体的なモデル情報は掲載時点のものだが、内部構造を学ぶ足場として使える。",
-    "persona": "高校生:数学とプログラミングの基礎が必要／大学生:LLMとアルゴリズムの学習に有効／社会人:AIの挙動や性能課題の理解を補う／専門家:基礎概念を説明する教材"
+    "persona": "高校生:数学とプログラミングの基礎が必要／大学生:LLMとアルゴリズムの学習に有効／社会人:AIの挙動や性能課題の理解を補う／専門家:基礎概念を説明する教材",
+    "booklog_eval": null,
+    "booklog_users": 11,
+    "bookmeter_eval": 67,
+    "bookmeter_users": 4,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "219",
@@ -2842,9 +4112,15 @@
     "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "AIによる実装を、データ基盤や継続的なテストと合わせて考える材料になる。自律的なコード生成にも設計・検証が必要という前提で読み、ツールの仕様は確認したい。",
-    "persona": "高校生:Web開発やクラウドの基礎が必要／大学生:AI支援の試作や自動テストに有効／社会人:AI開発やS3活用の検討を補う／専門家:実践上の工程や検証方法を比較"
+    "persona": "高校生:Web開発やクラウドの基礎が必要／大学生:AI支援の試作や自動テストに有効／社会人:AI開発やS3活用の検討を補う／専門家:実践上の工程や検証方法を比較",
+    "booklog_eval": null,
+    "booklog_users": 13,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 9,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "220",
@@ -2852,12 +4128,18 @@
     "title": "Software Design 2026年3月号",
     "isbn": "978-4-297-15157-7",
     "summary": "クラウド時代のアプリケーションで、障害調査に役立つログをどう設計し、構造化し、管理するかを特集する。第2特集ではソフトウェアサプライチェーン攻撃の経路と対策を扱う。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "ログを出すだけでなく、後から何を判断できるようにするかを考える材料になる。開発・配布の経路を含むセキュリティの視点も学べるが、攻撃動向は掲載時点のもの。",
-    "persona": "高校生:アプリ運用やパッケージ管理の経験が必要／大学生:ログ設計の実習に有効／社会人:障害調査や供給網対策の改善に直結／専門家:ログと防御の設計観点を確認"
+    "persona": "高校生:アプリ運用やパッケージ管理の経験が必要／大学生:ログ設計の実習に有効／社会人:障害調査や供給網対策の改善に直結／専門家:ログと防御の設計観点を確認",
+    "booklog_eval": 4.0,
+    "booklog_users": 12,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 2,
+    "reading_status": "積読",
+    "amazon_eval": 4.6
   },
   {
     "no": "221",
@@ -2865,12 +4147,18 @@
     "title": "Software Design 2026年4月号",
     "isbn": "978-4-297-15547-6",
     "summary": "PostgreSQL 18の高速化機能を、データベースの内部構造から解説する。第2特集ではMCPサーバーの開発事例を通じ、事業上の目的、品質、開発効率を踏まえた進め方を紹介する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "性能向上の理由を内部構造から理解し、AI連携の開発も事業目的から考える材料になる。解説対象はPostgreSQL 18と掲載時のMCP実装。",
-    "persona": "高校生:DBやWeb APIの知識が前提／大学生:データベース内部やAI連携の学習に有効／社会人:DB更新やMCP公開の検討を補う／専門家:性能と品質の論点を確認"
+    "persona": "高校生:DBやWeb APIの知識が前提／大学生:データベース内部やAI連携の学習に有効／社会人:DB更新やMCP公開の検討を補う／専門家:性能と品質の論点を確認",
+    "booklog_eval": null,
+    "booklog_users": 7,
+    "bookmeter_eval": null,
+    "bookmeter_users": 1,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "222",
@@ -2878,12 +4166,18 @@
     "title": "Software Design 2026年5月号",
     "isbn": "978-4-297-15548-3",
     "summary": "クラウド上のWebシステムでも必要となるITインフラの基礎を、非機能要件や障害への対応から整理する。第2特集はデータ基盤設計で、パイプラインの標準化、可観測性、コスト管理などを扱う。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "マネージドサービスを使う場合も、可用性や障害の影響を設計する知識が必要だと考えられる号。データ基盤の規模拡大に伴う運用の課題を見渡す材料にもなる。",
-    "persona": "高校生:Webとクラウドの基礎を学んでから／大学生:非機能要件やデータ基盤の入口／社会人:インフラとデータ運用の設計に有効／専門家:構成や運用の見直しに使える"
+    "persona": "高校生:Webとクラウドの基礎を学んでから／大学生:非機能要件やデータ基盤の入口／社会人:インフラとデータ運用の設計に有効／専門家:構成や運用の見直しに使える",
+    "booklog_eval": null,
+    "booklog_users": 12,
+    "bookmeter_eval": 50,
+    "bookmeter_users": 5,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "223",
@@ -2894,9 +4188,15 @@
     "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "AIによる実装の速さと、品質を確認する工程の両方を検討できる。生成されたテストも正しいとは限らないため、仕様や期待結果との照合が必要。機能解説は2026年の掲載時点のもの。",
-    "persona": "高校生:プログラミングとテストの基礎が必要／大学生:AI支援の演習と検証に有効／社会人:AI導入後の品質確保を補う／専門家:テスト生成の工程や評価方法を確認"
+    "persona": "高校生:プログラミングとテストの基礎が必要／大学生:AI支援の演習と検証に有効／社会人:AI導入後の品質確保を補う／専門家:テスト生成の工程や評価方法を確認",
+    "booklog_eval": null,
+    "booklog_users": 13,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 3,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "224",
@@ -2904,12 +4204,18 @@
     "title": "Software Design 2026年7月号",
     "isbn": "978-4-297-15550-6",
     "summary": "開発初期からセキュリティを組み込む設計とコーディングを特集し、リスクの特定、脅威モデリング、CI/CDでの実践を扱う。第2特集ではAIデータセンターの基本とAI処理との関係を解説する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "リリース直前の診断だけに頼らず、設計段階で問題を見つける視点を学べる。AIサービスを支える物理的な基盤を知ることで、ソフトウェア以外の制約も考えられる。",
-    "persona": "高校生:開発工程やインフラへの関心が前提／大学生:セキュリティ設計の入口／社会人:開発プロセスの防御策を見直せる／専門家:脅威分析や基盤説明の材料"
+    "persona": "高校生:開発工程やインフラへの関心が前提／大学生:セキュリティ設計の入口／社会人:開発プロセスの防御策を見直せる／専門家:脅威分析や基盤説明の材料",
+    "booklog_eval": null,
+    "booklog_users": 7,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 2,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "225",
@@ -2917,12 +4223,18 @@
     "title": "Software Design 2026年8月号",
     "isbn": "978-4-297-15551-3",
     "summary": "クラウドやAIで増える特権IDとNHI（人間以外のアイデンティティ）をどう管理するかを特集する。第2特集はLLMの専門家が疑問に答え、人間的に見える振る舞いや性能の捉え方を説明する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "人のアカウントだけでは捉えきれない権限管理を考える号。LLMの振る舞いについても、印象と技術的な説明を分けて理解する材料となる。",
-    "persona": "高校生:認証やAIの基礎知識が必要／大学生:サービス間連携と権限の学習に有効／社会人:クラウドやAIのID統制を補う／専門家:非人間IDの管理観点を確認"
+    "persona": "高校生:認証やAIの基礎知識が必要／大学生:サービス間連携と権限の学習に有効／社会人:クラウドやAIのID統制を補う／専門家:非人間IDの管理観点を確認",
+    "booklog_eval": null,
+    "booklog_users": 6,
+    "bookmeter_eval": null,
+    "bookmeter_users": 1,
+    "reading_status": "積読",
+    "amazon_eval": 4.6
   },
   {
     "no": "226",
@@ -2935,7 +4247,13 @@
     "fame": "B",
     "principle": "C",
     "expert_comment": "外部AIサービスの料金や提供条件に左右されにくい選択肢と、新しい開発ツールを知る材料になる。モデルの性能や必要な計算資源、ツールの機能は掲載時点の条件を確認したい。",
-    "persona": "高校生:モデル実行と開発環境の知識が必要／大学生:ローカルAIを試す入口／社会人:AIの実行環境や道具選びを補う／専門家:掲載時のモデル・ツール比較の記録"
+    "persona": "高校生:モデル実行と開発環境の知識が必要／大学生:ローカルAIを試す入口／社会人:AIの実行環境や道具選びを補う／専門家:掲載時のモデル・ツール比較の記録",
+    "booklog_eval": null,
+    "booklog_users": 8,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 7,
+    "reading_status": "積読",
+    "amazon_eval": 4.5
   },
   {
     "no": "227",
@@ -2943,12 +4261,18 @@
     "title": "Software Design 2026年10月号",
     "isbn": "978-4-297-15925-2",
     "summary": "自律的にコードを書くAIを支えるハーネスの設計を特集し、検証やレビューを仕組みへ組み込む方法を扱う。第2特集ではTOKIUMの事例を通じ、AIによるE2Eテストの設計・実行の自動化を紹介する。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "AIへの指示だけでなく、自動で動く際の制約・検証・参照情報をどう整えるかが中心。品質保証の暗黙知を構造化する事例は、自社の条件と比較して読むと役立つ。",
-    "persona": "高校生:開発と自動テストの経験が前提／大学生:AIエージェントの検証設計に有効／社会人:自律開発とQA自動化の検討材料／専門家:制御と検証の仕組みを比較"
+    "persona": "高校生:開発と自動テストの経験が前提／大学生:AIエージェントの検証設計に有効／社会人:自律開発とQA自動化の検討材料／専門家:制御と検証の仕組みを比較",
+    "booklog_eval": null,
+    "booklog_users": 9,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 3,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "228",
@@ -2956,12 +4280,18 @@
     "title": "Software Design 2026年11月号",
     "isbn": "978-4-297-15926-9",
     "summary": "分散システムの不具合を全体障害へ広げないため、データベースの設計・運用、リトライ、タイムアウト、サーキットブレーカーを解説する。第2特集はMySQLとAI時代のRDBMS。SBOMによる脆弱性管理も扱う。",
-    "importance": "B",
+    "importance": "C",
     "difficulty": "C",
     "fame": "B",
-    "principle": "B",
+    "principle": "C",
     "expert_comment": "個々の部品の正常動作だけでなく、依存先が故障した場合の挙動を設計する観点が有用。データベースや脆弱性管理の製品機能は、掲載時点のものとして確認したい。",
-    "persona": "高校生:WebアプリとDBの基礎が必要／大学生:分散システムの信頼性を学ぶ材料／社会人:障害に強い実装や運用の改善に直結／専門家:障害の局所化とデータ設計を確認"
+    "persona": "高校生:WebアプリとDBの基礎が必要／大学生:分散システムの信頼性を学ぶ材料／社会人:障害に強い実装や運用の改善に直結／専門家:障害の局所化とデータ設計を確認",
+    "booklog_eval": null,
+    "booklog_users": 3,
+    "bookmeter_eval": null,
+    "bookmeter_users": 1,
+    "reading_status": "積読",
+    "amazon_eval": null
   },
   {
     "no": "229",
@@ -2972,9 +4302,15 @@
     "importance": "C",
     "difficulty": "B",
     "fame": "C",
-    "principle": "B",
-    "expert_comment": "Web開発の道具が増えた理由や、各ツールが担う役割を理解するための入口。指定ISBNは2020年刊で、記載されたツールやサービスの現行仕様は別途確認が必要。",
-    "persona": "高校生:HTMLとJavaScriptの学習後に向く／大学生:開発環境や設計の全体像を学べる／社会人:フロントエンドの基盤知識を補う／専門家:ツール選択の説明材料"
+    "principle": "C",
+    "expert_comment": "Web開発の道具が増えた理由や、各ツールが担う役割を理解するための入口。2020年刊なので、記載されたツールやサービスの現行仕様は別途確認が必要。",
+    "persona": "高校生:HTMLとJavaScriptの学習後に向く／大学生:開発環境や設計の全体像を学べる／社会人:フロントエンドの基盤知識を補う／専門家:ツール選択の説明材料",
+    "booklog_eval": 3.69,
+    "booklog_users": 119,
+    "bookmeter_eval": 40,
+    "bookmeter_users": 46,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "230",
@@ -2986,8 +4322,14 @@
     "difficulty": "B",
     "fame": "A",
     "principle": "A",
-    "expert_comment": "目標の高さではなく、何が問題で、どう行動を集中させるかを見るための基本書。戦略文書を検討する際の判断基準としても使える。指定ISBNは2012年刊の日本語版。",
-    "persona": "高校生:企業事例の前提知識があると読みやすい／大学生:経営戦略を学ぶ基本読書／社会人:計画や方針の点検に直結／専門家:戦略の定義や構造を議論する土台"
+    "expert_comment": "目標の高さではなく、何が問題で、どう行動を集中させるかを見るための基本書。戦略文書を検討する際の判断基準としても使える。",
+    "persona": "高校生:企業事例の前提知識があると読みやすい／大学生:経営戦略を学ぶ基本読書／社会人:計画や方針の点検に直結／専門家:戦略の定義や構造を議論する土台",
+    "booklog_eval": 4.04,
+    "booklog_users": 4721,
+    "bookmeter_eval": 64,
+    "bookmeter_users": 2279,
+    "reading_status": "積読",
+    "amazon_eval": 4.4
   },
   {
     "no": "231",
@@ -2997,10 +4339,16 @@
     "summary": "白川克と濵本佳史が、非技術者の業務担当者に向け、システム構築の目的、現状と将来像の整理、要求の洗い出し、優先順位、発注やプロジェクトの進め方を解説する。自分で実装しなくても必要な判断を整理した本。",
     "importance": "B",
     "difficulty": "C",
-    "fame": "C",
+    "fame": "B",
     "principle": "B",
-    "expert_comment": "システム化の目的と業務を整理し、開発側へ伝えるための実践書。作る機能だけでなく、価値や投資の優先順位を判断する発注側の役割を学べる。指定ISBNは2021年刊。",
-    "persona": "高校生:業務や組織の事例は実感しにくい／大学生:発注側の仕事を知る材料／社会人:業務改革やシステム導入の担当者に直結／専門家:要求整理や顧客支援の参考"
+    "expert_comment": "システム化の目的と業務を整理し、開発側へ伝えるための実践書。作る機能だけでなく、価値や投資の優先順位を判断する発注側の役割を学べる。",
+    "persona": "高校生:業務や組織の事例は実感しにくい／大学生:発注側の仕事を知る材料／社会人:業務改革やシステム導入の担当者に直結／専門家:要求整理や顧客支援の参考",
+    "booklog_eval": 4.12,
+    "booklog_users": 1369,
+    "bookmeter_eval": 56,
+    "bookmeter_users": 577,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "232",
@@ -3010,10 +4358,16 @@
     "summary": "林尚平が、自動テストの基礎知識、設計、導入のプロセスを、現場で起こる失敗例とともに解説する。リスクを抑えながらコストを改善するため、何をどう自動化し、継続して運用するかを考える。",
     "importance": "B",
     "difficulty": "C",
-    "fame": "B",
+    "fame": "C",
     "principle": "B",
-    "expert_comment": "ツールを動かす手順より、自動化する対象と設計・保守の判断を学ぶための本。自動化すれば必ず省力化できるという期待を見直し、運用まで計画する材料になる。指定ISBNは2020年刊の紙版。",
-    "persona": "高校生:テストや開発工程の知識が必要／大学生:自動テスト演習の補助教材／社会人:自動化導入や保守の改善に直結／専門家:失敗事例を使った教育や設計レビューに有効"
+    "expert_comment": "ツールを動かす手順より、自動化する対象と設計・保守の判断を学ぶための本。自動化すれば必ず省力化できるという期待を見直し、運用まで計画する材料になる。",
+    "persona": "高校生:テストや開発工程の知識が必要／大学生:自動テスト演習の補助教材／社会人:自動化導入や保守の改善に直結／専門家:失敗事例を使った教育や設計レビューに有効",
+    "booklog_eval": 2.65,
+    "booklog_users": 110,
+    "bookmeter_eval": 52,
+    "bookmeter_users": 39,
+    "reading_status": "積読",
+    "amazon_eval": 3.6
   },
   {
     "no": "233",
@@ -3024,9 +4378,15 @@
     "importance": "C",
     "difficulty": "D",
     "fame": "C",
-    "principle": "B",
-    "expert_comment": "理論書の前提となる用語や音の関係を、初学者がつかむための入口。実際に楽器や声で音を確かめながら読むと理解しやすい。指定ISBNは2016年刊の第1巻で、続刊とは区別する。",
-    "persona": "高校生:楽器や歌への関心があれば読みやすい／大学生:音楽理論を学び直す入口／社会人:趣味の演奏や作曲の基礎固め／専門家:初学者へ説明する教材の一例"
+    "principle": "C",
+    "expert_comment": "理論書の前提となる用語や音の関係を、初学者がつかむための入口。実際に楽器や声で音を確かめながら読むと理解しやすい。2016年刊の第1巻で、続刊がある。",
+    "persona": "高校生:楽器や歌への関心があれば読みやすい／大学生:音楽理論を学び直す入口／社会人:趣味の演奏や作曲の基礎固め／専門家:初学者へ説明する教材の一例",
+    "booklog_eval": 3.32,
+    "booklog_users": 172,
+    "bookmeter_eval": 61,
+    "bookmeter_users": 177,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "234",
@@ -3037,9 +4397,15 @@
     "importance": "A",
     "difficulty": "A",
     "fame": "S",
-    "principle": "A",
-    "expert_comment": "善悪や真理の基準そのものを疑う哲学の古典。断章を切り取って自己啓発の標語にせず、議論の文脈や歴史的な前提を踏まえて読みたい。指定ISBNは中山元訳の版。",
-    "persona": "高校生:倫理や哲学の背景知識があると読みやすい／大学生:道徳批判や近代哲学の基本読書／社会人:価値判断の前提を問い直す材料／専門家:訳や解説を比較する対象"
+    "principle": "C",
+    "expert_comment": "善悪や真理の基準そのものを疑う哲学の古典。断章を切り取って自己啓発の標語にせず、議論の文脈や歴史的な前提を踏まえて読みたい。",
+    "persona": "高校生:倫理や哲学の背景知識があると読みやすい／大学生:道徳批判や近代哲学の基本読書／社会人:価値判断の前提を問い直す材料／専門家:訳や解説を比較する対象",
+    "booklog_eval": 3.74,
+    "booklog_users": 1039,
+    "bookmeter_eval": 64,
+    "bookmeter_users": 1236,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "235",
@@ -3051,8 +4417,14 @@
     "difficulty": "B",
     "fame": "B",
     "principle": "A",
-    "expert_comment": "仕様書の体裁より、要求の内容をどう理解し検証できる形にするかを学ぶ本。実際に書いた仕様と照らして読み、意図・理由・振る舞いを整理する練習に向く。指定ISBNは2010年刊の改訂第2版の紙版。",
-    "persona": "高校生:開発や仕様変更の経験があると理解しやすい／大学生:要求分析や設計演習に有効／社会人:要件定義と仕様書の改善に直結／専門家:要求レビューや教育の材料"
+    "expert_comment": "仕様書の体裁より、要求の内容をどう理解し検証できる形にするかを学ぶ本。実際に書いた仕様と照らして読み、意図・理由・振る舞いを整理する練習に向く。",
+    "persona": "高校生:開発や仕様変更の経験があると理解しやすい／大学生:要求分析や設計演習に有効／社会人:要件定義と仕様書の改善に直結／専門家:要求レビューや教育の材料",
+    "booklog_eval": 3.71,
+    "booklog_users": 579,
+    "bookmeter_eval": 83,
+    "bookmeter_users": 198,
+    "reading_status": "積読",
+    "amazon_eval": 3.9
   },
   {
     "no": "236",
@@ -3063,9 +4435,15 @@
     "importance": "C",
     "difficulty": "C",
     "fame": "C",
-    "principle": "B",
-    "expert_comment": "技法の説明を読んだだけでは使えないという段階で、手を動かして適用するための教材。解答を見る前に自分でテスト条件を整理し、考え方の違いを確認する読み方が向く。指定ISBNは2020年刊の紙版。",
-    "persona": "高校生:プログラムの入出力がわかれば取り組める／大学生:テスト設計演習に有効／社会人:新人や担当替え時の訓練教材／専門家:研修課題や指導の参考"
+    "principle": "C",
+    "expert_comment": "技法の説明を読んだだけでは使えないという段階で、手を動かして適用するための教材。解答を見る前に自分でテスト条件を整理し、考え方の違いを確認する読み方が向く。",
+    "persona": "高校生:プログラムの入出力がわかれば取り組める／大学生:テスト設計演習に有効／社会人:新人や担当替え時の訓練教材／専門家:研修課題や指導の参考",
+    "booklog_eval": 3.44,
+    "booklog_users": 192,
+    "bookmeter_eval": 24,
+    "bookmeter_users": 61,
+    "reading_status": "積読",
+    "amazon_eval": 4.3
   },
   {
     "no": "237",
@@ -3075,10 +4453,16 @@
     "summary": "ブレンダ・マロンが、夢に登場する人物や動植物、自然現象、人工物などを題材に、象徴の読み取り方を紹介する。夢の解釈法や宗教・精神世界との関わりを扱う、鈴木宏子訳のガイド。",
     "importance": "D",
     "difficulty": "D",
-    "fame": "D",
+    "fame": "E",
     "principle": "E",
-    "expert_comment": "夢の象徴を考える文化・自己省察の資料として読める。紹介された象徴解釈を、科学的に確立した心理診断や予測の根拠として扱わない。指定ISBNは2004年刊の日本語版。",
-    "persona": "高校生:夢や象徴表現への関心から読める／大学生:夢の解釈や精神文化を考える材料／社会人:夢の記録や自己省察の補助／専門家:象徴解釈を扱う一般向け資料として参照"
+    "expert_comment": "夢の象徴を考える文化・自己省察の資料として読める。紹介された象徴解釈を、科学的に確立した心理診断や予測の根拠として扱わない。",
+    "persona": "高校生:夢や象徴表現への関心から読める／大学生:夢の解釈や精神文化を考える材料／社会人:夢の記録や自己省察の補助／専門家:象徴解釈を扱う一般向け資料として参照",
+    "booklog_eval": null,
+    "booklog_users": 6,
+    "bookmeter_eval": null,
+    "bookmeter_users": 3,
+    "reading_status": "積読",
+    "amazon_eval": 4.0
   },
   {
     "no": "238",
@@ -3088,10 +4472,16 @@
     "summary": "鈴木和幸が、品質問題や組織事故を未然に防ぐ基本原理と、組織で運用する仕組みを解説する。リスクの抽出・評価、事前対策、仕組みの改善、安全文化の定着までを7ステップで整理し、FMEAの基本と応用事例も扱う。",
     "importance": "B",
     "difficulty": "B",
-    "fame": "C",
+    "fame": "D",
     "principle": "A",
-    "expert_comment": "個別の不具合対策を、リスクの事前評価と組織的な学習へつなぐための本。手法の導入に加えて、運用の改善と安全文化の定着まで考える点が有用。指定ISBNは2004年刊。",
-    "persona": "高校生:品質や事故防止への関心があれば読める／大学生:設計・品質管理・リスク分析の学習に有効／社会人:未然防止活動やFMEAの改善に直結／専門家:品質保証の仕組みと安全文化を検討する資料"
+    "expert_comment": "個別の不具合対策を、リスクの事前評価と組織的な学習へつなぐための本。手法の導入に加えて、運用の改善と安全文化の定着まで考える点が有用。",
+    "persona": "高校生:品質や事故防止への関心があれば読める／大学生:設計・品質管理・リスク分析の学習に有効／社会人:未然防止活動やFMEAの改善に直結／専門家:品質保証の仕組みと安全文化を検討する資料",
+    "booklog_eval": 3.33,
+    "booklog_users": 25,
+    "bookmeter_eval": null,
+    "bookmeter_users": 4,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   },
   {
     "no": "239",
@@ -3104,7 +4494,13 @@
     "fame": "D",
     "principle": "B",
     "expert_comment": "事業の仕組みと知的財産を結びつけて考えるための入門書。2001年刊であり、出願要件や審査基準を現行実務へ使う際は最新資料との照合が必要。経営上の発想と制度・手続きの説明を分けて読むとよい。",
-    "persona": "高校生:特許と事業の関係を知る入口／大学生:起業や知的財産の学習材料／社会人:事業企画と特許戦略を考える補助／専門家:刊行当時の制度説明や経営への応用の視点を確認"
+    "persona": "高校生:特許と事業の関係を知る入口／大学生:起業や知的財産の学習材料／社会人:事業企画と特許戦略を考える補助／専門家:刊行当時の制度説明や経営への応用の視点を確認",
+    "booklog_eval": 2.0,
+    "booklog_users": 12,
+    "bookmeter_eval": 100,
+    "bookmeter_users": 6,
+    "reading_status": "積読",
+    "amazon_eval": 4.1
   },
   {
     "no": "240",
