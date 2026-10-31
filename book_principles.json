@@ -4634,5 +4634,43 @@
     "bookmeter_users": 23,
     "reading_status": "積読",
     "amazon_eval": 4.0
+  },
+  {
+    "no": "248",
+    "cluster": "Ⅸ. システム・運用・車載",
+    "title": "高精度cm級GPS測位キット実験集 標準GPSとは桁ちがい!自動運転から農業まで注目!",
+    "isbn": "978-4-7898-4797-1",
+    "summary": "高須知二らが、cm級のGNSS測位の原理と基準局を使うRTK、みちびきのCLASやMADOCAのように基準局のいらない方式を解説し、ZED-F9Pやmosaicの受信機キット、CLASLIB、ネットワーク型RTKでの実験の手順をまとめた実験集。",
+    "importance": "C",
+    "difficulty": "B",
+    "fame": "D",
+    "principle": "C",
+    "expert_comment": "RTKLIBの作者の高須知二らが、標準的な測位とcm級測位の違いを原理で押さえたうえで、RTK・ネットワーク型RTK・CLAS・MADOCAを市販のキットで試す手順を示す。方式ごとに要る補強データと受信機の違いが並ぶので、どの方式を使うかの見当を付けるのに使える。",
+    "persona": "高校生:電子工作の経験があれば衛星測位を試す入口になる／大学生:測位やロボットの研究でcm級測位を試す手引き／社会人:ドローン・農機・建設で高精度測位を導入する前の見当付け／専門家:CLAS・MADOCAを含む各方式の実装の確認",
+    "booklog_eval": null,
+    "booklog_users": 9,
+    "bookmeter_eval": null,
+    "bookmeter_users": 2,
+    "reading_status": "積読",
+    "amazon_eval": 4.6
+  },
+  {
+    "no": "249",
+    "cluster": "Ⅸ. システム・運用・車載",
+    "title": "クルマ/ロボットの位置推定技術 自動運転に欠かせないカメラ/LiDAR/ミリ波レーダ/GNSSの基本から",
+    "isbn": "978-4-7898-4692-9",
+    "summary": "トランジスタ技術SPECIAL編集部が、自動運転やロボットの自己位置推定に使うステレオ・カメラ、LiDAR、ミリ波レーダ、GNSS（RTKを含む）の原理と実験と、カルマン・フィルタ・粒子フィルタ・AIによる推定、オープンソース・ソフトウェアを、要素技術ごとにまとめた本。",
+    "importance": "C",
+    "difficulty": "B",
+    "fame": "C",
+    "principle": "B",
+    "expert_comment": "各センサの部は原理から実験まで扱い、後半のカルマン・フィルタ・粒子フィルタ・AIの章で、複数のセンサを組み合わせる自己位置推定へつなぐ。GNSSの部には、RTK測位の信号処理をオープンソースのコードで追う章もある。",
+    "persona": "高校生:ロボットや自動運転に興味があれば各センサの仕組みを知る入口／大学生:ロボティクスや計測の研究で使うセンサの比較と基礎／社会人:自動運転・AGV・ドローンの位置推定の方式選び／専門家:専門外のセンサの原理を短く確かめる資料",
+    "booklog_eval": null,
+    "booklog_users": 16,
+    "bookmeter_eval": null,
+    "bookmeter_users": 2,
+    "reading_status": "積読",
+    "amazon_eval": 4.2
   }
 ]
