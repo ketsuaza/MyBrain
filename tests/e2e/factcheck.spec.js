@@ -1,4 +1,4 @@
-// 仕様6: factcheck.js のファクトチェックの結果が、サンプルの命題ごとに、規則10のカードの下に出る。
+// 仕様6: factcheck.js のファクトチェックの結果が、サンプルの命題ごとに、規則9のカードの下に出る。
 const { test, expect } = require("@playwright/test");
 const { loadWindowJs, openTool, ruleItem, shot } = require("./helpers");
 
@@ -11,7 +11,7 @@ test("サンプルの命題ごとに、判定・説明・出典・確認日が�
   const pids = SAMPLE.v.props.map(p => p.id);
   expect(pids.length).toBeGreaterThan(0);
   await openTool(page);
-  const item = ruleItem(page, 10);
+  const item = ruleItem(page, 9);
   for (const pid of pids) {
     const f = result.props[pid];
     expect(f, `${pid} の結果が factcheck.js にある`).toBeTruthy();
@@ -32,7 +32,7 @@ test("命題を書き換えると、結果は「書き換える前の文に対�
   await openTool(page);
   await ruleItem(page, 6).locator('input[data-p="props.0.t"]').fill("書き換えた命題");
   await ruleItem(page, 6).locator('input[data-p="props.0.t"]').blur();
-  await page.locator('#sec-a3 button[data-val="賛成"]').first().click(); // 画面を描き直す
-  await page.locator('#sec-a3 button[data-val="賛成"]').first().click();
-  await expect(ruleItem(page, 10).locator(".fc").first()).toContainText("そのあと命題が書き換えられた");
+  await page.locator('#sec-a3 button[data-p="props.1.judge"][data-val="賛成"]').first().click(); // 画面を描き直す
+  await page.locator('#sec-a3 button[data-p="props.1.judge"][data-val="賛成"]').first().click();
+  await expect(ruleItem(page, 9).locator(".fc").first()).toContainText("そのあと命題が書き換えられた");
 });

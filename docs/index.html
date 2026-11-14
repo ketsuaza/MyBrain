@@ -92,6 +92,8 @@ dialog#dlgBook[open] { display: flex; flex-direction: column; }
 #formBook label { margin-top: 6px; }
 #formBook input[type=text] { padding: 4px 8px; }
 #formBook .actions { padding: 10px 0 0; flex: none; }
+/* 幅の狭い画面では、固定の見出しが2段になって高くなる。部分の行の字下げもやめる */
+@media (max-width: 620px) { html { scroll-padding-top: 170px; } .prow .sub, .prow .id + input + select { margin-left: 0; } }
 @media (max-width: 620px) { #formBook .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 dialog::backdrop { background: rgba(0,0,0,.4); }
 dialog label { display: block; font-size: 12.5px; color: var(--sub); margin-top: 10px; }
@@ -107,6 +109,15 @@ dialog label { display: block; font-size: 12.5px; color: var(--sub); margin-top:
 .hits tbody tr:hover, .hits tbody tr:focus { background: var(--soft); outline: none; }
 .hits tr.sel { background: var(--soft); box-shadow: inset 3px 0 var(--accent); }
 .hits .added { color: var(--sub); font-size: 12px; margin-left: 6px; }
+.note { font-size: 13px; color: var(--warn); margin: 0 0 8px; }
+.status { font-size: 12.5px; color: var(--sub); background: var(--soft); border-radius: 6px; padding: 6px 10px; margin-bottom: 8px; }
+.chain { border-left: 3px solid var(--accent); padding: 6px 10px; margin-bottom: 10px; font-size: 13.5px; background: var(--soft); border-radius: 0 6px 6px 0; }
+.chain .g { color: var(--sub); font-size: 12.5px; padding-left: 14px; }
+.prow .sub { flex: 1 1 100%; margin-left: 32px; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.prow .sub .sentence { width: 100%; }
+.prow .sub input[type=text] { flex: 1 1 auto; width: 100%; }
+.opts .loc { flex: 0 0 120px; width: 120px; }
+button:disabled { opacity: .45; cursor: default; }
 .empty { color: var(--sub); padding: 40px 0; text-align: center; }
 </style>
 </head>
@@ -161,7 +172,10 @@ const KINDS = ["理論書", "実践書", "文学", "まだ分からない"];
 const J = { quit: "やめる", end: "点検読書で終える", read: "表面読みへ進む", ana: "分析読書へ進む" };
 const PART_ROLES = ["問題を示す", "主張を述べる", "根拠や事例を挙げる", "方法を示す", "反論に答える", "まとめる"];
 const PART_LINKS = ["を受けて進める", "を具体化する", "と並ぶ", "と対比する", "をまとめる"];
-/* 前の版の部分（id なし、「前の部分と」のつながり）を、今の形（id、相手、つながり）に直す */
+/* 前の版の読書メモ（state）を、今の形に直す。何度かけても結果は変わらない
+   - 部分: id なし、「前の部分と」のつながり → id、相手、つながり
+   - 規則11までの版: 反論の理由（obj の4択）→ 規則12〜15の欄。解決（文字列）→ { s, why, aware }。規則2の答え → 下読みとは別の unityA */
+const OBJ_TO_RULE = { "知識が不足している": "k12", "知識に誤りがある": "k13", "論理性に欠ける": "k14", "分析が不完全である": "k15" };
 function migrateBook(b) {
   const v = b.v || (b.v = {}); b.skip = b.skip || {};
   const old = { "前を受けて進める": "を受けて進める", "前を具体化する": "を具体化する", "前と並ぶ別の話": "と並ぶ", "前と対比する": "と対比する" };
@@ -169,15 +183,25 @@ function migrateBook(b) {
     if (!o.id) o.id = nextId(v, "S");
     if (o.to === undefined) { const conv = old[o.link]; o.to = i && conv ? a[i - 1].id : ""; o.link = conv || ""; }
   });
+  arr(v.props).forEach(p => {
+    if (Array.isArray(p.obj)) { p.obj.forEach(o => { const k = OBJ_TO_RULE[o]; if (k && !txt(p[k])) p[k] = txt(p.why) || "（前の版で反論の理由に選んだ。根拠は規則11）"; }); delete p.obj; }
+  });
+  if (v.solved) Object.keys(v.solved).forEach(q => { if (typeof v.solved[q] === "string") v.solved[q] = { s: v.solved[q], why: "", aware: "" }; });
+  if (!v.unityA && v.unity2 && v.unity) v.unityA = JSON.parse(JSON.stringify(v.unity));
   return b;
 }
-const GROUND_KINDS = ["事実・データ", "事例・体験", "理屈", "引用・権威", "自明としている"];
+const GROUND_KINDS = ["事実・データ", "事例・体験", "理屈", "引用・権威", "仮定としている", "自明としている", "根拠を示していない"];
 const SOLVED = ["解決した", "一部", "未解決"];
+const AWARE = ["自覚している", "自覚していない", "分からない"];
 const JUDGES = ["賛成", "反対", "判断保留"];
-const OBJECTIONS = ["知識が不足している", "知識に誤りがある", "論理性に欠ける", "分析が不完全である"];
+const THEORY_SUB = ["歴史", "科学", "哲学"];
 const isRead = v => v.judge === J.read || v.judge === J.ana;
 const isAna = v => v.judge === J.ana;
-
+/* 本の種類による注意。英語版 第13章（実用書）は日本語版にない */
+const PRACTICAL_NOTE = "実践書では、著者は読者に何をさせたいか、どうやってそれをせよと言っているか、と読み替える（英語版 第13章による。日本語版にはこの章がない）。";
+const kindNote = v => v.kind === "文学" ? "文学には、分析読書の規則がそのままは当てはまらない。規則5〜8は、読み方を変えて使う。" : v.kind === "実践書" ? PRACTICAL_NOTE : "";
+const Q_TYPES = { "理論書": "理論書の問いの型: 存在、種類、原因、目的、結果、特性、関係（「〜はあるか」「〜とは何か」「なぜ〜か」）。", "実践書": "実践書の問いの型: 目的、手段、順序、条件（「何を目ざすべきか」「どうすれば〜できるか」）。" };
+/* 規則1〜15のラベルは、訳書の「分析読書の三段階のまとめ」の文言。説明文の最初に、章の中の文言を引く */
 const SECTIONS = [
   { id: "checkin", title: "チェックイン", items: [
     { k: "purpose", t: "line", label: "この本を読む目的", help: "なぜ今この本を読むのか。1行でよい。" },
@@ -186,47 +210,63 @@ const SECTIONS = [
   { id: "shitayomi", title: "点検読書 ① 下読み", sub: "限られた時間で、本の構造と、読む価値をつかむ", items: [
     { k: "s1", t: "line", alt: "この本にはない", label: "表題と序文 — 著者が述べている本のねらい", help: "序文やまえがきから、著者自身の言葉を1行写す。" },
     { k: "s2", t: "line", alt: "この本にはない", label: "目次 — 大きな区切りと、その数", help: "部や章のまとまりを並べる。例: 3部11章。手放す / 成長する / 与える。" },
-    { k: "s3", t: "line", alt: "この本にはない", label: "索引 — 載っているページが多い言葉", help: "ページ数の多い順に3つほど。下の「鍵になりそうな言葉」にも足す。" },
+    { k: "s3", t: "line", alt: "この本にはない", label: "索引 — 載っているページが多い言葉", help: "ページ数の多い順に3つほど挙げ、そのうちいくつかは載っているページを開いて読む。下の「鍵になりそうな言葉」にも足す。" },
     { k: "s4", t: "line", alt: "この本にはない", label: "カバーのうたい文句 — 約束していること", help: "カバーや帯の文句を写す。" },
     { k: "s5", t: "line", alt: "この本にはない", label: "議論の要と思われる章 — 章の名前と、そこで言っていること", help: "章の冒頭や末尾の要約を読んで書く。" },
     { k: "s6", t: "line", alt: "この本にはない", label: "結び — 最後の2〜3ページの結論", help: "ところどころ拾い読みしたうえで、結びを読んで書く。" },
     { k: "kind", t: "choice", label: "本の種類", opts: KINDS, help: "理論書は「何が真実か」を、実践書は「何をすべきか」を扱う。" },
-    { k: "unity", t: "unity", label: "何についての本か", help: "上の6つの欄から言葉を拾って、2つの空所を埋める。仮の答えでよい。" },
+    { k: "unity", t: "unity", label: "何についての本か", help: "上の6つの欄から言葉を拾って、2つの空所を埋める。仮の答えでよい。分析読書の規則2では、これとは別に答え直す。" },
     { k: "terms", t: "terms", label: "鍵になりそうな言葉", help: "言葉だけ挙げる。意味は読みながら埋める。" },
     { k: "judge", t: "choice", label: "判定", opts: [J.quit, J.end, J.read, J.ana], help: "この本をどの深さまで読むか。多くの本は、点検読書で足りる。あとで変えてよい。" },
   ]},
   { id: "hyomen", title: "点検読書 ② 表面読み", sub: "止まらず、調べず、とにかく通して読む", when: isRead, items: [
     { k: "points", t: "list", label: "何がどのように述べられていたか", help: "止まらずに最後まで読んでから、要点を3つまで書く。" },
-    { k: "unclear", t: "list", none: "なかった", label: "分からなかった所", help: "ページや言葉だけでよい。分析読書で確かめる範囲になる。" },
+    { k: "unclear", t: "list", none: "なかった", label: "分からなかった所", help: "ページや言葉だけでよい。分析読書の規則5と6の欄に出る。" },
   ]},
-  { id: "a1", title: "分析読書 第一段階", sub: "何についての本か、構造をつかむ", when: isAna, items: [
-    { r: 1, k: "kind", t: "classify", label: "本を種類と主題で分類する", opts: KINDS, help: "種類は下読みで選んだものが出ている。通読して違っていたら選び直す。主題には、本が扱う分野（例: 心理学、経営、明治の思想）を書く。" },
-    { r: 2, k: "unity", t: "unity2", label: "全体の統一を述べる", help: "下読みのときの答えが出ている。通読しても変わらなければ「このままでよい」を押す。違っていたら空所を直して「直した」を押す。" },
-    { r: 3, k: "parts", t: "parts", label: "主要な部分を述べ、その順序と関係を示す", help: "目次の大きな区切りを1つずつ足す。1行に、名前、役割、どの部分とどうつながるか、を選ぶ。命題と同じく S1、S2 と番号が付く。" },
-    { r: 4, k: "qs", t: "qs", label: "著者が解こうとしている問題を知る", help: "「〜とは何か」「どうすれば〜できるか」の形で書く。Q1、Q2 と番号が付き、命題と結びつけられる。" },
+  { id: "a1", title: "分析読書 第一段階", sub: "何についての本であるか見分ける", when: isAna, items: [
+    { r: 1, k: "kind", t: "classify", label: "種類と主題によって本を分類する", opts: KINDS,
+      help: v => "章の中の規則: 読者は、今読んでいるのがどんな種類の本なのかを知らねばならない。これを知るのは早いほど良い。できれば読み始める前に知る方が良い。種類は下読みで選んだものが出ている。理論書なら、歴史・科学・哲学のどれかも選ぶ。主題には、本が扱う分野を書く。「まだ分からない」のうちは済みにならない。" },
+    { r: 2, k: "unityA", t: "unity2", label: "その本全体が何に関するものかを、できるだけ簡潔に述べる",
+      help: "章の中の規則: その本全体の統一を2,3行か、せいぜい数行の文にあらわしてみること。下読みの答えを写してあるので、通読したうえで直す。長くなるなら、統一ではなく多様を見ている。規則3で部分を並べたあとで、この1文が部分を全部覆っているかを確かめ、「このままでよい」か「直した」を押す。" },
+    { r: 3, k: "parts", t: "parts", label: "主要な部分を順序よく関連づけてあげ、その概要を述べる",
+      help: "章の中の規則: その本の主な部分を述べ、それらの部分がどのように順序よく統一性をもって配列されて全体を構成しているかを示すこと。部分ごとに、役割、どの部分とどうつながるか、その部分が言っていること（概要）、統一の文のどこを受け持つかを書く。全体と同じように、部分の中も区分に分けてよい（理想であり、近似でよい）。" },
+    { r: 4, k: "qs", t: "qs", label: "著者が解決しようとしている問題が何であるかを明らかにする",
+      help: v => "章の中の規則: 著者の問題としている点は何であるかを知る。主な問いと、それに従属する問いを分け、分かる順に並べる。" + (Q_TYPES[v.kind] || Q_TYPES["理論書"] + Q_TYPES["実践書"]) + " Q1、Q2 と番号が付き、命題と結びつけられる。" },
   ]},
   { id: "a2", title: "分析読書 第二段階", sub: "内容を解釈する", when: isAna, items: [
-    { r: 5, k: "terms", t: "terms", label: "重要な単語を見つけ、著者と折り合いをつける", help: "辞書の意味ではなく、著者がその言葉をどう使っているかを書く。" },
-    { r: 6, k: "props", t: "props", label: "著者の主要な命題をつかむ", help: "著者が言い切っていることを、1枚に1つ書く。どの問題に答えているか、中心の主張か、どの命題を支えているかを選ぶ。" },
-    { r: 7, k: "grounds", t: "grounds", label: "論証を見つけ、組み立てる", help: "命題ごとに、著者が挙げている根拠を足し、その種類を選ぶ。根拠なしに言い切っているなら「自明としている」。" },
-    { r: 8, k: "solved", t: "solved", label: "著者が解決した問題と、未解決の問題を見分ける", help: "規則4で挙げた問題ごとに選ぶ。" },
+    { r: 5, k: "terms", t: "terms", label: "キー・ワードを見つけ、著者と折り合いをつける", help: "辞書の意味ではなく、著者がその言葉をどう使っているかを書く。読者にとって重要な語は、引っかかった語である。1つの語が複数の意味で使われていたら、意味ごとに分けて書く。" },
+    { r: 6, k: "props", t: "props", label: "重要な文を見つけ著者の主要な命題を把握する", help: "重要な文に印をつけ、その場所（ページや章）を書き、そこに含まれる命題を、自分の言葉で書く。著者の文を並べ替えただけなら、まだ分かっていない。1つの文に2つの命題があれば、2枚に分ける。どの問題に答えているか、中心の主張か、どの命題を支えているかを選ぶ。" },
+    { r: 7, k: "grounds", t: "grounds", label: "一連の文の中に著者の論証を見つける。または、いくつかの文を取り出して、論証を組み立てる",
+      help: "論証は、ある命題が別の命題の理由になる連なりである。上の図は、規則6の「支える」から組み立てた連なり。命題ごとに著者が挙げる根拠を足し、種類を選ぶ。著者が仮定として置いているもの、証明できないが否定もできない自明なもの、根拠を示していないもの（個人の意見にすぎない）を分ける。中心の主張には、論証を「〜だから〜」の形で一言にまとめる。" },
+    { r: 8, k: "solved", t: "solved", label: "著者が解決した問題はどれで、解決していない問題はどれか、見きわめる。未解決の問題については、解決に失敗したことを、著者が自覚しているかどうか見定める",
+      help: "規則4の問題ごとに、著者が答えを出したかを見る。答えが正しいかどうかは、第三段階で判断する。一部・未解決なら、著者がそれを自覚しているかを選ぶ。本を読んで新しく生じた問題も書ける。" },
   ]},
-  { id: "a3", title: "分析読書 第三段階", sub: "理解したうえで批評する", when: isAna, items: [
-    { r: 9, k: "restate", t: "restate", label: "批評の前に「理解した」と言えるようにする", help: "中心の主張を自分の言葉で言い直し、本にない例を1つ挙げる。できれば、理解したと言える。" },
-    { r: 10, k: "judges", t: "judges", label: "命題ごとに、賛成・反対・判断保留を決める", help: "けんか腰ではなく、相手にする命題を決めて判定する。Agent のファクトチェックがあれば、ここに出る。" },
-    { r: 11, k: "reasons", t: "reasons", label: "判断の根拠を示し、知識と意見を区別する", help: "反対する命題には、4つの理由のどれに当たるかと、根拠を書く。根拠のない反対は、ただの意見。" },
+  { id: "a3", title: "分析読書 第三段階", sub: "知識は伝達されたか — (A) 知的エチケットの一般的心得", when: isAna, items: [
+    { r: 9, k: "restate", t: "understand", label: "「概略」と「解釈」を終えないうちは、批評に取りかからないこと（「わかった」と言えるまでは、賛成、反対、判断保留の態度の表明をさし控えること）",
+      help: "章の中の規則: まず、<この本がわかった>と、ある程度、確実に言えること。そのうえで、<賛成>、<反対>、<判断保留>の態度を明らかにすること。中心の主張を自分の言葉で言い直し、本にない例を1つ挙げる（読み手自身が書く）。書けたら、命題ごとに態度を選べる。Agent のファクトチェックがあれば、ここに出る。" },
+    { r: 10, k: "civil", t: "civil", label: "けんか腰の反論は良くない",
+      help: "章の中の規則: 反論は筋道をたててすること、けんか腰は良くない。反対した命題ごとに、自分の側が誤っているとしたらどこかを書く。勝つためではなく、真理を知るために反論する。" },
+    { r: 11, k: "reasons", t: "reasons", label: "批評的な判断を下すには、十分な根拠を挙げて、知識と単なる個人的な意見を、はっきり区別すること",
+      help: "章の中の規則: 反論は解消できるものだと考えること。賛成・反対・判断保留のどれにも、根拠を書く。根拠のない判断は、ただの意見である。" },
+  ]},
+  { id: "a4", title: "分析読書 第三段階", sub: "知識は伝達されたか — (B) 批判に関してとくに注意すべき事項", when: isAna, items: [
+    { r: 12, k: "k12", t: "critique", on: "反対", label: "著者が知識不足である点を、明らかにすること",
+      help: "まとめの注: (12)(13)(14)は、反論の心得である。この三つが立証できない限り、著者の主張に、ある程度賛成しなくてはならない。そのうえで、(15)の批判に照らして、全体について判断を保留する場合もある。反対した命題ごとに、規則12〜14のどれか1つ以上を書く。" },
+    { r: 13, k: "k13", t: "critique", on: "反対", label: "著者の知識に誤りがある点を、明らかにすること", help: "反対した命題ごとに、規則12〜14のどれか1つ以上を書く。" },
+    { r: 14, k: "k14", t: "critique", on: "反対", label: "著者が論理性に欠ける点を、明らかにすること", help: "反対した命題ごとに、規則12〜14のどれか1つ以上を書く。推論の誤りや、前後の食い違いを指す。" },
+    { r: 15, k: "k15", t: "critique", on: "判断保留", label: "著者の分析や説明が不完全である点を、明らかにすること", help: "判断保留にした命題ごとに、どこが不完全で判断を保留するのかを書く。これは反対の根拠ではなく、保留の根拠である。" },
   ]},
   { id: "checkout", title: "チェックアウト", sub: "どの深さで終えても、ここを通る", items: [
     { k: "_sum", t: "summary" },
-    { k: "stance", t: "choice", label: "それは真実か", opts: JUDGES, help: "点検読書で終えた本は、判断保留でよい。理解する前に賛否は言えない。", when: v => v.judge !== J.quit },
-    { k: "objection", t: "multi", label: "反論の理由", opts: OBJECTIONS, help: "反対するときは、この4つのどれに当たるかを示す。", when: v => v.stance === "反対" && !isAna(v) },
-    { k: "reason", t: "line", label: "その根拠", when: v => v.stance === "反対" && !isAna(v) },
+    { k: "stance", t: "choice", label: "それは真実か", opts: JUDGES, help: "規則9〜15の、命題ごとの判断を踏まえて、全体として選ぶ。", when: isAna },
+    { k: "_nostance", t: "nostance", label: "それは真実か", when: v => v.judge && v.judge !== J.quit && !isAna(v) },
     { k: "meaning", t: "line", label: "どんな意義があるか", help: "自分にとっての意義を1〜2行で。やめる本は、やめる理由でよい。" },
-    { k: "action", t: "line", alt: "やらない", label: "やること", help: "実践書に賛成するなら、行動することになる。1つでよい。" },
+    { k: "action", t: "line", alt: "やらない", label: "やること", help: "実践書に賛成するなら、行動することになる（英語版 第13章による）。1つでよい。" },
     { k: "_gloss", t: "gloss", label: "用語集に入れる語" },
     { k: "memo", t: "memo", label: "自由メモ" },
   ]},
 ];
+const NO_STANCE = "まだ判断しない（分析読書をしていない）";
 
 /* ---------- 判定の計算（DOM を使わない） ---------- */
 const txt = s => (s == null ? "" : String(s)).trim();
@@ -236,25 +276,37 @@ const liveTerms = a => arr(a).filter(t => txt(t.w));
 const liveBy = a => arr(a).filter(o => txt(o.t));
 const unityOk = u => !!(u && txt(u.what) && txt(u.claim));
 const unityText = u => (unityOk(u) ? txt(u.what) + " について、" + txt(u.claim) + " と言っている本" : "");
+const partsDone = v => { const p = liveBy(v.parts); return p.length > 0 && p.every((o, i) => o.role && txt(o.sum) && (i === 0 || o.to === "none" || (o.to && o.link))); };
+const restated = v => !!(v.restate && txt(v.restate.s) && txt(v.restate.ex));
+const judged = ps => ps.length > 0 && ps.every(p => p.judge);
+/* 中心の主張から、支える命題をたどった連なり。[{ p, depth }]。循環しても止まる */
+function chainOf(v) {
+  const ps = liveBy(v.props), out = [], seen = new Set();
+  const walk = (p, d) => { if (seen.has(p.id)) return; seen.add(p.id); out.push({ p, depth: d }); ps.filter(o => o.sup === p.id).forEach(o => walk(o, d + 1)); };
+  ps.filter(p => p.sup === "main").forEach(p => walk(p, 0));
+  ps.filter(p => !seen.has(p.id)).forEach(p => walk(p, 0));
+  return out;
+}
 function filled(it, v) {
   const x = v[it.k], ps = liveBy(v.props);
   switch (it.t) {
     case "choice": return !!x;
-    case "classify": return !!x && !!txt(v.subject);
+    case "classify": return !!x && x !== "まだ分からない" && !!txt(v.subject) && (x !== "理論書" || !!v.ksub);
     case "line": case "memo": return x === ALT || !!txt(x);
     case "list": return x === ALT || liveList(x).length > 0;
     case "terms": return it.r ? liveTerms(x).some(t => txt(t.m)) : liveTerms(x).length > 0;
     case "multi": return arr(x).length > 0;
     case "unity": return unityOk(x);
     case "unity2": return unityOk(x) && !!v.unity2;
-    case "parts": { const p = liveBy(x); return p.length > 0 && p.every((o, i) => o.role && (i === 0 || o.to === "none" || (o.to && o.link))); }
-    case "qs": return liveBy(x).length > 0;
-    case "props": return ps.length > 0 && ps.every(p => p.sup);
-    case "grounds": return ps.length > 0 && ps.every(p => arr(p.grounds).some(g => g.kind));
-    case "solved": { const q = liveBy(v.qs); return q.length > 0 && q.every(o => (v.solved || {})[o.id]); }
-    case "restate": return !!(x && txt(x.s) && txt(x.ex));
-    case "judges": return ps.length > 0 && ps.every(p => p.judge);
-    case "reasons": return ps.length > 0 && ps.every(p => p.judge && (p.judge !== "反対" || (arr(p.obj).length > 0 && txt(p.why))));
+    case "parts": return partsDone(v);
+    case "qs": { const q = liveBy(x); return q.length > 0 && q.some(o => !o.parent); }
+    case "props": return ps.length > 0 && ps.every(p => p.sup && txt(p.loc));
+    case "grounds": return ps.length > 0 && ps.every(p => arr(p.grounds).some(g => g.kind) && (p.sup !== "main" || txt(p.arg)));
+    case "solved": { const q = liveBy(v.qs); return q.length > 0 && q.every(o => { const r = (v.solved || {})[o.id] || {}; return r.s && (r.s === "解決した" || r.aware); }); }
+    case "understand": return restated(v) && ps.length > 0 && ps.every(p => p.judge);
+    case "civil": return judged(ps) && ps.every(p => p.judge !== "反対" || txt(p.self));
+    case "reasons": return judged(ps) && ps.every(p => txt(p.why));
+    case "critique": return judged(ps) && ps.every(p => p.judge !== it.on || (it.on === "反対" ? ["k12", "k13", "k14"].some(k => txt(p[k])) : txt(p.k15)));
     default: return true;
   }
 }
@@ -278,8 +330,7 @@ function missing(book) {
   if (v.judge === J.quit) { req("meaning"); return need; }
   ["s1", "s2", "s3", "s4", "s5", "s6", "kind", "unity"].forEach(req);
   if (isRead(v)) { req("points"); req("unclear"); }
-  req("stance");
-  if (v.stance === "反対" && !isAna(v)) { req("objection"); req("reason"); }
+  if (isAna(v)) req("stance");
   req("meaning"); req("action");
   return need;
 }
@@ -309,27 +360,39 @@ function toMarkdown(book, FC) {
     if (it.r && book.skip[it.r]) { out.push("- " + head + ": やらない"); return out; }
     switch (it.t) {
       case "choice": out.push("- " + head + ": " + txt(x)); break;
-      case "classify": out.push("- " + head + ": " + txt(x) + (txt(v.subject) ? "。主題は " + txt(v.subject) : "")); break;
+      case "classify": out.push("- " + head + ": " + txt(x) + (x === "理論書" && v.ksub ? "（" + v.ksub + "）" : "") + (txt(v.subject) ? "。主題は " + txt(v.subject) : "")); break;
       case "multi": out.push("- " + head + ": " + arr(x).join("、")); break;
       case "line": { const ls = (x === ALT ? it.alt : txt(x)).split("\n"); out.push("- " + head + ": " + ls[0]); ls.slice(1).forEach(l => out.push("  " + l)); break; }
       case "list": out.push("- " + head + ":" + (x === ALT ? " " + it.none : "")); liveList(x).forEach(l => out.push("  - " + l)); break;
       case "terms": out.push("- " + head + ": " + liveTerms(x).map(t => txt(t.w)).join("、") + (liveTerms(x).length ? "（下の「用語」）" : "")); break;
       case "unity": out.push("- " + head + ": " + unityText(x)); break;
       case "unity2": out.push("- " + head + ": " + unityText(x) + (v.unity2 ? "（" + v.unity2 + "）" : "")); break;
-      case "parts": out.push("- " + head + ":"); liveBy(x).forEach(o => out.push("  - " + o.id + " " + txt(o.t) + (o.role ? " — " + o.role : "") + (o.to === "none" ? "（独立している）" : o.to && o.link ? "（" + o.to + " " + o.link + "）" : ""))); break;
-      case "qs": out.push("- " + head + ":"); liveBy(x).forEach(o => out.push("  - " + o.id + " " + txt(o.t))); break;
-      case "props": out.push("- " + head + ":"); ps.forEach(p => out.push("  - " + p.id + " " + txt(p.t) + (supText(p) ? "（" + supText(p) + "）" : "") + (p.q ? "〔" + p.q + " に答える〕" : ""))); break;
-      case "grounds": out.push("- " + head + ":"); ps.forEach(p => { out.push("  - " + p.id + " ←"); arr(p.grounds).filter(g => g.kind || txt(g.t)).forEach(g => out.push("    - " + (g.kind ? "（" + g.kind + "）" : "") + txt(g.t))); }); break;
-      case "solved": out.push("- " + head + ":"); liveBy(v.qs).forEach(o => out.push("  - " + o.id + " " + txt(o.t) + " → " + ((x || {})[o.id] || "未記入"))); break;
-      case "restate": out.push("- " + head + ":", "  - 言い直し: " + txt((x || {}).s), "  - 例: " + txt((x || {}).ex)); break;
-      case "judges": out.push("- " + head + ":"); ps.forEach(p => { out.push("  - " + p.id + " " + (p.judge || "未記入")); const f = factOf(book, p.id, FC); if (f) out.push("    - Agent のファクトチェック（" + txt(f.checked) + "）: " + (f.stale ? "【命題を書き換える前の結果。調べ直していない】" : "") + txt(f.verdict) + (txt(f.note) ? " — " + txt(f.note) : "") + arr(f.sources).map(s => " " + s.url).join("")); }); break;
-      case "reasons": out.push("- " + head + ":"); ps.filter(p => p.judge === "反対" || txt(p.why)).forEach(p => out.push("  - " + p.id + " " + (p.judge === "反対" && arr(p.obj).length ? "（" + p.obj.join("、") + "）" : "") + txt(p.why))); break;
+      case "parts": out.push("- " + head + ":"); liveBy(x).forEach(o => {
+        out.push("  - " + o.id + " " + txt(o.t) + (o.role ? " — " + o.role : "") + (o.to === "none" ? "（独立している）" : o.to && o.link ? "（" + o.to + " " + o.link + "）" : ""));
+        if (txt(o.sum)) out.push("    概要: " + txt(o.sum));
+        if (txt(o.rel)) out.push("    統一の文で受け持つところ: " + txt(o.rel));
+        liveList(o.subs).forEach(t => out.push("    - " + t)); }); break;
+      case "qs": out.push("- " + head + ":"); liveBy(x).forEach(o => out.push("  - " + o.id + " " + txt(o.t) + (o.parent ? "（" + o.parent + " に従属）" : "（主な問い）"))); break;
+      case "props": out.push("- " + head + ":"); ps.forEach(p => out.push("  - " + p.id + " " + txt(p.t) + (supText(p) ? "（" + supText(p) + "）" : "") + (p.q ? "〔" + p.q + " に答える〕" : "") + (txt(p.loc) ? "［" + txt(p.loc) + "］" : ""))); break;
+      case "grounds": out.push("- " + head + ":"); chainOf(v).forEach(({ p, depth }) => {
+        const pad = "  " + "  ".repeat(depth);
+        out.push(pad + "- " + (depth ? "← " : "") + p.id + " " + txt(p.t) + (p.sup === "main" ? "（中心の主張）" : "") + (txt(p.arg) ? ": " + txt(p.arg) : ""));
+        arr(p.grounds).filter(g => g.kind || txt(g.t)).forEach(g => out.push(pad + "  - 根拠" + (g.kind ? "（" + g.kind + "）" : "") + txt(g.t))); }); break;
+      case "solved": out.push("- " + head + ":"); liveBy(v.qs).forEach(o => { const r = (x || {})[o.id] || {};
+        out.push("  - " + o.id + " " + txt(o.t) + " → " + (r.s || "未記入") + (r.aware ? "（著者は" + r.aware + "）" : "") + (txt(r.why) ? " — " + txt(r.why) : "")); });
+        if (txt(v.newq)) out.push("  - 新しく生じた問題: " + txt(v.newq)); break;
+      case "understand": out.push("- " + head + ":", "  - 言い直し: " + txt((x || {}).s), "  - 例: " + txt((x || {}).ex));
+        ps.forEach(p => { out.push("  - " + p.id + " " + (p.judge || "未記入")); const f = factOf(book, p.id, FC); if (f) out.push("    - Agent のファクトチェック（" + txt(f.checked) + "）: " + (f.stale ? "【命題を書き換える前の結果。調べ直していない】" : "") + txt(f.verdict) + (txt(f.note) ? " — " + txt(f.note) : "") + arr(f.sources).map(s => " " + s.url).join("")); }); break;
+      case "civil": out.push("- " + head + ":"); ps.filter(p => p.judge === "反対").forEach(p => out.push("  - " + p.id + " 自分の側が誤っているとしたら: " + txt(p.self))); break;
+      case "reasons": out.push("- " + head + ":"); ps.filter(p => p.judge).forEach(p => out.push("  - " + p.id + " " + p.judge + ": " + txt(p.why))); break;
+      case "critique": out.push("- " + head + ":"); ps.filter(p => p.judge === it.on && txt(p[it.k])).forEach(p => out.push("  - " + p.id + " " + txt(p[it.k]))); break;
+      case "nostance": out.push("- " + it.label + ": " + NO_STANCE); break;
       case "gloss": out.push("- " + head + ": " + liveTerms(v.terms).filter(t => t.g).map(t => txt(t.w)).join("、")); break;
     }
     return out;
   };
   visibleSections(v).forEach(s => {
-    L.push("## " + s.title, "");
+    L.push("## " + s.title + (/^a\d$/.test(s.id) ? "（" + s.sub + "）" : ""), "");
     visibleItems(s, v).forEach(it => val(it).forEach(l => L.push(l)));
     L.push("");
   });
@@ -497,13 +560,14 @@ if (typeof document !== "undefined") (function () {
   /* 命題・部分・問題を指すプルダウンの選択肢。文を入力したその場で選べるよう、入力のたびに refreshRefs で作り直す */
   const supOpts = (all, p) => [["", "選ぶ"], ["main", "中心の主張"]].concat(all.filter(o => o !== p && txt(o.t)).map(o => [o.id, o.id + " を支える"])).concat([["none", "つながり不明"]]);
   const toOpts = (all, o, i) => [["", i ? "どの部分と" : "（最初の部分）"]].concat(all.filter(q => q !== o && txt(q.t)).map(q => [q.id, q.id + " " + txt(q.t).slice(0, 10)])).concat([["none", "独立している"]]);
+  const parentOpts = (v, o) => [["", "主な問い"]].concat(liveBy(v.qs).filter(q => q !== o).map(q => [q.id, q.id + " に従属"]));
   const qOpts = v => [["", "なし"]].concat(liveBy(v.qs).map(o => [o.id, o.id + " " + txt(o.t).slice(0, 18)]));
   function refreshRefs(v) {
     const fill = (el, opts) => { const val = el.value; el.innerHTML = opts.map(o => '<option value="' + esc(o[0]) + '"' + (val === o[0] ? " selected" : "") + ">" + esc(o[1]) + "</option>").join(""); };
     document.querySelectorAll("#app select[data-p]").forEach(el => {
-      const m = /^(props|parts)\.(\d+)\.(sup|to|q)$/.exec(el.dataset.p); if (!m) return;
+      const m = /^(props|parts|qs)\.(\d+)\.(sup|to|q|parent)$/.exec(el.dataset.p); if (!m) return;
       const all = arr(v[m[1]]), i = +m[2];
-      fill(el, m[3] === "sup" ? supOpts(all, all[i]) : m[3] === "to" ? toOpts(all, all[i], i) : qOpts(v));
+      fill(el, m[3] === "sup" ? supOpts(all, all[i]) : m[3] === "to" ? toOpts(all, all[i], i) : m[3] === "parent" ? parentOpts(v, all[i]) : qOpts(v));
     });
   }
   const noProps = '<div class="help">規則6で命題を足すと、ここに並ぶ。</div>';
@@ -516,69 +580,95 @@ if (typeof document !== "undefined") (function () {
       '<div style="color:var(--sub);font-size:12.5px;margin-top:4px">' + (f.checked ? h(f.checked) + " に確認" : "") +
       (f.stale ? "。<b>そのあと命題が書き換えられた。</b>調べたときの文: " + h(f.text) : "") + "</div></div>";
   }
+  const card = (id, ro, inner) => '<div class="card"><div class="head"><span class="id">' + esc(id) + '</span><span class="ro">' + ro + "</span></div>" + inner + "</div>";
+  const note = t => (t ? '<div class="note">' + h(t) + "</div>" : "");
+  const unclearHtml = v => (liveList(v.unclear).length ? '<div class="note">表面読みで分からなかった所: ' + liveList(v.unclear).map(h).join(" / ") + "</div>" : "");
+  const unityHtml = (k, u) => '<div class="sentence"><span>この本は</span>' + inp(k + ".what", u.what, "何について") + "<span>について、</span>" + inp(k + ".claim", u.claim, "結局どうだ、どうせよと言っているか") + "<span></span><span>と言っている本</span></div>";
   function bodyHtml(it, book) {
     const v = book.v, x = v[it.k];
     switch (it.t) {
       case "choice": return chips(it.k, it.opts, x);
-      case "classify": return chips(it.k, it.opts, x) + '<div class="sentence" style="margin-top:8px"><span>主題</span>' + inp("subject", v.subject, "本が扱う分野") + "</div>";
+      case "classify": return chips(it.k, it.opts, x) + (x === "理論書" ? '<div style="margin-top:8px">' + chips("ksub", THEORY_SUB, v.ksub, { sm: 1, cap: "理論書の種類" }) + "</div>" : "") +
+        '<div class="sentence" style="margin-top:8px"><span>主題</span>' + inp("subject", v.subject, "本が扱う分野") + "</div>" + note(kindNote(v));
       case "multi": return chips(it.k, it.opts, x, { multi: 1 });
       case "line": return (x === ALT ? "" : area(it.k, x)) + (it.alt ? '<div class="opts" style="margin-top:8px"><button class="' + (x === ALT ? "on" : "") + '" data-a="alt" data-p="' + it.k + '">' + esc(it.alt) + "</button></div>" : "");
       case "memo": return area(it.k, x, 5);
       case "list": return arr(x).map((l, i) => '<div class="row">' + inp(it.k + "." + i, l) + del(it.k, i) + "</div>").join("") +
         '<div class="opts">' + (x === ALT ? "" : add(it.k, "str", "足す")) + (it.none ? '<button class="' + (x === ALT ? "on" : "") + '" data-a="alt" data-p="' + it.k + '">' + esc(it.none) + "</button>" : "") + "</div>";
-      case "terms": return arr(x).map((t, i) => '<div class="row">' + inp("terms." + i + ".w", t.w, "用語", "w") + inp("terms." + i + ".m", t.m, "この本での意味", "m") + inp("terms." + i + ".p", t.p, "ページ", "p") + del("terms", i) + "</div>").join("") + add("terms", "term", "用語を足す");
-      case "unity": case "unity2": {
-        const u = x || {};
-        return '<div class="sentence"><span>この本は</span>' + inp("unity.what", u.what, "何について") + "<span>について、</span>" + inp("unity.claim", u.claim, "結局どうだ、どうせよと言っているか") + "<span></span><span>と言っている本</span></div>" +
-          (it.t === "unity2" ? '<div style="margin-top:10px">' + chips("unity2", ["このままでよい", "直した"], v.unity2) + "</div>" : "");
-      }
+      case "terms": return (it.r ? unclearHtml(v) : "") + arr(x).map((t, i) => '<div class="row">' + inp("terms." + i + ".w", t.w, "用語", "w") + inp("terms." + i + ".m", t.m, "この本での意味", "m") + inp("terms." + i + ".p", t.p, "ページ", "p") + del("terms", i) + "</div>").join("") + add("terms", "term", "用語を足す");
+      case "unity": return unityHtml("unity", x || {});
+      case "unity2": { const ready = partsDone(v) || book.skip[3];
+        return unityHtml("unityA", x || {}) + (unityOk(v.unity) ? '<div class="help" style="margin-top:6px">下読みの答え: ' + h(unityText(v.unity)) + "</div>" : "") +
+          '<div class="opts" style="margin-top:10px">' + ["このままでよい", "直した"].map(o => '<button class="' + (v.unity2 === o ? "on" : "") + '" data-a="set" data-p="unity2" data-val="' + o + '"' + (ready ? "" : " disabled") + ">" + o + "</button>").join("") +
+          (ready ? "" : '<span class="cap">規則3を埋めてから、この1文が部分を全部覆っているかを確かめる</span>') + "</div>"; }
       case "parts": { const all = arr(x);
         return all.map((o, i) => '<div class="prow"><span class="id">' + esc(o.id) + "</span>" + inp("parts." + i + ".t", o.t, "部分の名前（目次の区切り）") +
           sel("parts." + i + ".role", o.role || "", [["", "役割"]].concat(PART_ROLES.map(r => [r, r]))) +
           sel("parts." + i + ".to", o.to || "", toOpts(all, o, i)) +
           (o.to && o.to !== "none" ? sel("parts." + i + ".link", o.link || "", [["", "どうつながる"]].concat(PART_LINKS.map(r => [r, r]))) : "") +
-          '<button class="x" data-a="up" data-p="parts" data-i="' + i + '" aria-label="上へ">↑</button><button class="x" data-a="down" data-p="parts" data-i="' + i + '" aria-label="下へ">↓</button>' + del("parts", i) + "</div>").join("") + add("parts", "part", "部分を足す"); }
-      case "qs": return arr(x).map((o, i) => '<div class="row"><span class="rule">' + o.id + "</span>" + inp("qs." + i + ".t", o.t, "著者が答えようとしている問い") + del("qs", i) + "</div>").join("") + add("qs", "q", "問題を足す");
+          '<button class="x" data-a="up" data-p="parts" data-i="' + i + '" aria-label="上へ">↑</button><button class="x" data-a="down" data-p="parts" data-i="' + i + '" aria-label="下へ">↓</button>' + del("parts", i) +
+          '<div class="sub"><div class="sentence"><span>概要</span>' + inp("parts." + i + ".sum", o.sum, "この部分が言っていること") + "<span>受け持つ所</span>" + inp("parts." + i + ".rel", o.rel, "統一の文のどこを受け持つか") +
+          arr(o.subs).map((t, j) => "<span>区分 " + (j + 1) + '</span><div class="row" style="margin:0">' + inp("parts." + i + ".subs." + j, t, "下位の区分") + del("parts." + i + ".subs", j) + "</div>").join("") +
+          "</div>" + add("parts." + i + ".subs", "str", "下位の区分を足す") + "</div></div>").join("") + add("parts", "part", "部分を足す"); }
+      case "qs": return note(v.kind === "実践書" ? PRACTICAL_NOTE : "") + arr(x).map((o, i) => '<div class="row"><span class="rule">' + o.id + "</span>" + inp("qs." + i + ".t", o.t, "著者が答えようとしている問い") +
+        sel("qs." + i + ".parent", o.parent || "", parentOpts(v, o)) + del("qs", i) + "</div>").join("") + add("qs", "q", "問題を足す");
       case "props": {
-        const qs = liveBy(v.qs), all = arr(x);
-        return all.map((p, i) => '<div class="card"><div class="head"><span class="id">' + p.id + "</span>" + inp("props." + i + ".t", p.t, "著者が言い切っていること") + del("props", i) + "</div>" +
-          '<div class="opts sm"><span class="cap">位置づけ</span>' + sel("props." + i + ".sup", p.sup || "", supOpts(all, p)) +
-          '<span class="cap" style="margin-left:10px">答える問題</span>' + sel("props." + i + ".q", p.q || "", qOpts(v)) + "</div></div>").join("") + add("props", "prop", "命題を足す");
+        const all = arr(x);
+        return unclearHtml(v) + all.map((p, i) => '<div class="card"><div class="head"><span class="id">' + p.id + "</span>" + inp("props." + i + ".t", p.t, "命題を自分の言葉で") + del("props", i) + "</div>" +
+          '<div class="opts sm"><span class="cap">重要な文の場所</span>' + inp("props." + i + ".loc", p.loc, "ページや章", "loc") +
+          '<span class="cap">位置づけ</span>' + sel("props." + i + ".sup", p.sup || "", supOpts(all, p)) +
+          '<span class="cap">答える問題</span>' + sel("props." + i + ".q", p.q || "", qOpts(v)) + "</div></div>").join("") + add("props", "prop", "命題を足す");
       }
       case "grounds": {
         const all = arr(v.props); if (!liveBy(all).length) return noProps;
-        return all.map((p, i) => !txt(p.t) ? "" : '<div class="card"><div class="head"><span class="id">' + p.id + '</span><span class="ro">' + h(p.t) + "</span></div>" +
+        const chain = chainOf(v).map(({ p, depth }) => '<div style="padding-left:' + (depth * 22) + 'px"><b>' + (depth ? "← " : "") + esc(p.id) + "</b> " + h(p.t) + (p.sup === "main" ? "（中心の主張）" : "") +
+          arr(p.grounds).filter(g => g.kind || txt(g.t)).map(g => '<div class="g">' + (g.kind ? "（" + h(g.kind) + "）" : "") + h(g.t) + "</div>").join("") + "</div>").join("");
+        return '<div class="chain">' + chain + "</div>" + all.map((p, i) => !txt(p.t) ? "" : card(p.id, h(p.t) + (p.sup === "main" ? "（中心の主張）" : ""),
           arr(p.grounds).map((g, j) => '<div class="row">' + inp("props." + i + ".grounds." + j + ".t", g.t, "根拠として挙げていること") + del("props." + i + ".grounds", j) + "</div>" +
-            '<div style="margin:0 0 10px">' + chips("props." + i + ".grounds." + j + ".kind", GROUND_KINDS, g.kind, { sm: 1 }) + "</div>").join("") + add("props." + i + ".grounds", "ground", "根拠を足す") + "</div>").join("");
+            '<div style="margin:0 0 10px">' + chips("props." + i + ".grounds." + j + ".kind", GROUND_KINDS, g.kind, { sm: 1 }) + "</div>").join("") + add("props." + i + ".grounds", "ground", "根拠を足す") +
+          '<div class="line">' + inp("props." + i + ".arg", p.arg, p.sup === "main" ? "この論証を一言で（〜だから〜。中心の主張は必須）" : "この論証を一言で（〜だから〜）") + "</div>")).join("");
       }
-      case "solved": { const qs = liveBy(v.qs); return qs.length ? qs.map(o => '<div class="card"><div class="head"><span class="id">' + o.id + '</span><span class="ro">' + h(o.t) + "</span></div>" + chips("solved." + o.id, SOLVED, (v.solved || {})[o.id], { sm: 1 }) + "</div>").join("") : '<div class="help">規則4で問題を足すと、ここに並ぶ。</div>'; }
-      case "restate": { const main = arr(v.props).find(p => p.sup === "main" && txt(p.t)), r = x || {};
-        return (main ? '<div class="help">中心の主張 ' + main.id + ": " + h(main.t) + "</div>" : "") + '<div class="sentence"><span>つまり</span>' + inp("restate.s", r.s, "自分の言葉で") + "<span>たとえば</span>" + inp("restate.ex", r.ex, "本に出てこない例") + "</div>"; }
-      case "judges": { const all = arr(v.props); if (!liveBy(all).length) return noProps;
-        return all.map((p, i) => !txt(p.t) ? "" : '<div class="card"><div class="head"><span class="id">' + p.id + '</span><span class="ro">' + h(p.t) + "</span></div>" + chips("props." + i + ".judge", JUDGES, p.judge, { sm: 1 }) + factHtml(book, p) + "</div>").join("") +
-          '<div class="opts"><button data-a="askfc">Claude Code に頼む文をコピー</button></div>'; }
-      case "reasons": { const all = arr(v.props); if (!liveBy(all).some(p => p.judge)) return '<div class="help">規則10で判定すると、ここに並ぶ。</div>';
-        return all.map((p, i) => !txt(p.t) || !p.judge ? "" : '<div class="card"><div class="head"><span class="id">' + p.id + '</span><span class="ro">' + h(p.t) + " — " + p.judge + "</span></div>" +
-          (p.judge === "反対" ? chips("props." + i + ".obj", OBJECTIONS, p.obj, { sm: 1, multi: 1 }) + '<div class="line"></div>' : "") + inp("props." + i + ".why", p.why, p.judge === "反対" ? "根拠（必須）" : "根拠（書かなくてもよい）") + "</div>").join(""); }
+      case "solved": { const qs = liveBy(v.qs); if (!qs.length) return '<div class="help">規則4で問題を足すと、ここに並ぶ。</div>';
+        return note(v.kind === "実践書" ? PRACTICAL_NOTE : "") + qs.map(o => { const r = (v.solved || {})[o.id] || {}, ans = liveBy(v.props).filter(p => p.q === o.id).map(p => p.id);
+          return card(o.id, h(o.t), '<div class="help" style="margin:0 0 6px">答えている命題: ' + (ans.length ? ans.join("、") : "なし") + "</div>" + chips("solved." + o.id + ".s", SOLVED, r.s, { sm: 1 }) +
+            (r.s && r.s !== "解決した" ? '<div style="margin-top:6px">' + chips("solved." + o.id + ".aware", AWARE, r.aware, { sm: 1, cap: "著者は" }) + "</div>" : "") +
+            '<div class="line">' + inp("solved." + o.id + ".why", r.why, "そう見た理由") + "</div>"); }).join("") +
+          '<div class="line"><span class="cap">新しく生じた問題</span>' + inp("newq", v.newq, "この本を読んで新しく生じた問題（なければ空）") + "</div>"; }
+      case "understand": { const main = arr(v.props).find(p => p.sup === "main" && txt(p.t)), r = x || {}, all = arr(v.props);
+        const status = rules(book).filter(o => o.it.r <= 8).map(o => "規則" + o.it.r + " " + (o.skip ? "やらない" : o.done ? "済" : "まだ")).join(" / ");
+        const ready = restated(v);
+        return '<div class="status">' + status + "</div>" + (main ? '<div class="help">中心の主張 ' + main.id + ": " + h(main.t) + "</div>" : "") +
+          '<div class="sentence"><span>つまり</span>' + inp("restate.s", r.s, "自分の言葉で") + "<span>たとえば</span>" + inp("restate.ex", r.ex, "本に出てこない例") + "</div>" +
+          (!liveBy(all).length ? noProps : !ready ? '<div class="note">言い直しと例を書いてから、命題ごとに賛成・反対・判断保留を選ぶ。</div>' :
+            all.map((p, i) => !txt(p.t) ? "" : card(p.id, h(p.t), chips("props." + i + ".judge", JUDGES, p.judge, { sm: 1 }) + factHtml(book, p))).join("") +
+            '<div class="opts"><button data-a="askfc">Claude Code に頼む文をコピー</button></div>'); }
+      case "civil": { const all = arr(v.props), hit = all.filter(p => txt(p.t) && p.judge === "反対");
+        return hit.length ? all.map((p, i) => !txt(p.t) || p.judge !== "反対" ? "" : card(p.id, h(p.t) + " — 反対", inp("props." + i + ".self", p.self, "自分の側が誤っているとしたら、どこか（必須）"))).join("") : '<div class="help">規則9で反対した命題が、ここに並ぶ。</div>'; }
+      case "reasons": { const all = arr(v.props); if (!liveBy(all).some(p => p.judge)) return '<div class="help">規則9で判断すると、ここに並ぶ。</div>';
+        return all.map((p, i) => !txt(p.t) || !p.judge ? "" : card(p.id, h(p.t) + " — " + p.judge, inp("props." + i + ".why", p.why, "根拠（必須）。知識か、個人の意見か"))).join(""); }
+      case "critique": { const all = arr(v.props), hit = all.filter(p => txt(p.t) && p.judge === it.on);
+        return hit.length ? all.map((p, i) => !txt(p.t) || p.judge !== it.on ? "" : card(p.id, h(p.t) + " — " + p.judge, inp("props." + i + "." + it.k, p[it.k], it.r === 15 ? "どこが不完全で、判断を保留するか（必須）" : "当てはまれば書く"))).join("")
+          : '<div class="help">規則9で' + it.on + "にした命題が、ここに並ぶ。</div>"; }
+      case "nostance": return '<div class="help" style="margin:0">' + NO_STANCE + "。理解する前は、賛成も反対も判断保留も言わない（規則9）。</div>";
       case "gloss": { const ts = liveTerms(v.terms); return ts.length ? '<div class="opts">' + ts.map(t => '<button class="' + (t.g ? "on" : "") + '" data-a="flip" data-p="terms.' + v.terms.indexOf(t) + '.g">' + h(t.w) + "</button>").join("") + "</div>" : '<div class="help">用語を挙げると、ここから選べる。</div>'; }
     }
     return "";
   }
   function itemHtml(it, book) {
     if (it.t === "summary") return summaryHtml(book);
-    const id = it.k + (it.r ? "@" + it.r : ""), skip = it.r && book.skip[it.r];
+    const id = it.k + (it.r ? "@" + it.r : ""), skip = it.r && book.skip[it.r], help = typeof it.help === "function" ? it.help(book.v) : it.help;
     return '<div class="item' + (skip ? " skipped" : "") + '"><div class="label">' + (it.r ? '<span class="rule">規則' + it.r + "</span>" : "") + '<span class="grow">' + h(it.label) + "</span>" +
       (it.r ? '<button class="skip' + (skip ? " on" : "") + '" data-a="skip" data-r="' + it.r + '">やらない</button>' : "") +
-      (it.help ? '<button class="q" data-a="help" data-id="' + id + '" aria-label="説明">？</button>' : "") + "</div>" +
-      (openHelp.has(id) && it.help ? '<div class="help">' + h(it.help) + "</div>" : "") + bodyHtml(it, book) + "</div>";
+      (help ? '<button class="q" data-a="help" data-id="' + id + '" aria-label="説明">？</button>' : "") + "</div>" +
+      (openHelp.has(id) && help ? '<div class="help">' + h(help) + "</div>" : "") + bodyHtml(it, book) + "</div>";
   }
   function summaryHtml(book) {
     const v = book.v, d = (t, s) => "<dt>" + t + "</dt><dd" + (txt(s) ? ">" + h(s) : ' class="none">まだ書いていない') + "</dd>";
     const ps = liveBy(v.props), said = ps.map(p => p.id + " " + txt(p.t)).join("\n") || liveList(v.points).join("\n");
     const tally = ps.length ? JUDGES.map(j => j + " " + ps.filter(p => p.judge === j).length).join(" / ") : "";
     return '<div class="item"><div class="label"><span class="grow">4つの問いへの答え</span></div><dl class="sum">' +
-      d("1 全体として何に関する本か", unityText(v.unity)) + d("2 何がどのように詳しく述べられているか", said) +
-      d("3 その本は全体として真実か", [v.stance, tally && "命題ごと: " + tally].filter(Boolean).join("\n")) + d("4 それにはどんな意義があるか", v.meaning) + "</dl></div>";
+      d("1 全体として何に関する本か", unityText(unityOk(v.unityA) ? v.unityA : v.unity)) + d("2 何がどのように詳しく述べられているか", said) +
+      d("3 その本は全体として真実か", isAna(v) ? [v.stance, tally && "命題ごと: " + tally].filter(Boolean).join("\n") : v.judge && v.judge !== J.quit ? NO_STANCE : "") + d("4 それにはどんな意義があるか", v.meaning) + "</dl></div>";
   }
   function finishInner(book) {
     const need = missing(book);
@@ -591,6 +681,7 @@ if (typeof document !== "undefined") (function () {
   function render() {
     const book = cur();
     $("bookSel").innerHTML = store.books.map(b => '<option value="' + b.id + '"' + (book && b.id === book.id ? " selected" : "") + ">" + (b.meta.finished ? "✓ " : "") + h(b.meta.title || "無題") + "</option>").join("");
+    if (book && isAna(book.v) && !book.v.unityA && unityOk(book.v.unity)) { book.v.unityA = JSON.parse(JSON.stringify(book.v.unity)); save(); }
     if (!book) { $("app").innerHTML = '<div class="empty">「本を足す」から、読む本を選ぶ。</div>'; $("prog").innerHTML = ""; return; }
     $("app").innerHTML = visibleSections(book.v).map(s => '<section id="sec-' + s.id + '"><h2>' + h(s.title) + (s.sub ? "<small>" + h(s.sub) + "</small>" : "") + "</h2>" +
       visibleItems(s, book.v).map(it => itemHtml(it, book)).join("") + (s.id === "checkout" ? '<div id="finish">' + finishInner(book) + "</div>" : "") + "</section>").join("");
@@ -607,8 +698,8 @@ if (typeof document !== "undefined") (function () {
     const f = $("finish"); if (f && !f.contains(document.activeElement)) f.innerHTML = finishInner(book);
   }
   function say(t) { const m = $("msg"); if (m) m.textContent = t; }
-  const TPL = { str: () => "", term: () => ({ w: "", m: "", p: "", g: false }), part: v => ({ id: nextId(v, "S"), t: "", role: "", to: (arr(v.parts).filter(o => txt(o.t)).pop() || {}).id || "", link: "" }), ground: () => ({ t: "", kind: "" }),
-    q: v => ({ id: nextId(v, "Q"), t: "" }), prop: v => ({ id: nextId(v, "P"), t: "", sup: "", q: "", grounds: [], judge: "", obj: [], why: "" }) };
+  const TPL = { str: () => "", term: () => ({ w: "", m: "", p: "", g: false }), part: v => ({ id: nextId(v, "S"), t: "", role: "", to: (arr(v.parts).filter(o => txt(o.t)).pop() || {}).id || "", link: "", sum: "", rel: "", subs: [] }), ground: () => ({ t: "", kind: "" }),
+    q: v => ({ id: nextId(v, "Q"), t: "", parent: "" }), prop: v => ({ id: nextId(v, "P"), t: "", loc: "", sup: "", q: "", grounds: [], arg: "", judge: "", why: "", self: "", k12: "", k13: "", k14: "", k15: "" }) };
 
   $("app").addEventListener("click", e => {
     const b = e.target.closest("button[data-a]"); if (!b) return;
@@ -720,7 +811,7 @@ if (typeof document !== "undefined") (function () {
     } catch (err) { alert("読み込めなかった: " + err.message); }
   });
   /* 外から使う口。obsidian:// を開く処理は、テストで差し替えられるよう、ここを通す */
-  const api = window.__dokusho = { openUri: u => { location.href = u; }, current: () => JSON.parse(JSON.stringify(cur() || null)), toMarkdown: b => toMarkdown(b, FC) };
+  const api = window.__dokusho = { openUri: u => { location.href = u; }, current: () => JSON.parse(JSON.stringify(cur() || null)), done: () => { const o = {}; rules(cur()).forEach(r => { o[r.it.r] = r.done; }); return o; }, toMarkdown: b => toMarkdown(b, FC) };
   render();
  }
 })();
