@@ -16,6 +16,8 @@
   }
 }
 * { box-sizing: border-box; }
+/* 固定の見出し（本の選択と進み具合）の下に、移動した先や入力中の欄が隠れないようにする */
+html { scroll-padding-top: 96px; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.7 -apple-system, "Hiragino Sans", "Yu Gothic", sans-serif; }
 header { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
 .bar { max-width: 780px; margin: 0 auto; padding: 10px 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
@@ -61,8 +63,11 @@ input:focus, textarea:focus, select:focus, button:focus-visible { outline: 2px s
 .card .line { margin-top: 8px; }
 .prow { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
 .prow .id { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; flex: none; min-width: 26px; }
-.prow input[type=text] { flex: 1 1 200px; width: auto; }
-.prow select { flex: none; padding: 5px 6px; font-size: 13.5px; }
+/* 1行目に番号と名前、2行目に役割・相手・つながりと並べ替えのボタン */
+.prow { padding-bottom: 6px; border-bottom: 1px dashed var(--line); }
+.prow input[type=text] { flex: 1 1 calc(100% - 40px); width: auto; min-width: 0; }
+.prow select { flex: 0 1 auto; max-width: 200px; padding: 5px 6px; font-size: 13.5px; }
+.prow .id + input + select { margin-left: 32px; }
 .fc { margin-top: 8px; padding: 8px 10px; border-left: 3px solid var(--line); background: var(--soft); font-size: 13.5px; border-radius: 0 6px 6px 0; }
 .fc b { margin-right: 6px; } .fc.good { border-color: var(--ok); } .fc.bad { border-color: var(--bad); } .fc.mid { border-color: var(--warn); }
 .fc a { color: var(--accent); }
@@ -195,7 +200,7 @@ const SECTIONS = [
     { k: "unclear", t: "list", none: "なかった", label: "分からなかった所", help: "ページや言葉だけでよい。分析読書で確かめる範囲になる。" },
   ]},
   { id: "a1", title: "分析読書 第一段階", sub: "何についての本か、構造をつかむ", when: isAna, items: [
-    { r: 1, k: "kind", t: "choice", label: "本の種類を知る", opts: KINDS, help: "下読みで選んだものが出ている。通読して違っていたら選び直す。" },
+    { r: 1, k: "kind", t: "classify", label: "本を種類と主題で分類する", opts: KINDS, help: "種類は下読みで選んだものが出ている。通読して違っていたら選び直す。主題には、本が扱う分野（例: 心理学、経営、明治の思想）を書く。" },
     { r: 2, k: "unity", t: "unity2", label: "全体の統一を述べる", help: "下読みのときの答えが出ている。通読しても変わらなければ「このままでよい」を押す。違っていたら空所を直して「直した」を押す。" },
     { r: 3, k: "parts", t: "parts", label: "主要な部分を述べ、その順序と関係を示す", help: "目次の大きな区切りを1つずつ足す。1行に、名前、役割、どの部分とどうつながるか、を選ぶ。命題と同じく S1、S2 と番号が付く。" },
     { r: 4, k: "qs", t: "qs", label: "著者が解こうとしている問題を知る", help: "「〜とは何か」「どうすれば〜できるか」の形で書く。Q1、Q2 と番号が付き、命題と結びつけられる。" },
@@ -235,6 +240,7 @@ function filled(it, v) {
   const x = v[it.k], ps = liveBy(v.props);
   switch (it.t) {
     case "choice": return !!x;
+    case "classify": return !!x && !!txt(v.subject);
     case "line": case "memo": return x === ALT || !!txt(x);
     case "list": return x === ALT || liveList(x).length > 0;
     case "terms": return it.r ? liveTerms(x).some(t => txt(t.m)) : liveTerms(x).length > 0;
@@ -277,7 +283,8 @@ function missing(book) {
   req("meaning"); req("action");
   return need;
 }
-function fileName(book) { return txt(book.meta.title).replace(/[\/\\:]/g, " ") || "無題"; }
+/* Obsidian のファイル名とリンクで使えない文字（\ / : * ? " < > | # ^ [ ]）は空白にする。書名そのものは frontmatter に残る */
+function fileName(book) { return txt(book.meta.title).replace(/[\\\/:*?"<>|#^\[\]]/g, " ").replace(/\s+/g, " ").trim() || "無題"; }
 function supText(p) { return p.sup === "main" ? "中心の主張" : p.sup === "none" ? "つながり不明" : p.sup ? p.sup + " を支える" : ""; }
 /* Agent のファクトチェックの結果は、factcheck.js だけにある。ここは読むだけ。
    stale: 調べたあとに命題の文が書き換えられている（結果は、書き換える前の文に対するもの） */
@@ -292,16 +299,17 @@ function toMarkdown(book, FC) {
   const y = s => { s = txt(s); return /[:#\[\]{}&*!|>'"%@`,]|^\s|^-/.test(s) ? JSON.stringify(s) : s; };
   const ana = rules(book), ps = liveBy(v.props);
   L.push("---", "tags:", "  - 読書メモ", "title: " + y(m.title), "author: " + y(m.author), "publisher: " + y(m.publisher),
-    "published: " + txt(m.published), "isbn: " + txt(m.isbn), "booklist_no: " + txt(m.booklist_no),
+    "published: " + y(m.published), "isbn: " + y(m.isbn), "booklist_no: " + y(m.booklist_no),
     "status: " + (m.finished ? "読み終わった" : "いま読んでる"), "depth: " + depthOf(v));
   if (isAna(v)) L.push("analysis_rules: " + ana.filter(r => r.done && !r.skip).length + "/" + ana.length);
-  L.push("started: " + txt(m.started), "finished: " + txt(m.finished), "---", "", "# " + txt(m.title), "");
+  L.push("started: " + y(m.started), "finished: " + y(m.finished), "---", "", "# " + txt(m.title), "");
   const val = (it) => {
     const x = v[it.k], out = [];
     const head = (it.r ? "規則" + it.r + " " : "") + it.label;
     if (it.r && book.skip[it.r]) { out.push("- " + head + ": やらない"); return out; }
     switch (it.t) {
       case "choice": out.push("- " + head + ": " + txt(x)); break;
+      case "classify": out.push("- " + head + ": " + txt(x) + (txt(v.subject) ? "。主題は " + txt(v.subject) : "")); break;
       case "multi": out.push("- " + head + ": " + arr(x).join("、")); break;
       case "line": { const ls = (x === ALT ? it.alt : txt(x)).split("\n"); out.push("- " + head + ": " + ls[0]); ls.slice(1).forEach(l => out.push("  " + l)); break; }
       case "list": out.push("- " + head + ":" + (x === ALT ? " " + it.none : "")); liveList(x).forEach(l => out.push("  - " + l)); break;
@@ -486,6 +494,18 @@ if (typeof document !== "undefined") (function () {
   const del = (p, i) => '<button class="x" data-a="del" data-p="' + p + '" data-i="' + i + '" aria-label="消す">×</button>';
   const add = (p, tpl, text) => '<button data-a="push" data-p="' + p + '" data-tpl="' + tpl + '">＋ ' + text + "</button>";
   const sel = (p, curv, opts) => '<select data-p="' + p + '">' + opts.map(o => '<option value="' + esc(o[0]) + '"' + (curv === o[0] ? " selected" : "") + ">" + esc(o[1]) + "</option>").join("") + "</select>";
+  /* 命題・部分・問題を指すプルダウンの選択肢。文を入力したその場で選べるよう、入力のたびに refreshRefs で作り直す */
+  const supOpts = (all, p) => [["", "選ぶ"], ["main", "中心の主張"]].concat(all.filter(o => o !== p && txt(o.t)).map(o => [o.id, o.id + " を支える"])).concat([["none", "つながり不明"]]);
+  const toOpts = (all, o, i) => [["", i ? "どの部分と" : "（最初の部分）"]].concat(all.filter(q => q !== o && txt(q.t)).map(q => [q.id, q.id + " " + txt(q.t).slice(0, 10)])).concat([["none", "独立している"]]);
+  const qOpts = v => [["", "なし"]].concat(liveBy(v.qs).map(o => [o.id, o.id + " " + txt(o.t).slice(0, 18)]));
+  function refreshRefs(v) {
+    const fill = (el, opts) => { const val = el.value; el.innerHTML = opts.map(o => '<option value="' + esc(o[0]) + '"' + (val === o[0] ? " selected" : "") + ">" + esc(o[1]) + "</option>").join(""); };
+    document.querySelectorAll("#app select[data-p]").forEach(el => {
+      const m = /^(props|parts)\.(\d+)\.(sup|to|q)$/.exec(el.dataset.p); if (!m) return;
+      const all = arr(v[m[1]]), i = +m[2];
+      fill(el, m[3] === "sup" ? supOpts(all, all[i]) : m[3] === "to" ? toOpts(all, all[i], i) : qOpts(v));
+    });
+  }
   const noProps = '<div class="help">規則6で命題を足すと、ここに並ぶ。</div>';
 
   function factHtml(book, p) {
@@ -500,6 +520,7 @@ if (typeof document !== "undefined") (function () {
     const v = book.v, x = v[it.k];
     switch (it.t) {
       case "choice": return chips(it.k, it.opts, x);
+      case "classify": return chips(it.k, it.opts, x) + '<div class="sentence" style="margin-top:8px"><span>主題</span>' + inp("subject", v.subject, "本が扱う分野") + "</div>";
       case "multi": return chips(it.k, it.opts, x, { multi: 1 });
       case "line": return (x === ALT ? "" : area(it.k, x)) + (it.alt ? '<div class="opts" style="margin-top:8px"><button class="' + (x === ALT ? "on" : "") + '" data-a="alt" data-p="' + it.k + '">' + esc(it.alt) + "</button></div>" : "");
       case "memo": return area(it.k, x, 5);
@@ -514,15 +535,15 @@ if (typeof document !== "undefined") (function () {
       case "parts": { const all = arr(x);
         return all.map((o, i) => '<div class="prow"><span class="id">' + esc(o.id) + "</span>" + inp("parts." + i + ".t", o.t, "部分の名前（目次の区切り）") +
           sel("parts." + i + ".role", o.role || "", [["", "役割"]].concat(PART_ROLES.map(r => [r, r]))) +
-          sel("parts." + i + ".to", o.to || "", [["", i ? "どの部分と" : "（最初の部分）"]].concat(all.filter(q => q !== o && txt(q.t)).map(q => [q.id, q.id + " " + txt(q.t).slice(0, 10)])).concat([["none", "独立している"]])) +
+          sel("parts." + i + ".to", o.to || "", toOpts(all, o, i)) +
           (o.to && o.to !== "none" ? sel("parts." + i + ".link", o.link || "", [["", "どうつながる"]].concat(PART_LINKS.map(r => [r, r]))) : "") +
           '<button class="x" data-a="up" data-p="parts" data-i="' + i + '" aria-label="上へ">↑</button><button class="x" data-a="down" data-p="parts" data-i="' + i + '" aria-label="下へ">↓</button>' + del("parts", i) + "</div>").join("") + add("parts", "part", "部分を足す"); }
       case "qs": return arr(x).map((o, i) => '<div class="row"><span class="rule">' + o.id + "</span>" + inp("qs." + i + ".t", o.t, "著者が答えようとしている問い") + del("qs", i) + "</div>").join("") + add("qs", "q", "問題を足す");
       case "props": {
         const qs = liveBy(v.qs), all = arr(x);
         return all.map((p, i) => '<div class="card"><div class="head"><span class="id">' + p.id + "</span>" + inp("props." + i + ".t", p.t, "著者が言い切っていること") + del("props", i) + "</div>" +
-          '<div class="opts sm"><span class="cap">位置づけ</span>' + sel("props." + i + ".sup", p.sup || "", [["", "選ぶ"], ["main", "中心の主張"]].concat(all.filter(o => o !== p && txt(o.t)).map(o => [o.id, o.id + " を支える"])).concat([["none", "つながり不明"]])) +
-          '<span class="cap" style="margin-left:10px">答える問題</span>' + sel("props." + i + ".q", p.q || "", [["", "なし"]].concat(qs.map(o => [o.id, o.id + " " + txt(o.t).slice(0, 18)]))) + "</div></div>").join("") + add("props", "prop", "命題を足す");
+          '<div class="opts sm"><span class="cap">位置づけ</span>' + sel("props." + i + ".sup", p.sup || "", supOpts(all, p)) +
+          '<span class="cap" style="margin-left:10px">答える問題</span>' + sel("props." + i + ".q", p.q || "", qOpts(v)) + "</div></div>").join("") + add("props", "prop", "命題を足す");
       }
       case "grounds": {
         const all = arr(v.props); if (!liveBy(all).length) return noProps;
@@ -608,7 +629,7 @@ if (typeof document !== "undefined") (function () {
       case "help": openHelp.has(d.id) ? openHelp.delete(d.id) : openHelp.add(d.id); break;
       case "finish": book.meta.finished = today(); break;
       case "unfinish": book.meta.finished = ""; break;
-      case "save": save(); location.href = obsidianUri(book, FC); say("Obsidian に送った。"); return;
+      case "save": save(); api.openUri(obsidianUri(book, FC)); say("Obsidian に送った。"); return;
       case "copy": navigator.clipboard.writeText(toMarkdown(book, FC)).then(() => say("コピーした。"), () => say("コピーできなかった。")); return;
       case "askfc": navigator.clipboard.writeText("読書メモ『" + txt(book.meta.title) + "』の命題をファクトチェックして。reading-memo スキルを使う。読書メモは " + FOLDER + "/" + fileName(book) + ".md、本の id は " + book.id).then(() => { b.textContent = "コピーした。先に「Obsidian に保存」を押してから、Claude Code に貼る"; }, () => {}); return;
     }
@@ -621,6 +642,7 @@ if (typeof document !== "undefined") (function () {
     const el = e.target, p = el.dataset.p; if (!p || el.tagName === "BUTTON") return;
     setPath(cur().v, p, el.value);
     document.querySelectorAll('[data-p="' + p + '"]').forEach(o => { if (o !== el && o.tagName !== "BUTTON" && o.value !== el.value) o.value = el.value; });
+    if (/^(props|parts|qs)\.\d+\.t$/.test(p)) refreshRefs(cur().v);
     save(); progress();
   });
   $("app").addEventListener("change", e => { if (e.target.tagName === "SELECT") { const y = window.scrollY; render(); window.scrollTo(0, y); } });
@@ -697,6 +719,8 @@ if (typeof document !== "undefined") (function () {
       if (i >= 0) store.books[i] = b; else store.books.unshift(b); store.current = b.id; save(); render();
     } catch (err) { alert("読み込めなかった: " + err.message); }
   });
+  /* 外から使う口。obsidian:// を開く処理は、テストで差し替えられるよう、ここを通す */
+  const api = window.__dokusho = { openUri: u => { location.href = u; }, current: () => JSON.parse(JSON.stringify(cur() || null)), toMarkdown: b => toMarkdown(b, FC) };
   render();
  }
 })();
