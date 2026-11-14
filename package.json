@@ -1,0 +1,15 @@
+{
+  "name": "mybrain-reading-memo-tests",
+  "private": true,
+  "scripts": {
+    "test": "playwright test && node --test tests/guard/*.test.js",
+    "e2e": "playwright test",
+    "test:guard": "node --test tests/guard/*.test.js",
+    "guard": "node scripts/guard-data.js -v",
+    "setup": "sh scripts/setup.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "js-yaml": "^5.4.3"
+  }
+}

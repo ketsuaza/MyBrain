@@ -1,0 +1,4 @@
+#!/bin/sh
+# データ（ブックリスト、ファクトチェック、サンプル）が消えたり大きく減ったりするコミットを止める。
+# つなぎ方: git config core.hooksPath .githooks（scripts/setup.sh が行う）
+exec node "$(git rev-parse --show-toplevel)/scripts/guard-data.js"

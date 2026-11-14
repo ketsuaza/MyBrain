@@ -34,6 +34,21 @@
 
 このリポジトリは公開である。`factcheck.js` には、読書メモに書いた命題の文が入る。読書メモの本文は入らない。
 
+## テストとデータのガード
+
+道具はリポジトリ直下にある。初めに `npm run setup` を1回行う（Playwright と Chromium を入れ、pre-commit のフックをつなぐ）。
+`node_modules` は iCloud に同期されないよう、`node_modules.nosync` へのリンクになっている。
+
+| コマンド | すること |
+| --- | --- |
+| `npm test` | E2E の仕様（`tests/e2e/`）とガードの仕様（`tests/guard/`）を全部実行する |
+| `npm run e2e` | E2E の仕様だけ。主な状態のスクリーンショットを `screenshots/` に撮る |
+| `npm run guard` | コミットしようとしている版を HEAD と比べ、件数を出す |
+
+E2E の仕様が扱うこと: ブックリストの全件の表示と並べ替え、1280x800 でダイアログがスクロールしないこと（一覧の表の縦だけは中でスクロールする）、規則1〜4のラベルが原典の用語を使うこと、命題どうしを3クリック以内でつなげること、保存した Markdown が有効なこと、サンプルの命題にファクトチェックの結果が出ること。
+
+pre-commit のフック（`.githooks/pre-commit` → `scripts/guard-data.js`）は、`book_principles.json`、`factcheck.js`、`sample.js` が消えたり空になったり、件数（本、命題、サンプル）が HEAD から10%を超えて減ったりすると、コミットを止める。意図して減らすときは `git commit --no-verify` で通す。
+
 ## Agent の作業
 
 手順は、スキル `reading-memo`（`~/.skillport/skills/reading-memo`）にある。
