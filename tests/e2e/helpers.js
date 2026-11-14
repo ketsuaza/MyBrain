@@ -38,7 +38,18 @@ async function addManualBook(page, meta) {
   await page.locator("#dlgBook").waitFor({ state: "hidden" });
 }
 
+/* 「読み込む」に state を貼って、本を1冊入れる（前の形の state も、新しい形に直って入る） */
+async function importState(page, book) {
+  await page.click("#btnImport");
+  await page.locator("#formImport textarea").fill("```state\n" + JSON.stringify(book) + "\n```");
+  await page.locator("#formImport").getByRole("button", { name: "読み込む" }).click();
+  await page.locator("#dlgImport").waitFor({ state: "hidden" });
+  // 閉じたときの処理（close イベント）は非同期なので、読み込んだ本が今の本になるまで待つ
+  await page.waitForFunction(id => (window.__dokusho.current() || {}).id === id, book.id);
+}
+const current = page => page.evaluate(() => window.__dokusho.current());
+
 /* 規則の欄（ラベルの「規則N」）を含む .item */
 const ruleItem = (page, r) => page.locator(".item").filter({ has: page.locator(".rule", { hasText: new RegExp("^規則" + r + "$") }) });
 
-module.exports = { ROOT, BOOKLIST, SHOTS, loadWindowJs, openTool, shot, addManualBook, ruleItem };
+module.exports = { ROOT, BOOKLIST, SHOTS, loadWindowJs, openTool, shot, addManualBook, ruleItem, importState, current };
