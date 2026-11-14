@@ -330,7 +330,7 @@ function toMarkdown(book, FC) {
   const ts = liveTerms(v.terms);
   (ts.length ? ts : [{}]).forEach(t => L.push("| " + esc(t.w) + " | " + esc(t.m) + " | " + esc(t.p) + " |"));
   L.push("", "## 自由メモ", "", txt(v.memo) || "- ", "", "## 関連", "", "- [[読書と本]]", "");
-  L.push("%%", "この読書メモは 90_tools/読書メモ/読書メモ.html から書き出した。直すときは HTML で直す。", "```state", JSON.stringify(book), "```", "%%", "");
+  L.push("%%", "この読書メモは 30_projects/MyBrain/docs/index.html から書き出した。直すときは HTML で直す。", "```state", JSON.stringify(book), "```", "%%", "");
   return L.join("\n");
 }
 function fromMarkdown(md) {
@@ -411,19 +411,55 @@ function withPriority(list) {
   const fill = all.length ? all.reduce((a, x) => a + x, 0) / all.length : 3.5;
   return arr(list).map(b => Object.assign({}, b, { priority: priorityOf(b, fill), extscore: extScoreOf(b) }));
 }
+/* ブックリストの正本。写しは作らず、開くたびにここから読む。main に入った内容が出る（反映は最大5分遅れる） */
+const BOOKLIST_URL = "https://raw.githubusercontent.com/ketsuaza/MyBrain/main/book_principles.json";
+const OPENBD_URL = "https://api.openbd.jp/v1/get?isbn=";
+/* book_principles.json の1件を、表で使う形にする。著者・出版社・刊行日は JSON にないので、本を選んだときに openBD から取る */
+function fromBooklist(list) {
+  return arr(list).map(b => ({ no: txt(b.no), title: txt(b.title), isbn: txt(b.isbn), author: "", publisher: "", published: "", status: b.reading_status || "",
+    importance: b.importance || "", difficulty: b.difficulty || "", fame: b.fame || "", principle: b.principle || "",
+    booklog: b.booklog_eval, bookmeter: b.bookmeter_eval, amazon: b.amazon_eval }));
+}
+/* openBD の「羽生,章洋,1968-」「Shetty,Jay 浦谷,計子」を、読める形にする */
+function cleanAuthor(raw) {
+  const names = [];
+  txt(raw).split(/\s+/).forEach(part => {
+    const bits = part.split(",").filter(x => x && !/^[\d\-?]+$/.test(x));
+    if (!bits.length) return;
+    names.push(bits.every(x => /^[A-Za-z.'\-]+$/.test(x)) ? bits.slice().reverse().join(" ") : bits.join(""));
+  });
+  return names.join("、");
+}
+function cleanDate(raw) {
+  const d = txt(raw).replace(/\D/g, "");
+  return d.length >= 8 ? d.slice(0, 4) + "-" + d.slice(4, 6) + "-" + d.slice(6, 8) : d.length >= 6 ? d.slice(0, 4) + "-" + d.slice(4, 6) : d;
+}
+/* openBD の応答（配列）の先頭から、書誌を取り出す。なければ null */
+function fromOpenbd(data) {
+  const s = Array.isArray(data) && data[0] && data[0].summary; if (!s) return null;
+  return { author: cleanAuthor(s.author), publisher: txt(s.publisher), published: cleanDate(s.pubdate) };
+}
 function searchBooks(list, q, n, col, dir) {
   q = txt(q).toLowerCase(); const dq = q.replace(/\D/g, "");
   return sortBooks(arr(list).filter(b => !q || b.title.toLowerCase().includes(q) || b.no === q || (dq.length >= 4 && b.isbn.replace(/\D/g, "").includes(dq))), col || "status", dir).slice(0, n || undefined);
 }
 
-if (typeof module !== "undefined") module.exports = { ALT, SECTIONS, J, filled, visibleSections, visibleItems, rules, depthOf, missing, toMarkdown, fromMarkdown, obsidianUri, newBook, fileName, nextId, getPath, setPath, migrateBook, searchBooks, sortBooks, COLS, priorityOf, withPriority, externalOf, extScoreOf, unityText };
+if (typeof module !== "undefined") module.exports = { ALT, SECTIONS, J, filled, visibleSections, visibleItems, rules, depthOf, missing, toMarkdown, fromMarkdown, obsidianUri, newBook, fileName, nextId, getPath, setPath, migrateBook, searchBooks, sortBooks, COLS, priorityOf, withPriority, externalOf, extScoreOf, fromBooklist, fromOpenbd, cleanAuthor, cleanDate, unityText };
 
 /* ---------- 画面 ---------- */
 if (typeof document !== "undefined") (function () {
-  /* books.js と factcheck.js は、開くたびに読み直す。ブラウザが古い写しを使うと、足した列や Agent の結果が出ないため */
-  const files = ["books.js", "factcheck.js", "sample.js"]; let left = files.length;
+  /* factcheck.js とブックリストは、開くたびに読み直す。ブラウザが古い内容を使うと、足した本や Agent の結果が出ないため */
+  const files = ["factcheck.js", "sample.js"]; let left = files.length + 1;
   const next = () => { if (--left === 0) boot(); };
   if (typeof document.createElement !== "function" || !document.head) { boot(); return; }
+  /* ブックリストを取る。8秒で諦め、取れなくても画面は出す */
+  (function () {
+    if (typeof fetch !== "function") { next(); return; }
+    const ac = typeof AbortController === "function" ? new AbortController() : null;
+    const timer = setTimeout(() => { if (ac) ac.abort(); }, 8000);
+    fetch(BOOKLIST_URL, ac ? { signal: ac.signal } : undefined).then(r => (r.ok ? r.json() : Promise.reject(new Error(r.status))))
+      .then(d => { window.BOOKLIST = fromBooklist(d); }).catch(() => {}).then(() => { clearTimeout(timer); next(); });
+  })();
   files.forEach(f => { const s = document.createElement("script"); s.src = f + "?t=" + Date.now(); s.onload = next; s.onerror = next; document.head.appendChild(s); });
  function boot() {
   const $ = id => document.getElementById(id);
@@ -608,10 +644,19 @@ if (typeof document !== "undefined") (function () {
     $("pickHits").innerHTML = hits.length ? "<table><thead><tr>" + COLS.map(c => '<th><button type="button" data-col="' + c[0] + '" title="' + esc(c[3] || c[1]) + '" class="' + (s.col === c[0] ? "on" : "") + '">' + c[1] + (s.col === c[0] ? (s.dir === 1 ? " ▼" : " ▲") : "") + "</button></th>").join("") + "</tr></thead><tbody>" +
       hits.map(b => '<tr tabindex="0" data-no="' + esc(b.no) + '" class="' + (picked === b.no ? "sel" : "") + '"><td>' + esc(b.no) + "</td><td>" + h(b.title) + (store.books.some(o => o.meta.isbn === b.isbn) ? '<span class="added">追加済み</span>' : "") + "</td><td>" + cell(b.status) + "</td><td>" +
         [b.importance, b.difficulty, b.fame, b.principle, b.priority, b.extscore, b.booklog, b.bookmeter, b.amazon].map(cell).join("</td><td>") + "</td></tr>").join("") + "</tbody></table>"
-      : '<div class="help" style="padding:8px 10px;margin:0">' + (BOOKLIST.length ? "見つからない。ブックリストにない本は、Claude Code に「ISBN ○○ をブックリストに追加して」と頼む。" : "books.js を読めなかった。下の欄に直接書く。") + "</div>";
+      : '<div class="help" style="padding:8px 10px;margin:0">' + (BOOKLIST.length ? "見つからない。ブックリストにない本は、Claude Code に「ISBN ○○ をブックリストに追加して」と頼む。" : "ブックリストを読めなかった（通信を確かめて、開き直す）。下の欄に直接書くこともできる。") + "</div>";
   }
   function pickRow(no) { const k = BOOKLIST.find(o => o.no === no); if (!k) return; picked = no;
-    fillForm({ title: k.title, author: k.author, publisher: k.publisher, published: k.published, isbn: k.isbn, booklist_no: k.no, started: today() }); showHits(); }
+    fillForm({ title: k.title, author: k.author, publisher: k.publisher, published: k.published, isbn: k.isbn, booklist_no: k.no, started: today() }); showHits(); fillFromOpenbd(k); }
+  /* 著者・出版社・刊行日を openBD から取って、空の欄だけ埋める。取るあいだに別の本を選んだら、何もしない */
+  function fillFromOpenbd(k) {
+    const isbn = txt(k.isbn).replace(/\D/g, ""); if (!/^97[89]\d{10}$/.test(isbn) || typeof fetch !== "function") return;
+    fetch(OPENBD_URL + isbn).then(r => (r.ok ? r.json() : null)).then(d => {
+      const m = fromOpenbd(d); if (!m || picked !== k.no) return;
+      Object.assign(k, m); const f = $("formBook");
+      ["author", "publisher", "published"].forEach(n => { if (!f.elements[n].value) f.elements[n].value = m[n]; });
+    }).catch(() => {});
+  }
   $("btnDelete").addEventListener("click", () => {
     if (!editing || !confirm("『" + txt(editing.meta.title) + "』を一覧から消す。このブラウザに入力した内容も消える。Obsidian に保存した読書メモは残る。")) return;
     store.books = store.books.filter(b => b !== editing); store.current = store.books.length ? store.books[0].id : null; save(); $("dlgBook").close("cancel"); render();
