@@ -167,13 +167,16 @@ button:disabled { opacity: .45; cursor: default; }
 const VAULT = "MyBrain";
 const FOLDER = "60_notes/読書メモ";
 const KEY = "dokusho-memo.v2";
-const ALT = "__alt__";
+const ALT = "__alt__"; /* 前の形の「ない」の印（欄の値そのもの）。今は v._alt に持つ。migrateBook が読むためだけに残す */
+/* 「この本にはない」「なかった」「やらない」（欄の下のボタン）の印。欄の内容（v[k]）とは別に、v._alt[k] に持つ */
+const isAlt = (v, k) => !!(v && v._alt && v._alt[k] === true);
 const KINDS = ["理論書", "実践書", "文学", "まだ分からない"];
 const J = { quit: "やめる", end: "点検読書で終える", read: "表面読みへ進む", ana: "分析読書へ進む" };
 const PART_ROLES = ["問題を示す", "主張を述べる", "根拠や事例を挙げる", "方法を示す", "反論に答える", "まとめる"];
 const PART_LINKS = ["を受けて進める", "を具体化する", "と並ぶ", "と対比する", "をまとめる"];
 /* 前の版の読書メモ（state）を、今の形に直す。何度かけても結果は変わらない
    - 部分: id なし、「前の部分と」のつながり → id、相手、つながり
+   - 「ない」の印: 欄の値が "__alt__" → v._alt に印、欄は空（前の形では、印を付けると内容が消えていた）
    - 規則11までの版: 反論の理由（obj の4択）→ 規則12〜15の欄。解決（文字列）→ { s, why, aware }。規則2の答え → 下読みとは別の unityA */
 const OBJ_TO_RULE = { "知識が不足している": "k12", "知識に誤りがある": "k13", "論理性に欠ける": "k14", "分析が不完全である": "k15" };
 function migrateBook(b) {
@@ -188,6 +191,9 @@ function migrateBook(b) {
   });
   if (v.solved) Object.keys(v.solved).forEach(q => { if (typeof v.solved[q] === "string") v.solved[q] = { s: v.solved[q], why: "", aware: "" }; });
   if (!v.unityA && v.unity2 && v.unity) v.unityA = JSON.parse(JSON.stringify(v.unity));
+  SECTIONS.forEach(s => s.items.forEach(it => {
+    if ((it.alt || it.none) && v[it.k] === ALT) { if (!v._alt || typeof v._alt !== "object") v._alt = {}; v._alt[it.k] = true; v[it.k] = it.t === "list" ? [] : ""; }
+  }));
   return b;
 }
 const GROUND_KINDS = ["事実・データ", "事例・体験", "理屈", "引用・権威", "仮定としている", "自明としている", "根拠を示していない"];
@@ -299,8 +305,8 @@ function filled(it, v) {
   switch (it.t) {
     case "choice": return !!x;
     case "classify": return !!x && x !== "まだ分からない" && !!txt(v.subject) && (x !== "理論書" || !!v.ksub);
-    case "line": case "memo": return x === ALT || !!txt(x);
-    case "list": return x === ALT || liveList(x).length > 0;
+    case "line": case "memo": return isAlt(v, it.k) || !!txt(x);
+    case "list": return isAlt(v, it.k) || liveList(x).length > 0;
     case "terms": return it.r ? liveTerms(x).some(t => txt(t.m)) : liveTerms(x).length > 0;
     case "multi": return arr(x).length > 0;
     case "unity": return unityOk(x);
@@ -369,8 +375,8 @@ function toMarkdown(book, FC) {
       case "choice": out.push("- " + head + ": " + txt(x)); break;
       case "classify": out.push("- " + head + ": " + txt(x) + (x === "理論書" && v.ksub ? "（" + v.ksub + "）" : "") + (txt(v.subject) ? "。主題は " + txt(v.subject) : "")); break;
       case "multi": out.push("- " + head + ": " + arr(x).join("、")); break;
-      case "line": { const ls = (x === ALT ? it.alt : txt(x)).split("\n"); out.push("- " + head + ": " + ls[0]); ls.slice(1).forEach(l => out.push("  " + l)); break; }
-      case "list": out.push("- " + head + ":" + (x === ALT ? " " + it.none : "")); liveList(x).forEach(l => out.push("  - " + l)); break;
+      case "line": { const ls = (isAlt(v, it.k) ? it.alt : txt(x)).split("\n"); out.push("- " + head + ": " + ls[0]); ls.slice(1).forEach(l => out.push("  " + l)); break; }
+      case "list": if (isAlt(v, it.k)) { out.push("- " + head + ": " + it.none); break; } out.push("- " + head + ":"); liveList(x).forEach(l => out.push("  - " + l)); break;
       case "terms": out.push("- " + head + ": " + liveTerms(x).map(t => txt(t.w)).join("、") + (liveTerms(x).length ? "（下の「用語」）" : "")); break;
       case "unity": out.push("- " + head + ": " + unityText(x)); break;
       case "unity2": out.push("- " + head + ": " + unityText(x) + (v.unity2 ? "（" + v.unity2 + "）" : "")); break;
@@ -524,7 +530,7 @@ function searchBooks(list, q, n, col, dir) {
   return sortBooks(arr(list).filter(b => !q || b.title.toLowerCase().includes(q) || b.no === q || (dq.length >= 4 && b.isbn.replace(/\D/g, "").includes(dq))), col || "status", dir).slice(0, n || undefined);
 }
 
-if (typeof module !== "undefined") module.exports = { ALT, SECTIONS, J, filled, visibleSections, visibleItems, rules, depthOf, missing, toMarkdown, fromMarkdown, obsidianUri, newBook, fileName, nextId, getPath, setPath, migrateBook, searchBooks, sortBooks, COLS, priorityOf, withPriority, externalOf, extScoreOf, fromBooklist, fromOpenbd, cleanAuthor, cleanDate, unityText };
+if (typeof module !== "undefined") module.exports = { ALT, isAlt, SECTIONS, J, filled, visibleSections, visibleItems, rules, depthOf, missing, toMarkdown, fromMarkdown, obsidianUri, newBook, fileName, nextId, getPath, setPath, migrateBook, searchBooks, sortBooks, COLS, priorityOf, withPriority, externalOf, extScoreOf, fromBooklist, fromOpenbd, cleanAuthor, cleanDate, unityText };
 
 /* ---------- 画面 ---------- */
 if (typeof document !== "undefined") (function () {
@@ -588,7 +594,7 @@ if (typeof document !== "undefined") (function () {
   }
   const card = (id, ro, inner) => '<div class="card"><div class="head"><span class="id">' + esc(id) + '</span><span class="ro">' + ro + "</span></div>" + inner + "</div>";
   const note = t => (t ? '<div class="note">' + h(t) + "</div>" : "");
-  const unclearHtml = v => (liveList(v.unclear).length ? '<div class="note">表面読みで分からなかった所: ' + liveList(v.unclear).map(h).join(" / ") + "</div>" : "");
+  const unclearHtml = v => (!isAlt(v, "unclear") && liveList(v.unclear).length ? '<div class="note">表面読みで分からなかった所: ' + liveList(v.unclear).map(h).join(" / ") + "</div>" : "");
   const unityHtml = (k, u, where) => '<div class="sentence"><span>この本は</span>' + inp(k + ".what", u.what, "何について", "", "この本は何について（" + where + "）") + "<span>について、</span>" + inp(k + ".claim", u.claim, "結局どうだ、どうせよと言っているか", "", "結局どうだ、どうせよと言っているか（" + where + "）") + "<span></span><span>と言っている本</span></div>";
   function bodyHtml(it, book) {
     const v = book.v, x = v[it.k];
@@ -597,10 +603,10 @@ if (typeof document !== "undefined") (function () {
       case "classify": return chips(it.k, it.opts, x) + (x === "理論書" ? '<div style="margin-top:8px">' + chips("ksub", THEORY_SUB, v.ksub, { sm: 1, cap: "理論書の種類" }) + "</div>" : "") +
         '<div class="sentence" style="margin-top:8px"><span>主題</span>' + inp("subject", v.subject, "本が扱う分野", "", "主題") + "</div>" + note(kindNote(v));
       case "multi": return chips(it.k, it.opts, x, { multi: 1 });
-      case "line": return (x === ALT ? "" : area(it.k, x, 0, it.label)) + (it.alt ? '<div class="opts" style="margin-top:8px"><button class="' + (x === ALT ? "on" : "") + '"' + pressed(x === ALT) + ' data-a="alt" data-p="' + it.k + '">' + esc(it.alt) + "</button></div>" : "");
+      case "line": return (isAlt(v, it.k) ? "" : area(it.k, x, 0, it.label)) + (it.alt ? '<div class="opts" style="margin-top:8px"><button class="' + (isAlt(v, it.k) ? "on" : "") + '"' + pressed(isAlt(v, it.k)) + ' data-a="alt" data-p="' + it.k + '">' + esc(it.alt) + "</button></div>" : "");
       case "memo": return area(it.k, x, 5, it.label);
-      case "list": return arr(x).map((l, i) => '<div class="row">' + inp(it.k + "." + i, l, "", "", it.label + " " + (i + 1)) + del(it.k, i) + "</div>").join("") +
-        '<div class="opts">' + (x === ALT ? "" : add(it.k, "str", "足す")) + (it.none ? '<button class="' + (x === ALT ? "on" : "") + '"' + pressed(x === ALT) + ' data-a="alt" data-p="' + it.k + '">' + esc(it.none) + "</button>" : "") + "</div>";
+      case "list": return (isAlt(v, it.k) ? "" : arr(x).map((l, i) => '<div class="row">' + inp(it.k + "." + i, l, "", "", it.label + " " + (i + 1)) + del(it.k, i) + "</div>").join("")) +
+        '<div class="opts">' + (isAlt(v, it.k) ? "" : add(it.k, "str", "足す")) + (it.none ? '<button class="' + (isAlt(v, it.k) ? "on" : "") + '"' + pressed(isAlt(v, it.k)) + ' data-a="alt" data-p="' + it.k + '">' + esc(it.none) + "</button>" : "") + "</div>";
       case "terms": return (it.r ? unclearHtml(v) : "") + arr(x).map((t, i) => '<div class="row">' + inp("terms." + i + ".w", t.w, "用語", "w", "用語 " + (i + 1) + " の言葉") + inp("terms." + i + ".m", t.m, "この本での意味", "m", "用語 " + (i + 1) + " の意味") + inp("terms." + i + ".p", t.p, "ページ", "p", "用語 " + (i + 1) + " のページ") + del("terms", i) + "</div>").join("") + add("terms", "term", "用語を足す");
       case "unity": return unityHtml("unity", x || {}, "下読み");
       case "unity2": { const ready = partsDone(v) || book.skip[3];
@@ -742,7 +748,7 @@ if (typeof document !== "undefined") (function () {
   }
   function progress() {
     const book = cur(); if (!book) return; const v = book.v;
-    const sh = ["s1", "s2", "s3", "s4", "s5", "s6"].filter(k => v[k] === ALT || txt(v[k])).length;
+    const sh = ["s1", "s2", "s3", "s4", "s5", "s6"].filter(k => isAlt(v, k) || txt(v[k])).length;
     const rs = rules(book), parts = ["深さ <b>" + depthOf(v) + "</b>", "下読み <b>" + sh + "/6</b>"];
     if (isRead(v)) parts.push("表面読み <b>" + (liveList(v.points).length ? "済" : "未") + "</b>");
     if (isAna(v)) parts.push("分析読書 <b>" + rs.filter(r => r.done && !r.skip).length + "/" + rs.length + "</b>" + (rs.some(r => r.skip) ? "（やらない " + rs.filter(r => r.skip).length + "）" : ""));
@@ -772,7 +778,7 @@ if (typeof document !== "undefined") (function () {
       case "set": setPath(v, p, getPath(v, p) === d.val ? "" : d.val); break;
       case "tog": { const s = new Set(arr(getPath(v, p))); s.has(d.val) ? s.delete(d.val) : s.add(d.val); setPath(v, p, [...s]); break; }
       case "flip": setPath(v, p, !getPath(v, p)); break;
-      case "alt": setPath(v, p, getPath(v, p) === ALT ? "" : ALT); break;
+      case "alt": { const m = v._alt && typeof v._alt === "object" ? v._alt : (v._alt = {}); if (m[p] === true) delete m[p]; else m[p] = true; break; } /* 欄の内容（v[p]）には触らない */
       case "push": { let a = getPath(v, p); if (!Array.isArray(a)) { a = []; setPath(v, p, a); } a.push(TPL[d.tpl](v)); focus = p + "." + (a.length - 1); break; }
       case "del": { const a = getPath(v, p), gone = a.splice(+d.i, 1)[0];
         if (p === "props" && gone) arr(v.props).forEach(o => { if (o.sup === gone.id) o.sup = ""; });
