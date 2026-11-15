@@ -149,8 +149,12 @@ test("前の形（値が __alt__）の state を読み込むと、「ない」�
   await importState(page, oldBook("old-alt-1"));
   await expectOldBookKept(page);
   // 直した本を読み込み直しても、同じになる（2回目の変換で変わらない）
+  // 先に別の本（サンプル）を今の本にしておく。読み込みが反映されてはじめて、今の本がこの本に戻る
   const once = await current(page);
+  await page.locator("#bookSel").selectOption("sample-gakumon");
+  await expect.poll(async () => (await current(page)).id).toBe("sample-gakumon");
   await importState(page, once);
+  expect((await current(page)).id).toBe("old-alt-1");
   expect(await current(page)).toEqual(once);
 });
 

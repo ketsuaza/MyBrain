@@ -1,4 +1,4 @@
-/* 動作確認用のサンプル。index.html が初回だけ読み込む */
+/* 動作確認用のサンプル。読書メモ.html が初回だけ読み込む */
 window.SAMPLES = [
  {
   "id": "sample-gakumon",
