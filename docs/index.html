@@ -738,11 +738,11 @@ if (typeof document !== "undefined") (function () {
   }
   function say(t) { const m = $("msg"); if (m) m.textContent = t; }
   /* 描き直すと部品は作り直されるので、フォーカスは、同じ働きの部品（タグと、want の data-* が同じもの）に置き直す。
-     same は、その部品の一覧。同じ部品が2か所に出る欄（用語、本の種類）があるので、描き直す前に何番目（n）だったかも合わせる。
+     alike は、その部品の一覧。同じ部品が2か所に出る欄（用語、本の種類）があるので、描き直す前に何番目（n）だったかも合わせる。
      押せない部品には置かない。画面の位置は動かさない。置けたら true */
-  const same = (root, tag, want) => [...root.querySelectorAll(tag)].filter(o => Object.keys(want).every(k => o.dataset[k] === want[k]));
+  const alike = (root, tag, want) => [...root.querySelectorAll(tag)].filter(o => Object.keys(want).every(k => o.dataset[k] === want[k]));
   function refocus(root, tag, want, n) {
-    const hits = same(root, tag, want), el = hits[n] || hits[0]; if (!el || el.disabled) return false;
+    const hits = alike(root, tag, want), el = hits[n] || hits[0]; if (!el || el.disabled) return false;
     el.focus({ preventScroll: true }); return document.activeElement === el;
   }
   const TPL = { str: () => "", term: () => ({ w: "", m: "", p: "", g: false }), part: v => ({ id: nextId(v, "S"), t: "", role: "", to: (arr(v.parts).filter(o => txt(o.t)).pop() || {}).id || "", link: "", sum: "", rel: "", subs: [] }), ground: () => ({ t: "", kind: "" }),
@@ -753,7 +753,7 @@ if (typeof document !== "undefined") (function () {
     const book = cur(), v = book.v, d = b.dataset, p = d.p; let focus = null;
     /* 描き直したあとにフォーカスを置く部品。押したボタンと同じ働きのボタン。行を消す・動かす・読了を入れ替えるときは、下で変える。
        フォーカスが #app の外にあるときは、動かさない */
-    const app = $("app"), had = app.contains(document.activeElement), n = same(app, "BUTTON", d).indexOf(b); let want = Object.assign({}, d);
+    const app = $("app"), had = app.contains(document.activeElement), n = alike(app, "BUTTON", d).indexOf(b); let want = Object.assign({}, d);
     switch (d.a) {
       case "set": setPath(v, p, getPath(v, p) === d.val ? "" : d.val); break;
       case "tog": { const s = new Set(arr(getPath(v, p))); s.has(d.val) ? s.delete(d.val) : s.add(d.val); setPath(v, p, [...s]); break; }
@@ -766,6 +766,8 @@ if (typeof document !== "undefined") (function () {
         if (p === "qs" && gone) { arr(v.props).forEach(o => { if (o.q === gone.id) o.q = ""; }); if (v.solved) delete v.solved[gone.id]; }
         /* 次の行（同じ位置に来る）の「×」。次がなければ前の行の「×」。行がなくなったら、その欄の「足す」 */
         want = a.length ? { a: "del", p, i: String(Math.min(+d.i, a.length - 1)) } : { a: "push", p };
+        /* マウスやタッチで押したとき（detail が 1 以上）は、どこにも置かない。隣の「×」に置くと、続くキーでその行が消える */
+        if (e.detail > 0) want = null;
         break; }
       case "up": case "down": { const a = getPath(v, p), i = +d.i, j = d.a === "up" ? i - 1 : i + 1; if (j >= 0 && j < a.length) { const t = a[i]; a[i] = a[j]; a[j] = t; want.i = String(j); } break; }
       case "skip": book.skip[d.r] = !book.skip[d.r]; break;
@@ -781,7 +783,7 @@ if (typeof document !== "undefined") (function () {
     render(); window.scrollTo(0, y);
     if (focus && secId) { const s = document.getElementById(secId); const el = s && s.querySelector('[data-p^="' + focus + '"]'); if (el) el.focus(); }
     /* 「読了にする」が押せない（足りない項目がある）ときは、隣の「Obsidian に保存」に置く */
-    else if (!focus && had) refocus(app, "BUTTON", want, n) || (want.a === "finish" && refocus(app, "BUTTON", { a: "save" }, 0));
+    else if (!focus && had && want) refocus(app, "BUTTON", want, n) || (want.a === "finish" && refocus(app, "BUTTON", { a: "save" }, 0));
   });
   $("app").addEventListener("input", e => {
     const el = e.target, p = el.dataset.p; if (!p || el.tagName === "BUTTON") return;
@@ -791,13 +793,15 @@ if (typeof document !== "undefined") (function () {
     save(); progress();
   });
   $("app").addEventListener("change", e => { const el = e.target; if (el.tagName !== "SELECT") return;
-    const app = $("app"), had = app.contains(document.activeElement), want = { p: el.dataset.p }, n = same(app, "SELECT", want).indexOf(el), y = window.scrollY;
+    const app = $("app"), had = app.contains(document.activeElement), want = { p: el.dataset.p }, n = alike(app, "SELECT", want).indexOf(el), y = window.scrollY;
     render(); window.scrollTo(0, y);
     /* 主な入力がタッチの端末（iPhone など）では、プルダウンには置き直さない。選んだ直後に focus() を呼ぶと、選択肢の一覧がもう一度開く恐れがある */
     const touch = typeof window.matchMedia === "function" && window.matchMedia("(hover: none) and (pointer: coarse)").matches;
     if (had && !touch) refocus(app, "SELECT", want, n);
   });
   $("app").addEventListener("keydown", e => {
+    /* ボタンの上で Enter を押したままにしたとき（キーリピート）は、働かせない。描き直しのあとに置き直した部品が、続けて押されるのを防ぐ */
+    if (e.key === "Enter" && e.repeat && e.target.closest("button[data-a]")) { e.preventDefault(); return; }
     if (e.key !== "Enter" || e.isComposing || e.target.tagName !== "INPUT") return;
     e.preventDefault();
     const holder = e.target.closest(".card, .item"); const btn = holder && [...holder.querySelectorAll('button[data-a="push"]')].pop();
@@ -851,7 +855,10 @@ if (typeof document !== "undefined") (function () {
       store.sort = s.col === th.dataset.col ? { col: s.col, dir: -s.dir } : { col: th.dataset.col, dir: 1 }; save(); showHits(); return; }
     const tr = e.target.closest("tr[data-no]"); if (tr) pickRow(tr.dataset.no);
   });
-  $("pickHits").addEventListener("keydown", e => { if (e.key !== "Enter") return; const tr = e.target.closest("tr[data-no]"); if (tr) { e.preventDefault(); pickRow(tr.dataset.no); } });
+  /* 行と見出しのボタンの上で Enter を押したままにしたとき（キーリピート）は、働かせない */
+  $("pickHits").addEventListener("keydown", e => { if (e.key !== "Enter") return;
+    if (e.repeat) { if (e.target.closest("tr[data-no], button[data-col]")) e.preventDefault(); return; }
+    const tr = e.target.closest("tr[data-no]"); if (tr) { e.preventDefault(); pickRow(tr.dataset.no); } });
   $("btnNew").addEventListener("click", () => openBook(null));
   $("btnEdit").addEventListener("click", () => { if (cur()) openBook(cur()); });
   $("dlgBook").addEventListener("close", () => {

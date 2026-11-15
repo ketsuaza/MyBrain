@@ -470,3 +470,126 @@ test.describe("タッチの端末（iPhone など）", () => {
     expect(await overflow(page), "横にはみ出した幅（px）").toBeLessThanOrEqual(0);
   });
 });
+
+/* キーを押したままにする。2回目からの keydown は、キーリピート（repeat）になる */
+async function hold(page, key, times) {
+  for (let i = 0; i < times; i++) await page.keyboard.down(key);
+  await page.keyboard.up(key);
+}
+
+test.describe("押したまま、マウスのあとのキー（審査の指摘）", () => {
+  test("「×」で Enter を押したままにしても、消えるのは1行だけ（命題と、要点の一覧）", async ({ page }) => {
+    await setup(page);
+    await put(page, page.locator('button[data-a="del"][data-p="props"][data-i="0"]'));
+    await hold(page, "Enter", 8);
+    await expectFocus(page, BTN, { a: "del", p: "props", i: "0" });
+    expect((await current(page)).v.props.map(o => o.id), "残った命題").toEqual(["P2", "P3"]);
+    await put(page, page.locator('button[data-a="del"][data-p="points"][data-i="0"]'));
+    await hold(page, "Enter", 8);
+    await expectFocus(page, BTN, { a: "del", p: "points", i: "0" });
+    expect((await current(page)).v.points, "残った要点").toEqual(["要点B", "要点C"]);
+    // 離してから押し直すと、次の1行が消える（続けて消す働きは、いままでどおり）
+    await page.keyboard.press("Enter");
+    expect((await current(page)).v.points).toEqual(["要点C"]);
+    // Space の押したままも、1行だけ
+    await hold(page, "Space", 8);
+    expect((await current(page)).v.points).toEqual([]);
+    await expectFocus(page, BTN, { a: "push", p: "points", tpl: "str" });
+    expect((await current(page)).v.props.map(o => o.id)).toEqual(["P2", "P3"]);
+  });
+
+  test("サンプルの本: 規則6の P1 の「×」で Enter を押したままにしても、P2 から後ろの命題は残る", async ({ page }) => {
+    await openTool(page);
+    const ids = (await current(page)).v.props.map(o => o.id);
+    expect(ids.length, "サンプルの命題の数").toBeGreaterThan(2);
+    await put(page, page.locator('button[data-a="del"][data-p="props"][data-i="0"]'));
+    await hold(page, "Enter", 8);
+    expect((await current(page)).v.props.map(o => o.id)).toEqual(ids.slice(1));
+  });
+
+  test("選択のボタン、「やらない」、「？」、「↓」は、Enter を押したままにしても、1回だけ働く", async ({ page }) => {
+    await setup(page);
+    await put(page, page.locator('button[data-a="set"][data-p="budget"][data-val="3時間"]'));
+    await hold(page, "Enter", 4);
+    await expectFocus(page, BTN, { a: "set", p: "budget", val: "3時間" });
+    expect((await current(page)).v.budget, "1回だけ切り替わる").toBe("3時間");
+    await hold(page, "Space", 4);
+    expect((await current(page)).v.budget, "Space の押したままも、1回だけ").toBe("");
+    await put(page, ruleItem(page, 3).locator('button[data-a="skip"]'));
+    await hold(page, "Enter", 4);
+    expect((await current(page)).skip["3"]).toBe(true);
+    await hold(page, "Enter", 4);
+    expect((await current(page)).skip["3"]).toBe(false);
+    await put(page, ruleItem(page, 1).locator('button[data-a="help"]'));
+    await hold(page, "Enter", 4);
+    await expect(ruleItem(page, 1).locator(".help").first()).toContainText("章の中の規則");
+    await put(page, page.locator('button[data-a="down"][data-p="parts"][data-i="0"]'));
+    await hold(page, "Enter", 4);
+    await expect(ruleItem(page, 3).locator(".prow > .id")).toHaveText(["S2", "S1", "S3"]);
+    await expectFocus(page, BTN, { a: "down", p: "parts", i: "1" });
+  });
+
+  test("「本を足す」の表でも、Enter を押したままにして働くのは1回だけ（見出しの並べ替え、行の選択）", async ({ page }) => {
+    const asked = [];
+    page.on("request", r => { if (r.url().startsWith("https://api.openbd.jp/")) asked.push(r.url()); });
+    await openTool(page);
+    await page.click("#btnNew");
+    const rows = page.locator("#pickHits tbody tr");
+    await expect(rows).toHaveCount(BOOKLIST.length);
+    const head = page.locator('#pickHits thead button[data-col="title"]');
+    await head.focus();
+    await expect(head).toBeFocused();
+    await hold(page, "Enter", 4);
+    await expectFocus(page, BTN, { col: "title" });
+    await expect(head, "並べ替えは1回だけ（向きが反転しない）").toHaveText("書名 ▼");
+    // 行の選択。書誌を取りに行くのは1回だけ
+    const k = BOOKLIST.find(b => /^97[89]\d{10}$/.test(String(b.isbn).replace(/\D/g, "")));
+    const row = page.locator(`#pickHits tbody tr[data-no="${k.no}"]`);
+    await row.focus();
+    await expect(row).toBeFocused();
+    await hold(page, "Enter", 4);
+    await expectFocus(page, "TR", { no: String(k.no) });
+    await expect(page.locator('#formBook input[name="booklist_no"]')).toHaveValue(String(k.no));
+    await expect.poll(() => asked.length).toBeGreaterThan(0);
+    await page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
+    expect(asked.length, "openBD に書誌を取りに行った回数").toBe(1);
+  });
+
+  test("マウスで「×」を押したあとは、どの「×」にもフォーカスを置かない。続く Space と Enter で、別の行が消えない", async ({ page }) => {
+    await setup(page);
+    // 命題 P2 の「×」
+    await page.locator('button[data-a="del"][data-p="props"][data-i="1"]').click();
+    expect((await current(page)).v.props.map(o => o.id)).toEqual(["P1", "P3"]);
+    expect((await active(page)).data.a, "フォーカスのある部品は「×」ではない").not.toBe("del");
+    await page.keyboard.press("Space");
+    await page.keyboard.press("Enter");
+    expect((await current(page)).v.props.map(o => o.id), "残った命題").toEqual(["P1", "P3"]);
+    // 要点の一覧
+    await page.locator('button[data-a="del"][data-p="points"][data-i="0"]').click();
+    expect((await active(page)).data.a, "フォーカスのある部品は「×」ではない").not.toBe("del");
+    await page.keyboard.press("Enter");
+    await page.keyboard.press("Space");
+    expect((await current(page)).v.points, "残った要点").toEqual(["要点B", "要点C"]);
+    // マウスでほかのボタンを押したときの置き直しは、いままでどおり
+    await page.locator('button[data-a="set"][data-p="budget"][data-val="30分"]').click();
+    await expectFocus(page, BTN, { a: "set", p: "budget", val: "30分" });
+    // キーボードで「×」を押したときも、いままでどおり（次の行の「×」）
+    const y = await put(page, page.locator('button[data-a="del"][data-p="points"][data-i="0"]'));
+    await press(page, "Enter", y, BTN, { a: "del", p: "points", i: "0" });
+    expect((await current(page)).v.points).toEqual(["要点C"]);
+  });
+
+  test("選択肢が日本語だけのプルダウン（部分の「役割」「どうつながる」）を変えても、フォーカスが残る", async ({ page }) => {
+    await setup(page);
+    for (const [p, val] of [["parts.1.role", "主張を述べる"], ["parts.1.link", "と対比する"]]) {
+      const loc = page.locator(`select[data-p="${p}"]`);
+      const y = await put(page, loc);
+      await loc.selectOption(val);
+      await expectFocus(page, SEL, { p });
+      await expect(page.locator(`select[data-p="${p}"]`)).toHaveValue(val);
+      expect(p.split(".").reduce((o, k) => o[k], (await current(page)).v)).toBe(val);
+      expect(await scrollY(page), "画面の縦の位置").toBe(y);
+      await tabGoesNext(page);
+    }
+  });
+});
