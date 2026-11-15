@@ -404,10 +404,12 @@ function toMarkdown(book, FC) {
   L.push("%%", "この読書メモは 30_projects/MyBrain/docs/index.html から書き出した。直すときは HTML で直す。", "```state", JSON.stringify(book), "```", "%%", "");
   return L.join("\n");
 }
+/* state は、最後の ```state のブロックから読む。toMarkdown は state を末尾に1行で書くので、自由メモなどに ```state のブロックが書かれていても、最後のものが HTML の書いた state である */
 function fromMarkdown(md) {
-  const m = /```state\n([\s\S]*?)\n```/.exec(md);
-  if (!m) throw new Error("state が見つからない");
-  const b = JSON.parse(m[1]);
+  md = md == null ? "" : String(md);
+  const open = "```state\n", i = md.lastIndexOf(open), j = i < 0 ? -1 : md.indexOf("\n```", i + open.length);
+  if (j < 0) throw new Error("state が見つからない");
+  const b = JSON.parse(md.slice(i + open.length, j));
   if (!b || !b.meta || !b.v) throw new Error("state の形が違う");
   b.skip = b.skip || {};
   return b;
