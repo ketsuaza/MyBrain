@@ -276,7 +276,14 @@ const liveTerms = a => arr(a).filter(t => txt(t.w));
 const liveBy = a => arr(a).filter(o => txt(o.t));
 const unityOk = u => !!(u && txt(u.what) && txt(u.claim));
 const unityText = u => (unityOk(u) ? txt(u.what) + " について、" + txt(u.claim) + " と言っている本" : "");
-const partsDone = v => { const p = liveBy(v.parts); return p.length > 0 && p.every((o, i) => o.role && txt(o.sum) && (i === 0 || o.to === "none" || (o.to && o.link))); };
+/* 命題・部分・問題を指す参照（sup、to、parent、q）の、いま有効な値。相手の文が空のとき（と、相手がいないとき）は、未選択（""）として扱う。
+   保存された値は消さないので、相手の文を書き直すと、参照が元どおり出る。画面のプルダウンの選択肢（文が空の相手は出ない）と同じ決まり */
+const refTo = (list, self, id) => (id && arr(list).some(o => o !== self && o.id === id && txt(o.t)) ? id : "");
+const supOf = (v, p) => (p.sup === "main" || p.sup === "none" ? p.sup : refTo(v.props, p, p.sup));
+const toOf = (v, o) => (o.to === "none" ? "none" : refTo(v.parts, o, o.to));
+const parentOf = (v, o) => refTo(v.qs, o, o.parent);
+const qOf = (v, p) => refTo(v.qs, null, p.q);
+const partsDone = v => { const p = liveBy(v.parts); return p.length > 0 && p.every((o, i) => o.role && txt(o.sum) && (i === 0 || toOf(v, o) === "none" || (toOf(v, o) && o.link))); };
 const restated = v => !!(v.restate && txt(v.restate.s) && txt(v.restate.ex));
 const judged = ps => ps.length > 0 && ps.every(p => p.judge);
 /* 中心の主張から、支える命題をたどった連なり。[{ p, depth }]。循環しても止まる */
@@ -299,8 +306,8 @@ function filled(it, v) {
     case "unity": return unityOk(x);
     case "unity2": return unityOk(x) && !!v.unity2;
     case "parts": return partsDone(v);
-    case "qs": { const q = liveBy(x); return q.length > 0 && q.some(o => !o.parent); }
-    case "props": return ps.length > 0 && ps.every(p => p.sup && txt(p.loc));
+    case "qs": { const q = liveBy(x); return q.length > 0 && q.some(o => !parentOf(v, o)); }
+    case "props": return ps.length > 0 && ps.every(p => supOf(v, p) && txt(p.loc));
     case "grounds": return ps.length > 0 && ps.every(p => arr(p.grounds).some(g => g.kind) && (p.sup !== "main" || txt(p.arg)));
     case "solved": { const q = liveBy(v.qs); return q.length > 0 && q.every(o => { const r = (v.solved || {})[o.id] || {}; return r.s && (r.s === "解決した" || r.aware); }); }
     case "understand": return restated(v) && ps.length > 0 && ps.every(p => p.judge);
@@ -336,7 +343,7 @@ function missing(book) {
 }
 /* Obsidian のファイル名とリンクで使えない文字（\ / : * ? " < > | # ^ [ ]）は空白にする。書名そのものは frontmatter に残る */
 function fileName(book) { return txt(book.meta.title).replace(/[\\\/:*?"<>|#^\[\]]/g, " ").replace(/\s+/g, " ").trim() || "無題"; }
-function supText(p) { return p.sup === "main" ? "中心の主張" : p.sup === "none" ? "つながり不明" : p.sup ? p.sup + " を支える" : ""; }
+function supText(v, p) { const sup = supOf(v, p); return sup === "main" ? "中心の主張" : sup === "none" ? "つながり不明" : sup ? sup + " を支える" : ""; }
 /* Agent のファクトチェックの結果は、factcheck.js だけにある。ここは読むだけ。
    stale: 調べたあとに命題の文が書き換えられている（結果は、書き換える前の文に対するもの） */
 function factOf(book, pid, FC) {
@@ -368,12 +375,12 @@ function toMarkdown(book, FC) {
       case "unity": out.push("- " + head + ": " + unityText(x)); break;
       case "unity2": out.push("- " + head + ": " + unityText(x) + (v.unity2 ? "（" + v.unity2 + "）" : "")); break;
       case "parts": out.push("- " + head + ":"); liveBy(x).forEach(o => {
-        out.push("  - " + o.id + " " + txt(o.t) + (o.role ? " — " + o.role : "") + (o.to === "none" ? "（独立している）" : o.to && o.link ? "（" + o.to + " " + o.link + "）" : ""));
+        out.push("  - " + o.id + " " + txt(o.t) + (o.role ? " — " + o.role : "") + (toOf(v, o) === "none" ? "（独立している）" : toOf(v, o) && o.link ? "（" + o.to + " " + o.link + "）" : ""));
         if (txt(o.sum)) out.push("    概要: " + txt(o.sum));
         if (txt(o.rel)) out.push("    統一の文で受け持つところ: " + txt(o.rel));
         liveList(o.subs).forEach(t => out.push("    - " + t)); }); break;
-      case "qs": out.push("- " + head + ":"); liveBy(x).forEach(o => out.push("  - " + o.id + " " + txt(o.t) + (o.parent ? "（" + o.parent + " に従属）" : "（主な問い）"))); break;
-      case "props": out.push("- " + head + ":"); ps.forEach(p => out.push("  - " + p.id + " " + txt(p.t) + (supText(p) ? "（" + supText(p) + "）" : "") + (p.q ? "〔" + p.q + " に答える〕" : "") + (txt(p.loc) ? "［" + txt(p.loc) + "］" : ""))); break;
+      case "qs": out.push("- " + head + ":"); liveBy(x).forEach(o => out.push("  - " + o.id + " " + txt(o.t) + (parentOf(v, o) ? "（" + o.parent + " に従属）" : "（主な問い）"))); break;
+      case "props": out.push("- " + head + ":"); ps.forEach(p => out.push("  - " + p.id + " " + txt(p.t) + (supText(v, p) ? "（" + supText(v, p) + "）" : "") + (qOf(v, p) ? "〔" + p.q + " に答える〕" : "") + (txt(p.loc) ? "［" + txt(p.loc) + "］" : ""))); break;
       case "grounds": out.push("- " + head + ":"); chainOf(v).forEach(({ p, depth }) => {
         const pad = "  " + "  ".repeat(depth);
         out.push(pad + "- " + (depth ? "← " : "") + p.id + " " + txt(p.t) + (p.sup === "main" ? "（中心の主張）" : "") + (txt(p.arg) ? ": " + txt(p.arg) : ""));
@@ -604,7 +611,7 @@ if (typeof document !== "undefined") (function () {
         return all.map((o, i) => '<div class="prow"><span class="id">' + esc(o.id) + "</span>" + inp("parts." + i + ".t", o.t, "部分の名前（目次の区切り）", "", o.id + " の名前") +
           sel("parts." + i + ".role", o.role || "", [["", "役割"]].concat(PART_ROLES.map(r => [r, r])), o.id + " の役割") +
           sel("parts." + i + ".to", o.to || "", toOpts(all, o, i), o.id + " がつながる部分") +
-          (o.to && o.to !== "none" ? sel("parts." + i + ".link", o.link || "", [["", "どうつながる"]].concat(PART_LINKS.map(r => [r, r])), o.id + " のつながり方") : "") +
+          (toOf(v, o) && toOf(v, o) !== "none" ? sel("parts." + i + ".link", o.link || "", [["", "どうつながる"]].concat(PART_LINKS.map(r => [r, r])), o.id + " のつながり方") : "") +
           '<button class="x" data-a="up" data-p="parts" data-i="' + i + '" aria-label="上へ">↑</button><button class="x" data-a="down" data-p="parts" data-i="' + i + '" aria-label="下へ">↓</button>' + del("parts", i) +
           '<div class="sub"><div class="sentence"><span>概要</span>' + inp("parts." + i + ".sum", o.sum, "この部分が言っていること", "", o.id + " の概要") + "<span>受け持つ所</span>" + inp("parts." + i + ".rel", o.rel, "統一の文のどこを受け持つか", "", o.id + " の受け持つ所") +
           arr(o.subs).map((t, j) => "<span>区分 " + (j + 1) + '</span><div class="row" style="margin:0">' + inp("parts." + i + ".subs." + j, t, "下位の区分", "", o.id + " の区分 " + (j + 1)) + del("parts." + i + ".subs", j) + "</div>").join("") +
