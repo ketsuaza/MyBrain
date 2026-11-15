@@ -695,6 +695,9 @@ if (typeof document !== "undefined") (function () {
     if (olds.length !== news.length || olds.some((o, i) => o.nodeName !== news[i].nodeName)) return false;
     const top = keep.getBoundingClientRect().top;
     morphKids(app, fresh, olds, news, 0);
+    /* 入力中でない欄の今の値を、状態に合わせる。属性が同じで書き換えなかった欄も、値だけが古いことがある（同じ欄が2か所に出る用語の欄） */
+    app.querySelectorAll("input[data-p], textarea[data-p]").forEach(o => { if (o === keep) return;
+      const x = getPath(book.v, o.dataset.p), val = (x == null ? "" : String(x)).replace(/\r\n?/g, "\n"); if (o.value !== val) o.value = val; });
     /* 入力中の欄より上の高さが変わっても、欄が画面の同じ位置に残るようにする */
     const moved = keep.getBoundingClientRect().top - top; if (moved) window.scrollBy(0, moved);
     return true;
@@ -704,12 +707,11 @@ if (typeof document !== "undefined") (function () {
     if (a.isEqualNode(b)) return;
     if (a.nodeType !== b.nodeType || a.nodeName !== b.nodeName || a.nodeName === "SELECT") { a.parentNode.replaceChild(b, a); return; }
     if (a.nodeType !== 1) { a.nodeValue = b.nodeValue; return; }
-    const val = b.value; /* 子を a へ移す前に控える（textarea の値は子の文字から決まる） */
     attrs(a, b); list(a, [...a.childNodes], [...b.childNodes], null);
-    if ((a.nodeName === "INPUT" || a.nodeName === "TEXTAREA") && a.value !== val) a.value = val;
   }
+  /* textarea の style は、描く側は出さず、つまみを引いて広げたときにブラウザが付ける。消すと高さが戻るので残す */
   function attrs(a, b) {
-    [...a.attributes].forEach(t => { if (!b.hasAttribute(t.name)) a.removeAttribute(t.name); });
+    [...a.attributes].forEach(t => { if (!b.hasAttribute(t.name) && !(a.nodeName === "TEXTAREA" && t.name === "style")) a.removeAttribute(t.name); });
     [...b.attributes].forEach(t => { if (a.getAttribute(t.name) !== t.value) a.setAttribute(t.name, t.value); });
   }
   /* parent の子の並び as を、bs と同じにする。余った分は消し、足りない分は before の前に足す */

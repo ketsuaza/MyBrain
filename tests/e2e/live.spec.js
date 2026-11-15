@@ -1,5 +1,6 @@
 // 仕様: 文字を入力したら、その内容を使うほかの欄も、その場で最新になる（issue #53）。
-// ほかのボタンやプルダウンは操作しない。入力はキーボードで1文字ずつ打つ。
+// 入力のあと、表示を最新にするためのボタンやプルダウンの操作はしない（前準備と、結果を確かめるための操作は行う）。
+// 入力はキーボードで1文字ずつ打つ（かな漢字変換の仕様だけは、変換の途中の状態をブラウザの口から直接入れる）。
 // 入力中の欄は同じ部品のまま残り、フォーカスとカーソルの位置が変わらないことも確かめる。
 const { test, expect } = require("@playwright/test");
 const { openTool, importState, ruleItem, current } = require("./helpers");
@@ -269,6 +270,65 @@ test("あちこちの欄に打ったあとの画面は、同じ内容を開き�
   await page.reload();
   await expect(page.locator("#sec-a2 input[data-p='props.2.t']")).toHaveValue("テスト用の命題3");
   expect(typed).toBe(await snapshot());
+});
+
+test("同じ用語の欄の片方に打ち、もう片方で元の値に戻すと、先に打った側の欄も戻る", async ({ page }) => {
+  await setup(page, { terms: [{ w: "foo", m: "", p: "", g: false }, { w: "", m: "", p: "", g: false }] });
+  const top = i => page.locator(`#sec-shitayomi input[data-p="terms.${i}.w"]`), r5 = i => ruleItem(page, 5).locator(`input[data-p="terms.${i}.w"]`);
+  const word = async i => (await current(page)).v.terms[i].w;
+  // 規則5で「bar」を足し、下読みの同じ欄で「bar」を選んで消す
+  await enter(r5(0));
+  await caret(r5(0));
+  await page.keyboard.type("bar");
+  await expect(top(0)).toHaveValue("foobar");
+  await enter(top(0));
+  await top(0).evaluate(el => el.setSelectionRange(3, 6));
+  await page.keyboard.press("Backspace");
+  expect(await word(0)).toBe("foo");
+  await expect(top(0)).toHaveValue("foo");
+  await expect(r5(0)).toHaveValue("foo");
+  // 規則5で空の用語に打ち、下読みの同じ欄で全部を選んで消す
+  await enter(r5(1));
+  await page.keyboard.type("用語A");
+  await expect(top(1)).toHaveValue("用語A");
+  await enter(top(1));
+  await page.keyboard.press("ControlOrMeta+a");
+  await page.keyboard.press("Backspace");
+  expect(await word(1)).toBe("");
+  await expect(r5(1)).toHaveValue("");
+  // ほかの欄に打ったあとも、消した文字は戻らない
+  await enter(page.locator('#sec-checkout textarea[data-p="memo"]'));
+  await page.keyboard.type("メモ");
+  await expect(r5(1)).toHaveValue("");
+  await expect(top(1)).toHaveValue("");
+  // その欄に打つと、打った文字だけが入る
+  await enter(r5(1));
+  await page.keyboard.type("!");
+  expect(await word(1)).toBe("!");
+  await expect(top(1)).toHaveValue("!");
+  expect(await active(page)).toEqual({ same: true, p: "terms.1.w", value: "!", start: 1, end: 1 });
+});
+
+test("広げた自由メモの欄の高さは、ほかの欄に打っても、その欄に打っても、元に戻らない", async ({ page }) => {
+  await setup(page);
+  const memo = page.locator('#sec-checkout textarea[data-p="memo"]');
+  const height = async () => (await memo.boundingBox()).height;
+  const h0 = await height();
+  // つまみを引いて広げたときと同じく、欄に高さが付いた状態を作る
+  await memo.evaluate((el, h) => { el.style.height = h + "px"; }, h0 + 150);
+  expect(await height()).toBe(h0 + 150);
+  const dd = page.locator("#sec-checkout dl.sum dd").nth(3);
+  await enter(page.locator('#sec-checkout textarea[data-p="meaning"]'));
+  await page.keyboard.type("意義");
+  await expect(dd).toHaveText("意義");
+  expect(await height(), "ほかの欄に打ったあとの高さ").toBe(h0 + 150);
+  await enter(memo);
+  await page.keyboard.type("メモ");
+  await enter(page.locator('#sec-checkout textarea[data-p="meaning"]'));
+  await page.keyboard.type("x");
+  await expect(dd).toHaveText("意義x");
+  expect(await height(), "その欄に打ち、またほかの欄に打ったあとの高さ").toBe(h0 + 150);
+  await expect(memo).toHaveValue("メモ");
 });
 
 test.describe("390px の幅", () => {
