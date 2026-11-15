@@ -445,3 +445,28 @@ test.describe("iPhone の幅（390px）", () => {
     expect(await overflow(page), "横にはみ出した幅（px）").toBeLessThanOrEqual(0);
   });
 });
+
+test.describe("タッチの端末（iPhone など）", () => {
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+
+  test("タッチの端末では、プルダウンを変えたあと、そのプルダウンにフォーカスを置き直さない。値は変わり、画面の縦の位置は動かない。ボタンには残る", async ({ page }) => {
+    await setup(page);
+    expect(await page.evaluate(() => matchMedia("(hover: none) and (pointer: coarse)").matches), "この設定は、主な入力がタッチの端末として扱われる").toBe(true);
+    const y = await put(page, page.locator('select[data-p="props.0.q"]'));
+    await page.keyboard.press("Q");
+    expect((await current(page)).v.props[0].q).toBe("Q2");
+    await expect(page.locator('select[data-p="props.0.q"]')).toHaveValue("Q2");
+    expect((await active(page)).tag, "フォーカスのある部品（プルダウンには置き直さない）").not.toBe("SELECT");
+    expect(await scrollY(page), "画面の縦の位置").toBe(y);
+    // 続けて変えられる（置き直さないので、もう一度プルダウンに入る）
+    await put(page, page.locator('select[data-p="props.0.q"]'));
+    await page.keyboard.press("Q");
+    expect((await current(page)).v.props[0].q).toBe("Q3");
+    expect((await active(page)).tag, "フォーカスのある部品（プルダウンには置き直さない）").not.toBe("SELECT");
+    expect(await scrollY(page), "画面の縦の位置").toBe(y);
+    // ボタンの置き直しは、タッチの端末でもそのまま
+    const y2 = await put(page, page.locator('button[data-a="set"][data-p="props.2.judge"][data-val="賛成"]'));
+    await press(page, "Space", y2, BTN, { a: "set", p: "props.2.judge", val: "賛成" });
+    expect(await overflow(page), "横にはみ出した幅（px）").toBeLessThanOrEqual(0);
+  });
+});

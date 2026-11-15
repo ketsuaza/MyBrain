@@ -793,7 +793,9 @@ if (typeof document !== "undefined") (function () {
   $("app").addEventListener("change", e => { const el = e.target; if (el.tagName !== "SELECT") return;
     const app = $("app"), had = app.contains(document.activeElement), want = { p: el.dataset.p }, n = same(app, "SELECT", want).indexOf(el), y = window.scrollY;
     render(); window.scrollTo(0, y);
-    if (had) refocus(app, "SELECT", want, n);
+    /* 主な入力がタッチの端末（iPhone など）では、プルダウンには置き直さない。選んだ直後に focus() を呼ぶと、選択肢の一覧がもう一度開く恐れがある */
+    const touch = typeof window.matchMedia === "function" && window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    if (had && !touch) refocus(app, "SELECT", want, n);
   });
   $("app").addEventListener("keydown", e => {
     if (e.key !== "Enter" || e.isComposing || e.target.tagName !== "INPUT") return;
