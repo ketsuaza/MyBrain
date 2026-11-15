@@ -127,6 +127,29 @@ test("判定、本の種類、書誌にタグを入れた state（分析読書�
   await expectInert(page, "書誌を開いたあと");
 });
 
+test("「ない」の印（v._alt）のキーや値にタグを入れた state でも、スクリプトが動かない。true でない値は、印として扱わない", async ({ page }) => {
+  const book = evil();
+  book.v._alt = { [X("altkey")]: true, s1: X("altval"), s2: true, unclear: X("altval") };
+  book.v.s1 = X("s1"); book.v.s2 = X("s2"); book.v.unclear = [X("unclear")];
+  await setup(page, book);
+  await expectInert(page, "読み込んだ直後");
+  await expect(page.locator('#app textarea[data-p="s1"]'), "値が true でない印は、印として扱わない").toHaveValue(X("s1"));
+  await expect(page.locator('#app button[data-a="alt"][data-p="s1"]')).toHaveAttribute("aria-pressed", "false");
+  await expect(page.locator('#app textarea[data-p="s2"]')).toHaveCount(0);
+  await expect(page.locator('#app button[data-a="alt"][data-p="s2"]')).toHaveAttribute("aria-pressed", "true");
+  await expect(ruleItem(page, 5).locator(".note")).toHaveText("表面読みで分からなかった所: " + X("unclear"));
+  // 印を外す、付ける、文字を打つ
+  await page.locator('#app button[data-a="alt"][data-p="s2"]').click();
+  await expect(page.locator('#app textarea[data-p="s2"]')).toHaveValue(X("s2"));
+  await page.locator('#app button[data-a="alt"][data-p="unclear"]').click();
+  await expect(ruleItem(page, 5).locator(".note")).toHaveCount(0);
+  await page.locator('#app button[data-a="alt"][data-p="unclear"]').click();
+  await page.locator('#app input[data-p="unclear.0"]').click();
+  await page.keyboard.type("x");
+  await expect(ruleItem(page, 5).locator(".note")).toContainText('<img src=x onerror="__xss=1">');
+  await expectInert(page, "印を外し、付け、文字を打ったあと");
+});
+
 test("ふつうの state の読み込み（サンプル、前の形のサンプル）は、これまでどおり動く", async ({ page }) => {
   await openTool(page);
   const sample = loadWindowJs("sample.js").SAMPLES[0];

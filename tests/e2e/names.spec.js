@@ -177,6 +177,60 @@ test("名前や状態の属性は、見た目に効かない（属性を外し�
   expect(await boxes()).toEqual(before);
 });
 
+test("「この本にはない」「なかった」「やらない」の aria-pressed が、印（v._alt）と合う。隠れている欄を戻すと、内容と名前のある欄が出る", async ({ page }) => {
+  // 印は v._alt に持ち、欄の内容は残っている形。s2 は、前の形（欄の値そのものが印）
+  const b = base({ _alt: { s1: true, unclear: true, action: true }, s1: "テスト用の序文", s2: "__alt__", unclear: ["分からない語A", "分からない語B"], action: "テスト用のやること", s3: "テスト用の索引" });
+  await setup(page, b);
+  const btn = k => page.locator(`#app button[data-a="alt"][data-p="${k}"]`);
+  const note = ruleItem(page, 5).locator(".note");
+  // 印のある欄: ボタンは選択中で、欄は隠れている。印のない欄: 選択中でなく、欄が出ている
+  for (const k of ["s1", "s2", "unclear", "action"]) {
+    await expect(btn(k), k + " のボタン").toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator(`#app [data-p="${k}"], #app [data-p^="${k}."]`).and(page.locator("input, textarea")), k + " の欄は隠れている").toHaveCount(0);
+  }
+  await expect(btn("s3")).toHaveAttribute("aria-pressed", "false");
+  await expect(page.locator('#app textarea[data-p="s3"]')).toHaveValue("テスト用の索引");
+  await expect(note, "「なかった」のあいだ、規則5に分からなかった所は出ない").toHaveCount(0);
+  expect(await pressedMismatch(page), "aria-pressed が見た目と食い違うボタン").toEqual([]);
+  let fs = await fields(page, "body");
+  expect(unnamed(fs), "名前のない入力欄").toEqual([]);
+  // キーボードで印を外す。フォーカスは押したボタンに残り、内容と名前のある欄が出る
+  for (const [k, key] of [["s1", "Space"], ["unclear", "Enter"], ["action", "Space"]]) {
+    await btn(k).focus();
+    await page.keyboard.press(key);
+    await expect(btn(k), k + " のボタン").toHaveAttribute("aria-pressed", "false");
+    await expect(btn(k), k + " のボタンにフォーカスが残る").toBeFocused();
+  }
+  await expect(page.getByRole("textbox", { name: "表題と序文 — 著者が述べている本のねらい", exact: true })).toHaveValue("テスト用の序文");
+  await expect(page.getByRole("textbox", { name: "分からなかった所 1", exact: true })).toHaveValue("分からない語A");
+  await expect(page.getByRole("textbox", { name: "分からなかった所 2", exact: true })).toHaveValue("分からない語B");
+  await expect(page.getByRole("textbox", { name: "やること", exact: true })).toHaveValue("テスト用のやること");
+  await expect(note).toHaveText("表面読みで分からなかった所: 分からない語A / 分からない語B");
+  fs = await fields(page, "body");
+  expect(unnamed(fs), "名前のない入力欄").toEqual([]);
+  expect(dups(fs), "同じ項目の中で、名前が重なる欄").toEqual([]);
+  expect(await pressedMismatch(page)).toEqual([]);
+  // 戻した欄に文字を打つと、それを使う欄（規則5）がその場で最新になる
+  const u = page.getByRole("textbox", { name: "分からなかった所 1", exact: true });
+  await u.click();
+  await u.evaluate(el => el.setSelectionRange(el.value.length, el.value.length));
+  await page.keyboard.type("を直す");
+  await expect(note).toHaveText("表面読みで分からなかった所: 分からない語Aを直す / 分からない語B");
+  await expect(u).toBeFocused();
+  await expect(btn("unclear")).toHaveAttribute("aria-pressed", "false");
+  // 印を付け直すと、選択中になり、欄は隠れる。内容は残る
+  await btn("unclear").focus();
+  await page.keyboard.press("Space");
+  await expect(btn("unclear")).toHaveAttribute("aria-pressed", "true");
+  await expect(btn("unclear")).toBeFocused();
+  await expect(note).toHaveCount(0);
+  await expect(page.locator('#app input[data-p^="unclear."]')).toHaveCount(0);
+  const v = (await current(page)).v;
+  expect([v._alt, v.unclear, v.s1, v.s2]).toEqual([{ s2: true, unclear: true }, ["分からない語Aを直す", "分からない語B"], "テスト用の序文", ""]);
+  expect(await pressedMismatch(page)).toEqual([]);
+  expect(unnamed(await fields(page, "body"))).toEqual([]);
+});
+
 test.describe("iPhone の幅（390px）", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
