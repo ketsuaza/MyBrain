@@ -557,19 +557,11 @@ if (typeof document !== "undefined") (function () {
   const del = (p, i) => '<button class="x" data-a="del" data-p="' + p + '" data-i="' + i + '" aria-label="消す">×</button>';
   const add = (p, tpl, text) => '<button data-a="push" data-p="' + p + '" data-tpl="' + tpl + '">＋ ' + text + "</button>";
   const sel = (p, curv, opts) => '<select data-p="' + p + '">' + opts.map(o => '<option value="' + esc(o[0]) + '"' + (curv === o[0] ? " selected" : "") + ">" + esc(o[1]) + "</option>").join("") + "</select>";
-  /* 命題・部分・問題を指すプルダウンの選択肢。文を入力したその場で選べるよう、入力のたびに refreshRefs で作り直す */
+  /* 命題・部分・問題を指すプルダウンの選択肢。文を入力したその場で選べるよう、入力のたびに refresh で作り直す */
   const supOpts = (all, p) => [["", "選ぶ"], ["main", "中心の主張"]].concat(all.filter(o => o !== p && txt(o.t)).map(o => [o.id, o.id + " を支える"])).concat([["none", "つながり不明"]]);
   const toOpts = (all, o, i) => [["", i ? "どの部分と" : "（最初の部分）"]].concat(all.filter(q => q !== o && txt(q.t)).map(q => [q.id, q.id + " " + txt(q.t).slice(0, 10)])).concat([["none", "独立している"]]);
   const parentOpts = (v, o) => [["", "主な問い"]].concat(liveBy(v.qs).filter(q => q !== o).map(q => [q.id, q.id + " に従属"]));
   const qOpts = v => [["", "なし"]].concat(liveBy(v.qs).map(o => [o.id, o.id + " " + txt(o.t).slice(0, 18)]));
-  function refreshRefs(v) {
-    const fill = (el, opts) => { const val = el.value; el.innerHTML = opts.map(o => '<option value="' + esc(o[0]) + '"' + (val === o[0] ? " selected" : "") + ">" + esc(o[1]) + "</option>").join(""); };
-    document.querySelectorAll("#app select[data-p]").forEach(el => {
-      const m = /^(props|parts|qs)\.(\d+)\.(sup|to|q|parent)$/.exec(el.dataset.p); if (!m) return;
-      const all = arr(v[m[1]]), i = +m[2];
-      fill(el, m[3] === "sup" ? supOpts(all, all[i]) : m[3] === "to" ? toOpts(all, all[i], i) : m[3] === "parent" ? parentOpts(v, all[i]) : qOpts(v));
-    });
-  }
   const noProps = '<div class="help">規則6で命題を足すと、ここに並ぶ。</div>';
 
   function factHtml(book, p) {
@@ -683,9 +675,54 @@ if (typeof document !== "undefined") (function () {
     $("bookSel").innerHTML = store.books.map(b => '<option value="' + b.id + '"' + (book && b.id === book.id ? " selected" : "") + ">" + (b.meta.finished ? "✓ " : "") + h(b.meta.title || "無題") + "</option>").join("");
     if (book && isAna(book.v) && !book.v.unityA && unityOk(book.v.unity)) { book.v.unityA = JSON.parse(JSON.stringify(book.v.unity)); save(); }
     if (!book) { $("app").innerHTML = '<div class="empty">「本を足す」から、読む本を選ぶ。</div>'; $("prog").innerHTML = ""; return; }
-    $("app").innerHTML = visibleSections(book.v).map(s => '<section id="sec-' + s.id + '"><h2>' + h(s.title) + (s.sub ? "<small>" + h(s.sub) + "</small>" : "") + "</h2>" +
-      visibleItems(s, book.v).map(it => itemHtml(it, book)).join("") + (s.id === "checkout" ? '<div id="finish">' + finishInner(book) + "</div>" : "") + "</section>").join("");
+    $("app").innerHTML = appHtml(book);
     progress();
+  }
+  function appHtml(book) {
+    return visibleSections(book.v).map(s => '<section id="sec-' + s.id + '"><h2>' + h(s.title) + (s.sub ? "<small>" + h(s.sub) + "</small>" : "") + "</h2>" +
+      visibleItems(s, book.v).map(it => itemHtml(it, book)).join("") + (s.id === "checkout" ? '<div id="finish">' + finishInner(book) + "</div>" : "") + "</section>").join("");
+  }
+  /* 入力のたびに、入力中の欄（keep）を除く画面を最新にする。
+     今の状態から画面を作り直したもの（fresh）と比べ、違う所だけを書き換える。keep とその親は同じ部品のまま残し、keep の中身と値には触らない。
+     そのため、フォーカス、カーソルの位置、かな漢字変換の途中の状態は変わらない。keep に当たる欄が fresh にないときは、何もしない */
+  function refresh(keep) {
+    const book = cur(), app = $("app"); if (!book || !app.contains(keep)) return false;
+    const fresh = document.createElement("main"); fresh.innerHTML = appHtml(book);
+    const same = root => [...root.querySelectorAll(keep.tagName)].filter(o => o.dataset.p === keep.dataset.p);
+    const twin = same(fresh)[same(app).indexOf(keep)]; if (!twin) return false;
+    const up = (el, root) => { const a = []; for (; el !== root; el = el.parentNode) a.unshift(el); return a; };
+    const olds = up(keep, app), news = up(twin, fresh);
+    if (olds.length !== news.length || olds.some((o, i) => o.nodeName !== news[i].nodeName)) return false;
+    const top = keep.getBoundingClientRect().top;
+    morphKids(app, fresh, olds, news, 0);
+    /* 入力中の欄より上の高さが変わっても、欄が画面の同じ位置に残るようにする */
+    const moved = keep.getBoundingClientRect().top - top; if (moved) window.scrollBy(0, moved);
+    return true;
+  }
+  /* 部品 a を、新しく作った b と同じ内容にする。プルダウンは選択の状態ごと取り替える */
+  function morph(a, b) {
+    if (a.isEqualNode(b)) return;
+    if (a.nodeType !== b.nodeType || a.nodeName !== b.nodeName || a.nodeName === "SELECT") { a.parentNode.replaceChild(b, a); return; }
+    if (a.nodeType !== 1) { a.nodeValue = b.nodeValue; return; }
+    const val = b.value; /* 子を a へ移す前に控える（textarea の値は子の文字から決まる） */
+    attrs(a, b); list(a, [...a.childNodes], [...b.childNodes], null);
+    if ((a.nodeName === "INPUT" || a.nodeName === "TEXTAREA") && a.value !== val) a.value = val;
+  }
+  function attrs(a, b) {
+    [...a.attributes].forEach(t => { if (!b.hasAttribute(t.name)) a.removeAttribute(t.name); });
+    [...b.attributes].forEach(t => { if (a.getAttribute(t.name) !== t.value) a.setAttribute(t.name, t.value); });
+  }
+  /* parent の子の並び as を、bs と同じにする。余った分は消し、足りない分は before の前に足す */
+  function list(parent, as, bs, before) {
+    bs.forEach((b, i) => { if (i < as.length) morph(as[i], b); else parent.insertBefore(b, before); });
+    as.slice(bs.length).forEach(a => parent.removeChild(a));
+  }
+  /* 入力中の欄へ続く親（olds[d]）は取り替えずに属性だけを合わせ、その前と後ろの兄弟を、それぞれ新しい並びに合わせる */
+  function morphKids(a, b, olds, news, d) {
+    const as = [...a.childNodes], bs = [...b.childNodes], i = as.indexOf(olds[d]), j = bs.indexOf(news[d]);
+    list(a, as.slice(0, i), bs.slice(0, j), olds[d]);
+    list(a, as.slice(i + 1), bs.slice(j + 1), null);
+    if (d < olds.length - 1) { attrs(olds[d], news[d]); morphKids(olds[d], news[d], olds, news, d + 1); }
   }
   function progress() {
     const book = cur(); if (!book) return; const v = book.v;
@@ -732,8 +769,8 @@ if (typeof document !== "undefined") (function () {
   $("app").addEventListener("input", e => {
     const el = e.target, p = el.dataset.p; if (!p || el.tagName === "BUTTON") return;
     setPath(cur().v, p, el.value);
-    document.querySelectorAll('[data-p="' + p + '"]').forEach(o => { if (o !== el && o.tagName !== "BUTTON" && o.value !== el.value) o.value = el.value; });
-    if (/^(props|parts|qs)\.\d+\.t$/.test(p)) refreshRefs(cur().v);
+    /* プルダウンは、このあとの change で全体を描き直す。文字の欄は、入力中の欄を残して、ほかを最新にする */
+    if (el.tagName !== "SELECT") refresh(el);
     save(); progress();
   });
   $("app").addEventListener("change", e => { if (e.target.tagName === "SELECT") { const y = window.scrollY; render(); window.scrollTo(0, y); } });
