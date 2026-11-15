@@ -737,12 +737,23 @@ if (typeof document !== "undefined") (function () {
     const f = $("finish"); if (f && !f.contains(document.activeElement)) f.innerHTML = finishInner(book);
   }
   function say(t) { const m = $("msg"); if (m) m.textContent = t; }
+  /* 描き直すと部品は作り直されるので、フォーカスは、同じ働きの部品（タグと、want の data-* が同じもの）に置き直す。
+     same は、その部品の一覧。同じ部品が2か所に出る欄（用語、本の種類）があるので、描き直す前に何番目（n）だったかも合わせる。
+     押せない部品には置かない。画面の位置は動かさない。置けたら true */
+  const same = (root, tag, want) => [...root.querySelectorAll(tag)].filter(o => Object.keys(want).every(k => o.dataset[k] === want[k]));
+  function refocus(root, tag, want, n) {
+    const hits = same(root, tag, want), el = hits[n] || hits[0]; if (!el || el.disabled) return false;
+    el.focus({ preventScroll: true }); return document.activeElement === el;
+  }
   const TPL = { str: () => "", term: () => ({ w: "", m: "", p: "", g: false }), part: v => ({ id: nextId(v, "S"), t: "", role: "", to: (arr(v.parts).filter(o => txt(o.t)).pop() || {}).id || "", link: "", sum: "", rel: "", subs: [] }), ground: () => ({ t: "", kind: "" }),
     q: v => ({ id: nextId(v, "Q"), t: "", parent: "" }), prop: v => ({ id: nextId(v, "P"), t: "", loc: "", sup: "", q: "", grounds: [], arg: "", judge: "", why: "", self: "", k12: "", k13: "", k14: "", k15: "" }) };
 
   $("app").addEventListener("click", e => {
     const b = e.target.closest("button[data-a]"); if (!b) return;
     const book = cur(), v = book.v, d = b.dataset, p = d.p; let focus = null;
+    /* 描き直したあとにフォーカスを置く部品。押したボタンと同じ働きのボタン。行を消す・動かす・読了を入れ替えるときは、下で変える。
+       フォーカスが #app の外にあるときは、動かさない */
+    const app = $("app"), had = app.contains(document.activeElement), n = same(app, "BUTTON", d).indexOf(b); let want = Object.assign({}, d);
     switch (d.a) {
       case "set": setPath(v, p, getPath(v, p) === d.val ? "" : d.val); break;
       case "tog": { const s = new Set(arr(getPath(v, p))); s.has(d.val) ? s.delete(d.val) : s.add(d.val); setPath(v, p, [...s]); break; }
@@ -753,12 +764,14 @@ if (typeof document !== "undefined") (function () {
         if (p === "props" && gone) arr(v.props).forEach(o => { if (o.sup === gone.id) o.sup = ""; });
         if (p === "parts" && gone) arr(v.parts).forEach(o => { if (o.to === gone.id) { o.to = ""; o.link = ""; } });
         if (p === "qs" && gone) { arr(v.props).forEach(o => { if (o.q === gone.id) o.q = ""; }); if (v.solved) delete v.solved[gone.id]; }
+        /* 次の行（同じ位置に来る）の「×」。次がなければ前の行の「×」。行がなくなったら、その欄の「足す」 */
+        want = a.length ? { a: "del", p, i: String(Math.min(+d.i, a.length - 1)) } : { a: "push", p };
         break; }
-      case "up": case "down": { const a = getPath(v, p), i = +d.i, j = d.a === "up" ? i - 1 : i + 1; if (j >= 0 && j < a.length) { const t = a[i]; a[i] = a[j]; a[j] = t; } break; }
+      case "up": case "down": { const a = getPath(v, p), i = +d.i, j = d.a === "up" ? i - 1 : i + 1; if (j >= 0 && j < a.length) { const t = a[i]; a[i] = a[j]; a[j] = t; want.i = String(j); } break; }
       case "skip": book.skip[d.r] = !book.skip[d.r]; break;
       case "help": openHelp.has(d.id) ? openHelp.delete(d.id) : openHelp.add(d.id); break;
-      case "finish": book.meta.finished = today(); break;
-      case "unfinish": book.meta.finished = ""; break;
+      case "finish": book.meta.finished = today(); want = { a: "unfinish" }; break;
+      case "unfinish": book.meta.finished = ""; want = { a: "finish" }; break;
       case "save": save(); api.openUri(obsidianUri(book, FC)); say("Obsidian に送った。"); return;
       case "copy": navigator.clipboard.writeText(toMarkdown(book, FC)).then(() => say("コピーした。"), () => say("コピーできなかった。")); return;
       case "askfc": navigator.clipboard.writeText("読書メモ『" + txt(book.meta.title) + "』の命題をファクトチェックして。reading-memo スキルを使う。読書メモは " + FOLDER + "/" + fileName(book) + ".md、本の id は " + book.id).then(() => { b.textContent = "コピーした。先に「Obsidian に保存」を押してから、Claude Code に貼る"; }, () => {}); return;
@@ -767,6 +780,8 @@ if (typeof document !== "undefined") (function () {
     const sec = b.closest("section"), secId = sec && sec.id, y = window.scrollY;
     render(); window.scrollTo(0, y);
     if (focus && secId) { const s = document.getElementById(secId); const el = s && s.querySelector('[data-p^="' + focus + '"]'); if (el) el.focus(); }
+    /* 「読了にする」が押せない（足りない項目がある）ときは、隣の「Obsidian に保存」に置く */
+    else if (!focus && had) refocus(app, "BUTTON", want, n) || (want.a === "finish" && refocus(app, "BUTTON", { a: "save" }, 0));
   });
   $("app").addEventListener("input", e => {
     const el = e.target, p = el.dataset.p; if (!p || el.tagName === "BUTTON") return;
@@ -775,7 +790,11 @@ if (typeof document !== "undefined") (function () {
     if (el.tagName !== "SELECT") refresh(el);
     save(); progress();
   });
-  $("app").addEventListener("change", e => { if (e.target.tagName === "SELECT") { const y = window.scrollY; render(); window.scrollTo(0, y); } });
+  $("app").addEventListener("change", e => { const el = e.target; if (el.tagName !== "SELECT") return;
+    const app = $("app"), had = app.contains(document.activeElement), want = { p: el.dataset.p }, n = same(app, "SELECT", want).indexOf(el), y = window.scrollY;
+    render(); window.scrollTo(0, y);
+    if (had) refocus(app, "SELECT", want, n);
+  });
   $("app").addEventListener("keydown", e => {
     if (e.key !== "Enter" || e.isComposing || e.target.tagName !== "INPUT") return;
     e.preventDefault();
@@ -793,10 +812,14 @@ if (typeof document !== "undefined") (function () {
     const hits = searchBooks(BOOKLIST, $("pickQ").value, 0, s.col, s.dir);
     $("pickCount").textContent = hits.length + "件 / 全" + BOOKLIST.length + "件";
     const cell = x => (x == null || x === "" ? '<span class="added" style="margin:0">なし</span>' : esc(x));
-    $("pickHits").innerHTML = hits.length ? "<table><thead><tr>" + COLS.map(c => '<th><button type="button" data-col="' + c[0] + '" title="' + esc(c[3] || c[1]) + '" class="' + (s.col === c[0] ? "on" : "") + '">' + c[1] + (s.col === c[0] ? (s.dir === 1 ? " ▼" : " ▲") : "") + "</button></th>").join("") + "</tr></thead><tbody>" +
+    /* 表は丸ごと作り直す。フォーカスが表の中（行か、見出しの並べ替えのボタン）にあったら、作り直したあとの同じ行・同じ列に置き直し、表の中のスクロールの位置も戻す */
+    const box = $("pickHits"), act = box.contains(document.activeElement) ? document.activeElement : null, top = box.scrollTop, left = box.scrollLeft;
+    const tag = act && act.tagName, want = act && (act.dataset.no != null ? { no: act.dataset.no } : act.dataset.col != null ? { col: act.dataset.col } : null);
+    box.innerHTML = hits.length ? "<table><thead><tr>" + COLS.map(c => '<th><button type="button" data-col="' + c[0] + '" title="' + esc(c[3] || c[1]) + '" class="' + (s.col === c[0] ? "on" : "") + '">' + c[1] + (s.col === c[0] ? (s.dir === 1 ? " ▼" : " ▲") : "") + "</button></th>").join("") + "</tr></thead><tbody>" +
       hits.map(b => '<tr tabindex="0" data-no="' + esc(b.no) + '" class="' + (picked === b.no ? "sel" : "") + '"><td>' + esc(b.no) + "</td><td>" + h(b.title) + (store.books.some(o => o.meta.isbn === b.isbn) ? '<span class="added">追加済み</span>' : "") + "</td><td>" + cell(b.status) + "</td><td>" +
         [b.importance, b.difficulty, b.fame, b.principle, b.priority, b.extscore, b.booklog, b.bookmeter, b.amazon].map(cell).join("</td><td>") + "</td></tr>").join("") + "</tbody></table>"
       : '<div class="help" style="padding:8px 10px;margin:0">' + (BOOKLIST.length ? "見つからない。ブックリストにない本は、Claude Code に「ISBN ○○ をブックリストに追加して」と頼む。" : "ブックリストを読めなかった（通信を確かめて、開き直す）。下の欄に直接書くこともできる。") + "</div>";
+    if (want) { refocus(box, tag, want, 0); box.scrollTop = top; box.scrollLeft = left; }
   }
   function pickRow(no) { const k = BOOKLIST.find(o => o.no === no); if (!k) return; picked = no;
     fillForm({ title: k.title, author: k.author, publisher: k.publisher, published: k.published, isbn: k.isbn, booklist_no: k.no, started: today() }); showHits(); fillFromOpenbd(k); }
