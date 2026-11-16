@@ -98,6 +98,24 @@ dialog#dlgBook[open] { display: flex; flex-direction: column; }
    見出しの高さを 100px までに収めるよう、余白を詰める。部分の行の字下げもやめる */
 @media (max-width: 620px) { html { scroll-padding-top: 104px; } .bar { padding: 8px 16px; gap: 6px 8px; } header + .prog { padding-top: 8px; } .prow .sub, .prow .id + input + select { margin-left: 0; } }
 @media (max-width: 620px) { #formBook .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* 幅の狭い画面の「本を足す」: 表は no、書名、状況だけを出し、横にスクロールしなくても読めるようにする（並べ替えは、出ている列でできる）。
+   行と書誌の欄を詰めて（著者は半分の幅にして、欄を4段にする）、表が6行以上見えるようにする */
+@media (max-width: 620px) {
+  dialog#dlgBook { padding: 12px 14px; }
+  .hits th:nth-child(n+4), .hits td:nth-child(n+4) { display: none; }
+  .hits td { padding: 4px 6px; line-height: 1.45; }
+  #formBook .fields .wide + .wide { grid-column: auto; }
+  #formBook label { margin-top: 4px; }
+}
+/* 幅の狭い画面では、小さなボタンの押せる範囲を、縦横 32px 以上にする。見た目（字の大きさ、「？」の丸い枠の大きさ）は変えない。
+   「？」は、外へ 4px ずつ広げた分を負の余白で打ち消して、まわりの並びを変えない。丸い枠は、内側に 24px のまま描く */
+@media (max-width: 620px) {
+  button.x { min-width: 32px; min-height: 32px; }
+  button.q { width: 32px; height: 32px; margin: -4px; border-color: transparent; position: relative; }
+  button.q::before { content: ""; position: absolute; inset: 3px; border: 1px solid var(--line); border-radius: 999px; }
+  button.q:hover { border-color: transparent; }
+  button.q:hover::before { border-color: var(--accent); }
+}
 dialog::backdrop { background: rgba(0,0,0,.4); }
 dialog label { display: block; font-size: 12.5px; color: var(--sub); margin-top: 10px; }
 .hits { max-height: 46vh; overflow: auto; margin-top: 8px; border: 1px solid var(--line); border-radius: 6px; }
