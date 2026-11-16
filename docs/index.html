@@ -223,8 +223,8 @@ const SECTIONS = [
     { k: "judge", t: "choice", label: "判定", opts: [J.quit, J.end, J.read, J.ana], help: "この本をどの深さまで読むか。多くの本は、点検読書で足りる。あとで変えてよい。" },
   ]},
   { id: "hyomen", title: "点検読書 ② 表面読み", sub: "止まらず、調べず、とにかく通して読む", when: isRead, items: [
-    { k: "points", t: "list", label: "何がどのように述べられていたか", help: "止まらずに最後まで読んでから、要点を3つまで書く。" },
-    { k: "unclear", t: "list", none: "なかった", label: "分からなかった所", help: "ページや言葉だけでよい。分析読書の規則5と6の欄に出る。" },
+    { k: "points", t: "list", add: "考えや主張", label: "何がどのように述べられていたか", help: "止まらずに最後まで読んでから、要点を3つまで書く。" },
+    { k: "unclear", t: "list", add: "分からなかった所", none: "なかった", label: "分からなかった所", help: "ページや言葉だけでよい。分析読書の規則5と6の欄に出る。" },
   ]},
   { id: "a1", title: "分析読書 第一段階", sub: "何についての本であるか見分ける", when: isAna, items: [
     { r: 1, k: "kind", t: "classify", label: "種類と主題によって本を分類する", opts: KINDS,
@@ -572,7 +572,8 @@ if (typeof document !== "undefined") (function () {
   const chips = (p, opts, curv, o) => '<div class="opts' + (o && o.sm ? " sm" : "") + '">' + (o && o.cap ? '<span class="cap">' + o.cap + "</span>" : "") +
     opts.map(x => { const on = o && o.multi ? arr(curv).includes(x) : curv === x; return '<button class="' + (on ? "on" : "") + '"' + pressed(on) + ' data-a="' + (o && o.multi ? "tog" : "set") + '" data-p="' + esc(p) + '" data-val="' + esc(x) + '">' + esc(x) + "</button>"; }).join("") + "</div>";
   const del = (p, i) => '<button class="x" data-a="del" data-p="' + p + '" data-i="' + i + '" aria-label="消す">×</button>';
-  const add = (p, tpl, text) => '<button data-a="push" data-p="' + p + '" data-tpl="' + tpl + '">＋ ' + text + "</button>";
+  /* 行を足すボタン。ラベルは、足すものの名詞（text）。入れ子の行を足すボタンには、持ち主の番号を入れる（「S1 の区分」「P1 の根拠」）。番号は読み込んだ値なので、esc を通す */
+  const add = (p, tpl, text) => '<button data-a="push" data-p="' + p + '" data-tpl="' + tpl + '">＋ ' + esc(text) + "</button>";
   const sel = (p, curv, opts, name) => '<select data-p="' + esc(p) + '"' + named(name) + ">" + opts.map(o => '<option value="' + esc(o[0]) + '"' + (curv === o[0] ? " selected" : "") + ">" + esc(o[1]) + "</option>").join("") + "</select>";
   /* 命題・部分・問題を指すプルダウンの選択肢。文を入力したその場で選べるよう、入力のたびに refresh で作り直す */
   const supOpts = (all, p) => [["", "選ぶ"], ["main", "中心の主張"]].concat(all.filter(o => o !== p && txt(o.t)).map(o => [o.id, o.id + " を支える"])).concat([["none", "つながり不明"]]);
@@ -602,8 +603,8 @@ if (typeof document !== "undefined") (function () {
       case "line": return (isAlt(v, it.k) ? "" : area(it.k, x, 0, it.label)) + (it.alt ? '<div class="opts" style="margin-top:8px"><button class="' + (isAlt(v, it.k) ? "on" : "") + '"' + pressed(isAlt(v, it.k)) + ' data-a="alt" data-p="' + it.k + '">' + esc(it.alt) + "</button></div>" : "");
       case "memo": return area(it.k, x, 5, it.label);
       case "list": return (isAlt(v, it.k) ? "" : arr(x).map((l, i) => '<div class="row">' + inp(it.k + "." + i, l, "", "", it.label + " " + (i + 1)) + del(it.k, i) + "</div>").join("")) +
-        '<div class="opts">' + (isAlt(v, it.k) ? "" : add(it.k, "str", "足す")) + (it.none ? '<button class="' + (isAlt(v, it.k) ? "on" : "") + '"' + pressed(isAlt(v, it.k)) + ' data-a="alt" data-p="' + it.k + '">' + esc(it.none) + "</button>" : "") + "</div>";
-      case "terms": return (it.r ? unclearHtml(v) : "") + arr(x).map((t, i) => '<div class="row">' + inp("terms." + i + ".w", t.w, "用語", "w", "用語 " + (i + 1) + " の言葉") + inp("terms." + i + ".m", t.m, "この本での意味", "m", "用語 " + (i + 1) + " の意味") + inp("terms." + i + ".p", t.p, "ページ", "p", "用語 " + (i + 1) + " のページ") + del("terms", i) + "</div>").join("") + add("terms", "term", "用語を足す");
+        '<div class="opts">' + (isAlt(v, it.k) ? "" : add(it.k, "str", it.add)) + (it.none ? '<button class="' + (isAlt(v, it.k) ? "on" : "") + '"' + pressed(isAlt(v, it.k)) + ' data-a="alt" data-p="' + it.k + '">' + esc(it.none) + "</button>" : "") + "</div>";
+      case "terms": return (it.r ? unclearHtml(v) : "") + arr(x).map((t, i) => '<div class="row">' + inp("terms." + i + ".w", t.w, "用語", "w", "用語 " + (i + 1) + " の言葉") + inp("terms." + i + ".m", t.m, "この本での意味", "m", "用語 " + (i + 1) + " の意味") + inp("terms." + i + ".p", t.p, "ページ", "p", "用語 " + (i + 1) + " のページ") + del("terms", i) + "</div>").join("") + add("terms", "term", "用語");
       case "unity": return unityHtml("unity", x || {}, "下読み");
       case "unity2": { const ready = partsDone(v) || book.skip[3];
         return unityHtml("unityA", x || {}, "規則2") + (unityOk(v.unity) ? '<div class="help" style="margin-top:6px">下読みの答え: ' + h(unityText(v.unity)) + "</div>" : "") +
@@ -617,15 +618,15 @@ if (typeof document !== "undefined") (function () {
           '<button class="x" data-a="up" data-p="parts" data-i="' + i + '" aria-label="上へ">↑</button><button class="x" data-a="down" data-p="parts" data-i="' + i + '" aria-label="下へ">↓</button>' + del("parts", i) +
           '<div class="sub"><div class="sentence"><span>概要</span>' + inp("parts." + i + ".sum", o.sum, "この部分が言っていること", "", o.id + " の概要") + "<span>受け持つ所</span>" + inp("parts." + i + ".rel", o.rel, "統一の文のどこを受け持つか", "", o.id + " の受け持つ所") +
           arr(o.subs).map((t, j) => "<span>区分 " + (j + 1) + '</span><div class="row" style="margin:0">' + inp("parts." + i + ".subs." + j, t, "下位の区分", "", o.id + " の区分 " + (j + 1)) + del("parts." + i + ".subs", j) + "</div>").join("") +
-          "</div>" + add("parts." + i + ".subs", "str", "下位の区分を足す") + "</div></div>").join("") + add("parts", "part", "部分を足す"); }
+          "</div>" + add("parts." + i + ".subs", "str", o.id + " の区分") + "</div></div>").join("") + add("parts", "part", "部分"); }
       case "qs": return arr(x).map((o, i) => '<div class="row"><span class="rule">' + esc(o.id) + "</span>" + inp("qs." + i + ".t", o.t, "著者が答えようとしている問い", "", o.id + " の問い") +
-        sel("qs." + i + ".parent", o.parent || "", parentOpts(v, o), o.id + " の従属先") + del("qs", i) + "</div>").join("") + add("qs", "q", "問題を足す");
+        sel("qs." + i + ".parent", o.parent || "", parentOpts(v, o), o.id + " の従属先") + del("qs", i) + "</div>").join("") + add("qs", "q", "問題");
       case "props": {
         const all = arr(x);
         return unclearHtml(v) + all.map((p, i) => '<div class="card"><div class="head"><span class="id">' + esc(p.id) + "</span>" + inp("props." + i + ".t", p.t, "命題を自分の言葉で", "", p.id + " の命題") + del("props", i) + "</div>" +
           '<div class="opts sm"><span class="cap">重要な文の場所</span>' + inp("props." + i + ".loc", p.loc, "ページや章", "loc", p.id + " の重要な文の場所") +
           '<span class="cap">位置づけ</span>' + sel("props." + i + ".sup", p.sup || "", supOpts(all, p), p.id + " の位置づけ") +
-          '<span class="cap">答える問題</span>' + sel("props." + i + ".q", p.q || "", qOpts(v), p.id + " の答える問題") + "</div></div>").join("") + add("props", "prop", "命題を足す");
+          '<span class="cap">答える問題</span>' + sel("props." + i + ".q", p.q || "", qOpts(v), p.id + " の答える問題") + "</div></div>").join("") + add("props", "prop", "命題");
       }
       case "grounds": {
         const all = arr(v.props); if (!liveBy(all).length) return noProps;
@@ -633,7 +634,7 @@ if (typeof document !== "undefined") (function () {
           arr(p.grounds).filter(g => g.kind || txt(g.t)).map(g => '<div class="g">' + (g.kind ? "（" + h(g.kind) + "）" : "") + h(g.t) + "</div>").join("") + "</div>").join("");
         return '<div class="chain">' + chain + "</div>" + all.map((p, i) => !txt(p.t) ? "" : card(p.id, h(p.t) + (p.sup === "main" ? "（中心の主張）" : ""),
           arr(p.grounds).map((g, j) => '<div class="row">' + inp("props." + i + ".grounds." + j + ".t", g.t, "根拠として挙げていること", "", p.id + " の根拠 " + (j + 1)) + del("props." + i + ".grounds", j) + "</div>" +
-            '<div style="margin:0 0 10px">' + chips("props." + i + ".grounds." + j + ".kind", GROUND_KINDS, g.kind, { sm: 1 }) + "</div>").join("") + add("props." + i + ".grounds", "ground", "根拠を足す") +
+            '<div style="margin:0 0 10px">' + chips("props." + i + ".grounds." + j + ".kind", GROUND_KINDS, g.kind, { sm: 1 }) + "</div>").join("") + add("props." + i + ".grounds", "ground", p.id + " の根拠") +
           '<div class="line">' + inp("props." + i + ".arg", p.arg, p.sup === "main" ? "この論証を一言で（〜だから〜。中心の主張は必須）" : "この論証を一言で（〜だから〜）", "", p.id + " の論証") + "</div>")).join("");
       }
       case "solved": { const qs = liveBy(v.qs); if (!qs.length) return '<div class="help">規則4で問題を足すと、ここに並ぶ。</div>';

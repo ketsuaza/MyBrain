@@ -27,7 +27,7 @@ async function writeUnclear(page) {
   await item(page, "判定").getByRole("button", { name: "表面読みへ進む", exact: true }).click();
   const it = item(page, "分からなかった所");
   for (const [i, row] of ROWS.entries()) {
-    await it.getByRole("button", { name: "＋ 足す" }).click();
+    await it.getByRole("button", { name: "＋ 分からなかった所", exact: true }).click();
     await it.locator('input[type="text"]').nth(i).fill(row);
   }
   return it;
@@ -57,7 +57,7 @@ test("「分からなかった所」に2行書いて「なかった」を押し�
   await btn.click();
   await expect(btn).toHaveClass(/on/);
   await expect(it.locator('input[type="text"]')).toHaveCount(0);
-  await expect(it.getByRole("button", { name: "＋ 足す" })).toHaveCount(0);
+  await expect(it.getByRole("button", { name: "＋ 分からなかった所", exact: true })).toHaveCount(0);
   const md = await markdown(page);
   expect(md).toContain("- 分からなかった所: なかった\n");
   for (const row of ROWS) expect(visible(md), "隠れている行は Markdown の本文に出ない").not.toContain(row);

@@ -93,7 +93,7 @@ test("そのあとボタンを押し、文字を打ち、プルダウンを変�
   // 「×」、「やらない」、行の追加
   await ruleItem(page, 4).locator('button[data-a="del"][data-i="2"]').click();
   await ruleItem(page, 9).locator('button[data-a="skip"]').click();
-  await ruleItem(page, 6).getByRole("button", { name: "＋ 命題を足す" }).click();
+  await ruleItem(page, 6).getByRole("button", { name: "＋ 命題", exact: true }).click();
   await expectInert(page, "行を消して、足したあと");
   // 本の選択で、ほかの本に切り替えて、戻れる
   const other = await page.locator("#bookSel option").evaluateAll((os, id) => os.map(o => o.value).find(v => v !== id), book.id);

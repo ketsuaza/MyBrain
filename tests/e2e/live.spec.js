@@ -143,7 +143,7 @@ test("用語を足して打つと、チェックアウトの「用語集に入�
   await setup(page);
   const gloss = page.locator("#sec-checkout .item").filter({ hasText: "用語集に入れる語" });
   await expect(gloss).toContainText("用語を挙げると、ここから選べる。");
-  await page.locator("#sec-shitayomi").getByRole("button", { name: "＋ 用語を足す" }).click();
+  await page.locator("#sec-shitayomi").getByRole("button", { name: "＋ 用語", exact: true }).click();
   const w = page.locator('#sec-shitayomi input[data-p="terms.0.w"]');
   await enter(w);
   await page.keyboard.type("用語A");
