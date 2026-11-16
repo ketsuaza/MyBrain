@@ -49,7 +49,7 @@ const overflow = page => page.evaluate(() => document.documentElement.scrollWidt
 
 test("命題: 支える相手の文を空にすると、位置づけが未選択に見え、Markdown に参照が出ず、規則6の「済み」が外れる。書き直すと元に戻る", async ({ page }) => {
   await setup(page);
-  const item = ruleItem(page, 6), sup = item.locator('select[data-p="props.2.sup"]'), p2 = item.locator('input[data-p="props.1.t"]');
+  const item = ruleItem(page, 6), sup = item.locator('select[data-p="props.2.sup"]'), p2 = item.locator('[data-p="props.1.t"]');
   const full = ["- P1 テスト用の命題 P1（中心の主張）〔Q1 に答える〕［1章］", "- P2 テスト用の命題 P2（P1 を支える）〔Q2 に答える〕［1章］", "- P3 テスト用の命題 P3（P2 を支える）〔Q1 に答える〕［1章］"];
   const emptied = [full[0], "- P3 テスト用の命題 P3〔Q1 に答える〕［1章］"];
   const expectEmptied = async when => {
@@ -123,7 +123,7 @@ test("部分: つながる相手の名前を空にすると、「どの部分と
 
 test("問題: 文を空にした問題への「答える問題」と「従属」も、未選択として扱う。書き直すと元に戻る", async ({ page }) => {
   await setup(page);
-  const q1 = ruleItem(page, 4).locator('input[data-p="qs.0.t"]'), parent = ruleItem(page, 4).locator('select[data-p="qs.1.parent"]'), ans = ruleItem(page, 6).locator('select[data-p="props.0.q"]');
+  const q1 = ruleItem(page, 4).locator('[data-p="qs.0.t"]'), parent = ruleItem(page, 4).locator('select[data-p="qs.1.parent"]'), ans = ruleItem(page, 6).locator('select[data-p="props.0.q"]');
   const expectFull = async when => {
     await expect(parent, when + ": 従属のプルダウン").toHaveValue("Q1");
     await expect(ans, when + ": 答える問題のプルダウン").toHaveValue("Q1");

@@ -26,16 +26,18 @@ async function setup(page, book) {
 }
 /* いまフォーカスのある部品の、data-p と、それがある section */
 const at = page => page.evaluate(() => { const el = document.activeElement, sec = el.closest("section"); return { tag: el.tagName, p: el.dataset.p || "", sec: sec ? sec.id : "" }; });
+/* 命題の文、部分の概要、根拠、問題の文は、長い文が折り返せるよう textarea で出る（#63）。ほかの文字の欄は input */
+const tagOf = p => (/^(props\.\d+\.t|parts\.\d+\.sum|qs\.\d+\.t|props\.\d+\.grounds\.\d+\.t)$/.test(p) ? "TEXTAREA" : "INPUT");
 /* root の中の欄 p にフォーカスを置く */
 async function put(root, p) {
-  const loc = root.locator('input[data-p="' + p + '"]');
+  const loc = root.locator(tagOf(p).toLowerCase() + '[data-p="' + p + '"]');
   await loc.focus();
   await expect(loc).toBeFocused();
 }
 /* Enter を1回押す。フォーカスが、section sec の欄 p に移っている */
 async function enterTo(page, p, sec) {
   await page.keyboard.press("Enter");
-  expect(await at(page), "Enter のあとのフォーカス").toEqual({ tag: "INPUT", p, sec });
+  expect(await at(page), "Enter のあとのフォーカス").toEqual({ tag: tagOf(p), p, sec });
 }
 /* キーを押したままにする（最初の1回のあと、キーリピートが n 回起きる） */
 async function hold(page, key, n) {
@@ -157,7 +159,7 @@ test("行の並びに属さない欄では、Enter で何も足されず、フ�
     ["#sec-a3", "props.0.self"], ["#sec-a3", "props.1.why"], ["#sec-a4", "props.0.k12"], ["#sec-a4", "props.0.k13"], ["#sec-a4", "props.0.k14"], ["#sec-a4", "props.1.k15"]];
   for (const [sec, p] of fields) {
     await put(page.locator(sec), p);
-    await page.locator(sec + ' input[data-p="' + p + '"]').evaluate(el => { el.__same = true; });
+    await page.locator(sec + " " + tagOf(p).toLowerCase() + '[data-p="' + p + '"]').evaluate(el => { el.__same = true; });
     await page.keyboard.press("Enter");
     expect(await page.evaluate(() => document.activeElement.__same === true), p + " で Enter: フォーカスが同じ欄に残る").toBe(true);
     expect(await current(page), p + " で Enter: 何も足されず、何も変わらない").toEqual(before);
@@ -176,7 +178,7 @@ test("Enter を押したままにしても、足されるのは1行だけ。次�
   ]) {
     await put(root, p);
     await hold(page, "Enter", 8);
-    expect(await at(page), p + " で押したまま").toEqual({ tag: "INPUT", p: to, sec });
+    expect(await at(page), p + " で押したまま").toEqual({ tag: tagOf(to), p: to, sec });
     expect(counts(await current(page)), p + " で押したまま").toEqual(Object.assign({}, START, want));
   }
   // 行の途中の欄: 次の欄へ1回だけ進む（その先へは進まず、行も足されない）
@@ -187,7 +189,7 @@ test("Enter を押したままにしても、足されるのは1行だけ。次�
   expect(await current(page)).toEqual(before);
   // 離してから押し直すと、また1回働く
   await page.keyboard.press("Enter");
-  expect(await at(page)).toEqual({ tag: "INPUT", p: "props.1.t", sec: "sec-a2" });
+  expect(await at(page)).toEqual({ tag: "TEXTAREA", p: "props.1.t", sec: "sec-a2" });
 });
 
 test("かな漢字変換を確定する Enter では、何も起きない（isComposing のときも、keyCode が 229 のときも）", async ({ page }) => {
@@ -253,7 +255,7 @@ test("Enter で足した行に、そのまま続けて書ける。ボタンの�
   // 「＋ 命題」のボタンの上で Enter: 1つ足される
   await ruleItem(page, 6).locator('button[data-a="push"][data-p="props"]').focus();
   await page.keyboard.press("Enter");
-  expect(await at(page)).toEqual({ tag: "INPUT", p: "props.3.t", sec: "sec-a2" });
+  expect(await at(page)).toEqual({ tag: "TEXTAREA", p: "props.3.t", sec: "sec-a2" });
   expect((await current(page)).v.props.length).toBe(4);
 });
 

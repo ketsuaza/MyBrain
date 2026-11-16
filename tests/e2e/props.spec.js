@@ -12,7 +12,7 @@ async function setupProps(page) {
   const item = ruleItem(page, 6);
   for (const [i, t] of PROPS.entries()) {
     await item.getByRole("button", { name: "＋ 命題", exact: true }).click();
-    await item.locator(`input[data-p="props.${i}.t"]`).fill(t);
+    await item.locator(`[data-p="props.${i}.t"]`).fill(t);
   }
   return item;
 }

@@ -89,7 +89,7 @@ test("部分を並べ替えると、区分のボタンの番号も、その行�
   await ruleItem(page, 3).locator('button[data-a="down"][data-i="0"]').click();
   await expect(ruleItem(page, 3).locator(".prow .id").first()).toHaveText("S2");
   expect((await addButtons(ruleItem(page, 3))).map(b => b[1])).toEqual(["＋ S2 の区分", "＋ S1 の区分", "＋ S3 の区分", "＋ 部分"]);
-  await ruleItem(page, 6).locator('input[data-p="props.1.t"]').fill("");
+  await ruleItem(page, 6).locator('[data-p="props.1.t"]').fill("");
   await expect(ruleItem(page, 7).locator('button[data-a="push"]')).toHaveText(["＋ P1 の根拠", "＋ P3 の根拠"]);
 });
 

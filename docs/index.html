@@ -50,6 +50,8 @@ button.x { border: 0; padding: 2px 7px; color: var(--sub); flex: none; }
 input[type=text], textarea, select { width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; }
 select { width: auto; max-width: 100%; }
 textarea { resize: vertical; min-height: 58px; display: block; }
+/* 命題の文、部分の概要、根拠、問題の文。1行の欄と同じ見た目で、長い文は折り返し、高さは内容に合わせて伸びる（高さは fit が決める。つまみでは広げない）。改行は入らない */
+textarea.flow { resize: none; min-height: 0; overflow: hidden; }
 input:focus, textarea:focus, select:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 .row { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
 .row .w { flex: 2; } .row .m { flex: 4; } .row .p { flex: 0 0 64px; }
@@ -644,6 +646,8 @@ if (typeof document !== "undefined") (function () {
      入力欄とプルダウンには、読み上げられる名前（name）を aria-label で付ける。名前には、行や命題の番号を入れて、同じ項目の中で重ならないようにする */
   const named = name => (name ? ' aria-label="' + esc(name) + '"' : "");
   const inp = (p, val, ph, cls, name) => '<input type="text"' + (cls ? ' class="' + cls + '"' : "") + ' data-p="' + esc(p) + '" value="' + esc(val) + '"' + (ph ? ' placeholder="' + esc(ph) + '"' : "") + named(name) + ">";
+  /* 長い文を書く1行の欄（命題の文、部分の概要、根拠、問題の文）。折り返して全部見えるよう、textarea で出す。値に改行は入れない（input と keydown の処理） */
+  const flow = (p, val, ph, name) => '<textarea rows="1" class="flow" data-p="' + esc(p) + '"' + (ph ? ' placeholder="' + esc(ph) + '"' : "") + named(name) + ">" + esc(val) + "</textarea>";
   const area = (p, val, rows, name) => '<textarea rows="' + (rows || 2) + '" data-p="' + esc(p) + '"' + named(name) + ">" + esc(val) + "</textarea>";
   /* 選んで切り替えるボタンは、選択中かどうかを aria-pressed で伝える */
   const pressed = on => ' aria-pressed="' + (on ? "true" : "false") + '"';
@@ -696,14 +700,14 @@ if (typeof document !== "undefined") (function () {
           sel("parts." + i + ".to", o.to || "", toOpts(all, o, i), o.id + " がつながる部分") +
           (toOf(v, o) && toOf(v, o) !== "none" ? sel("parts." + i + ".link", o.link || "", [["", "どうつながる"]].concat(PART_LINKS.map(r => [r, r])), o.id + " のつながり方") : "") +
           '<button class="x" data-a="up" data-p="parts" data-i="' + i + '" aria-label="上へ">↑</button><button class="x" data-a="down" data-p="parts" data-i="' + i + '" aria-label="下へ">↓</button>' + del("parts", i) +
-          '<div class="sub"><div class="sentence"><span>概要</span>' + inp("parts." + i + ".sum", o.sum, "この部分が言っていること", "", o.id + " の概要") + "<span>受け持つ所</span>" + inp("parts." + i + ".rel", o.rel, "統一の文のどこを受け持つか", "", o.id + " の受け持つ所") +
+          '<div class="sub"><div class="sentence"><span>概要</span>' + flow("parts." + i + ".sum", o.sum, "この部分が言っていること", o.id + " の概要") + "<span>受け持つ所</span>" + inp("parts." + i + ".rel", o.rel, "統一の文のどこを受け持つか", "", o.id + " の受け持つ所") +
           arr(o.subs).map((t, j) => "<span>区分 " + (j + 1) + '</span><div class="row" style="margin:0">' + inp("parts." + i + ".subs." + j, t, "下位の区分", "", o.id + " の区分 " + (j + 1)) + del("parts." + i + ".subs", j) + "</div>").join("") +
           "</div>" + add("parts." + i + ".subs", "str", o.id + " の区分") + "</div></div>").join("") + add("parts", "part", "部分"); }
-      case "qs": return arr(x).map((o, i) => '<div class="row"><span class="rule">' + esc(o.id) + "</span>" + inp("qs." + i + ".t", o.t, "著者が答えようとしている問い", "", o.id + " の問い") +
+      case "qs": return arr(x).map((o, i) => '<div class="row"><span class="rule">' + esc(o.id) + "</span>" + flow("qs." + i + ".t", o.t, "著者が答えようとしている問い", o.id + " の問い") +
         sel("qs." + i + ".parent", o.parent || "", parentOpts(v, o), o.id + " の従属先") + del("qs", i) + "</div>").join("") + add("qs", "q", "問題");
       case "props": {
         const all = arr(x);
-        return unclearHtml(v) + all.map((p, i) => '<div class="card"><div class="head"><span class="id">' + esc(p.id) + "</span>" + inp("props." + i + ".t", p.t, "命題を自分の言葉で", "", p.id + " の命題") + del("props", i) + "</div>" +
+        return unclearHtml(v) + all.map((p, i) => '<div class="card"><div class="head"><span class="id">' + esc(p.id) + "</span>" + flow("props." + i + ".t", p.t, "命題を自分の言葉で", p.id + " の命題") + del("props", i) + "</div>" +
           '<div class="opts sm"><span class="cap">重要な文の場所</span>' + inp("props." + i + ".loc", p.loc, "ページや章", "loc", p.id + " の重要な文の場所") +
           '<span class="cap">位置づけ</span>' + sel("props." + i + ".sup", p.sup || "", supOpts(all, p), p.id + " の位置づけ") +
           '<span class="cap">答える問題</span>' + sel("props." + i + ".q", p.q || "", qOpts(v), p.id + " の答える問題") + "</div></div>").join("") + add("props", "prop", "命題");
@@ -713,7 +717,7 @@ if (typeof document !== "undefined") (function () {
         const chain = chainOf(v).map(({ p, depth }) => '<div style="padding-left:' + (depth * 22) + 'px"><b>' + (depth ? "← " : "") + esc(p.id) + "</b> " + h(p.t) + (p.sup === "main" ? "（中心の主張）" : "") +
           arr(p.grounds).filter(g => g.kind || txt(g.t)).map(g => '<div class="g">' + (g.kind ? "（" + h(g.kind) + "）" : "") + h(g.t) + "</div>").join("") + "</div>").join("");
         return '<div class="chain">' + chain + "</div>" + all.map((p, i) => !txt(p.t) ? "" : card(p.id, h(p.t) + (p.sup === "main" ? "（中心の主張）" : ""),
-          arr(p.grounds).map((g, j) => '<div class="row">' + inp("props." + i + ".grounds." + j + ".t", g.t, "根拠として挙げていること", "", p.id + " の根拠 " + (j + 1)) + del("props." + i + ".grounds", j) + "</div>" +
+          arr(p.grounds).map((g, j) => '<div class="row">' + flow("props." + i + ".grounds." + j + ".t", g.t, "根拠として挙げていること", p.id + " の根拠 " + (j + 1)) + del("props." + i + ".grounds", j) + "</div>" +
             '<div style="margin:0 0 10px">' + chips("props." + i + ".grounds." + j + ".kind", GROUND_KINDS, g.kind, { sm: 1 }) + "</div>").join("") + add("props." + i + ".grounds", "ground", p.id + " の根拠") +
           '<div class="line">' + inp("props." + i + ".arg", p.arg, p.sup === "main" ? "この論証を一言で（〜だから〜。中心の主張は必須）" : "この論証を一言で（〜だから〜）", "", p.id + " の論証") + "</div>")).join("");
       }
@@ -775,12 +779,27 @@ if (typeof document !== "undefined") (function () {
   /* 本の選択の中身。shownOpts は、いま出しているもの */
   let shownOpts = "";
   const bookOpts = book => store.books.map(b => '<option value="' + esc(b.id) + '"' + (book && b.id === book.id ? " selected" : "") + ">" + (b.meta.finished ? "✓ " : "") + h(b.meta.title || "無題") + "</option>").join("");
+  /* 長い文の欄（textarea.flow）の高さを、内容に合わせる。1行に収まるときは、高さを指定しない（1行の欄と同じ高さになる）。
+     測るあいだ、高さの指定を外す。そのときにページが縮んで画面の縦の位置が動いたら、戻す。内容と幅が前に合わせたときと同じ欄は、測り直さない */
+  const isFlow = el => !!el && el.tagName === "TEXTAREA" && el.classList.contains("flow");
+  function fit(el) {
+    const w = el.clientWidth, key = w + "|" + el.value; if (!w || el.__fit === key) return;
+    const y = window.scrollY;
+    el.style.height = "";
+    if (el.scrollHeight > el.clientHeight + 1) el.style.height = (el.scrollHeight + el.offsetHeight - el.clientHeight) + "px";
+    else if (!el.getAttribute("style")) el.removeAttribute("style");
+    if (window.scrollY !== y) window.scrollTo(0, y);
+    el.__fit = key;
+  }
+  const fitAll = () => $("app").querySelectorAll("textarea.flow").forEach(fit);
+  window.addEventListener("resize", fitAll);
   function render() {
     const book = cur();
     $("bookSel").innerHTML = shownOpts = bookOpts(book);
     copyUnity(book);
     if (!book) { $("app").innerHTML = '<div class="empty">「本を足す」から、読む本を選ぶ。</div>'; $("prog").innerHTML = ""; return; }
     $("app").innerHTML = appHtml(book);
+    fitAll();
     progress();
   }
   function appHtml(book) {
@@ -803,6 +822,8 @@ if (typeof document !== "undefined") (function () {
     /* 入力中でない欄の今の値を、状態に合わせる。属性が同じで書き換えなかった欄も、値だけが古いことがある（同じ欄が2か所に出る用語の欄） */
     app.querySelectorAll("input[data-p], textarea[data-p]").forEach(o => { if (o === keep) return;
       const x = getPath(book.v, o.dataset.p), val = (x == null ? "" : String(x)).replace(/\r\n?/g, "\n"); if (o.value !== val) o.value = val; });
+    /* 行がずれたり、値が変わったりした長い文の欄の高さを、内容に合わせる */
+    fitAll();
     /* 入力中の欄より上の高さが変わっても、欄が画面の同じ位置に残るようにする */
     const moved = keep.getBoundingClientRect().top - top; if (moved) window.scrollBy(0, moved);
     return true;
@@ -862,6 +883,7 @@ if (typeof document !== "undefined") (function () {
     const fresh = document.createElement("main"); fresh.innerHTML = appHtml(book);
     list(app, [...app.childNodes], [...fresh.childNodes], null);
     app.querySelectorAll("input[data-p], textarea[data-p]").forEach(o => { const x = getPath(book.v, o.dataset.p), val = (x == null ? "" : String(x)).replace(/\r\n?/g, "\n"); if (o.value !== val) o.value = val; });
+    fitAll();
     if (m && p && document.activeElement === m.el) { const hits = alike(app, m.el.tagName, { p }), to = hits[m.n] || hits[0];
       if (to) { to.focus({ preventScroll: true }); try { to.setSelectionRange(Math.min(m.start, to.value.length), Math.min(m.end, to.value.length)); } catch (e) {} } }
     else if (had && document.activeElement !== act) refocus(app, tag, want, n);
@@ -957,6 +979,8 @@ if (typeof document !== "undefined") (function () {
   });
   $("app").addEventListener("input", e => {
     const el = e.target, p = el.dataset.p; if (!p || el.tagName === "BUTTON") return;
+    /* 長い文の欄には、改行を入れない。貼り付けた文などの改行は、1つずつ空白に置き換える（文字数が変わらないので、カーソルの位置はそのまま）。高さを、内容に合わせる */
+    if (isFlow(el)) { if (/[\r\n]/.test(el.value)) { const a = el.selectionStart, b = el.selectionEnd; el.value = el.value.replace(/[\r\n]/g, " "); el.setSelectionRange(a, b); } fit(el); }
     setPath(cur().v, p, el.value);
     /* 保存の直前に、ほかのタブの保存を取り込むことがある（got）。そのときは、行がずれていることがあるので、settle で画面を最新にする */
     const m = markOf(el), got = save();
@@ -982,7 +1006,7 @@ if (typeof document !== "undefined") (function () {
     /* ボタンの上で Enter を押したままにしたとき（キーリピート）は、働かせない。描き直しのあとに置き直した部品が、続けて押されるのを防ぐ */
     if (e.key === "Enter" && e.repeat && e.target.closest("button[data-a]")) { e.preventDefault(); return; }
     /* かな漢字変換を確定する Enter では、何もしない。Safari は、確定の Enter の keydown で isComposing が false になることがあるので、keyCode の 229 も見る */
-    if (e.key !== "Enter" || e.isComposing || e.keyCode === 229 || e.target.tagName !== "INPUT") return;
+    if (e.key !== "Enter" || e.isComposing || e.keyCode === 229 || (e.target.tagName !== "INPUT" && !isFlow(e.target))) return;
     e.preventDefault();
     /* 押したまま（キーリピート）では、進まず、足さない */
     if (e.repeat) return;
@@ -990,7 +1014,7 @@ if (typeof document !== "undefined") (function () {
        （足した行の最初の欄には、「足す」のボタンの処理がフォーカスを移す）。同じ欄が2か所に出る用語は、押した側の項目（.item）の中で進む */
     const p = e.target.dataset.p || "", row = ENTER_ROWS.map(r => [r[0].exec(p), r[1]]).find(r => r[0]), holder = e.target.closest(".item"); if (!row || !holder) return;
     const lp = row[0][1], i = +row[0][2], fields = row[1], at = fields.indexOf(p.slice((lp + "." + i).length));
-    const find = q => [...holder.querySelectorAll("input[data-p]")].find(o => o.dataset.p === q);
+    const find = q => [...holder.querySelectorAll("input[data-p], textarea.flow[data-p]")].find(o => o.dataset.p === q);
     const next = at < fields.length - 1 ? find(lp + "." + i + fields[at + 1]) : find(lp + "." + (i + 1) + fields[0]);
     if (next) { next.focus(); return; }
     const btn = at === fields.length - 1 && [...holder.querySelectorAll('button[data-a="push"]')].find(o => o.dataset.p === lp);

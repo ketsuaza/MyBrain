@@ -51,7 +51,7 @@ test("id、判定、選択の値にタグと引用符を入れた state を読�
   await expect(ruleItem(page, 9)).toContainText("中心の主張 " + P1 + ": テスト用の命題1");
   await expect(ruleItem(page, 11).locator(".card").first()).toContainText("テスト用の命題1 — " + X("judge"));
   // 名前（aria-label）にも、そのまま入る
-  await expect(ruleItem(page, 6).locator('input[data-p="props.0.t"]')).toHaveAttribute("aria-label", P1 + " の命題");
+  await expect(ruleItem(page, 6).locator('[data-p="props.0.t"]')).toHaveAttribute("aria-label", P1 + " の命題");
   await expect(ruleItem(page, 4).locator('select[data-p="qs.1.parent"]')).toHaveAttribute("aria-label", Q2 + " の従属先");
   // 相手を指すプルダウンの選択肢にも、文字として出る
   await expect(ruleItem(page, 6).locator('select[data-p="props.1.sup"]')).toHaveValue(P1);
@@ -75,7 +75,7 @@ test("そのあとボタンを押し、文字を打ち、プルダウンを変�
   await card.locator("input").fill("理由を書いた");
   expect((await current(page)).v.solved[Q1].why).toBe("理由を書いた");
   // 文字の入力（入力のたびの描き直し）
-  const t = ruleItem(page, 6).locator('input[data-p="props.1.t"]');
+  const t = ruleItem(page, 6).locator('[data-p="props.1.t"]');
   await t.click();
   await t.evaluate(el => el.setSelectionRange(el.value.length, el.value.length));
   await page.keyboard.type("を直す");

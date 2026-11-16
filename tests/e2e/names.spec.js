@@ -106,7 +106,7 @@ test("分析読書まで進めた本でも、名前のない入力欄が0個。�
   await expect(page.getByRole("combobox", { name: "S2 の役割", exact: true })).toHaveValue("問題を示す");
   await expect(page.getByRole("textbox", { name: "用語 1 の意味", exact: true })).toHaveCount(2);
   // placeholder は残る
-  await expect(page.locator('#sec-a2 input[data-p="props.0.t"]')).toHaveAttribute("placeholder", "命題を自分の言葉で");
+  await expect(page.locator('#sec-a2 [data-p="props.0.t"]')).toHaveAttribute("placeholder", "命題を自分の言葉で");
 });
 
 test("選んで切り替えるボタンの aria-pressed が、選択の状態と合い、押すと変わる", async ({ page }) => {

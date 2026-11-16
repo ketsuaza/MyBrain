@@ -144,7 +144,7 @@ test("ファクトチェックの結果がない本でも、エラーになら�
   await expect(r9.locator(".fc"), "ファクトチェックの結果は出ない").toHaveCount(0);
   await expect(r9.locator('button[data-p="props.0.judge"][data-val="賛成"]')).toHaveAttribute("aria-pressed", "true");
   await r9.locator('button[data-p="props.1.judge"][data-val="反対"]').click();
-  await page.locator("#sec-a2 input[data-p='props.1.t']").fill("書き換えた命題");
+  await page.locator("#sec-a2 [data-p='props.1.t']").fill("書き換えた命題");
   const md = await page.evaluate(() => window.__dokusho.toMarkdown(window.__dokusho.current()));
   expect(md).toContain("  - P2 反対");
   expect(md).not.toContain("Agent のファクトチェック");
