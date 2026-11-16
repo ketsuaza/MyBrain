@@ -776,6 +776,11 @@ if (typeof document !== "undefined") (function () {
   const TPL = { str: () => "", term: () => ({ w: "", m: "", p: "", g: false }), part: v => ({ id: nextId(v, "S"), t: "", role: "", to: (arr(v.parts).filter(o => txt(o.t)).pop() || {}).id || "", link: "", sum: "", rel: "", subs: [] }), ground: () => ({ t: "", kind: "" }),
     q: v => ({ id: nextId(v, "Q"), t: "", parent: "" }), prop: v => ({ id: nextId(v, "P"), t: "", loc: "", sup: "", q: "", grounds: [], arg: "", judge: "", why: "", self: "", k12: "", k13: "", k14: "", k15: "" }) };
 
+  /* Enter で進む、行の並び。[欄の data-p の形（1: 並びのパス、2: 何行目）, 1行の中の文字の欄（行のパスに続く部分。進む順）]。プルダウンとボタンは飛ばす。
+     ここにない欄（統一の文、主題、論証の一言、言い直しと例、規則8の理由、規則10〜15の欄など）は、行の並びに属さない */
+  const ENTER_ROWS = [[/^(points|pointsHow|unclear)\.(\d+)$/, [""]], [/^(terms)\.(\d+)\.(?:w|m|p)$/, [".w", ".m", ".p"]], [/^(parts)\.(\d+)\.(?:t|sum|rel)$/, [".t", ".sum", ".rel"]],
+    [/^(parts\.\d+\.subs)\.(\d+)$/, [""]], [/^(qs)\.(\d+)\.t$/, [".t"]], [/^(props)\.(\d+)\.(?:t|loc)$/, [".t", ".loc"]], [/^(props\.\d+\.grounds)\.(\d+)\.t$/, [".t"]]];
+
   $("app").addEventListener("click", e => {
     const b = e.target.closest("button[data-a]"); if (!b) return;
     const book = cur(), v = book.v, d = b.dataset, p = d.p; let focus = null;
@@ -830,9 +835,19 @@ if (typeof document !== "undefined") (function () {
   $("app").addEventListener("keydown", e => {
     /* ボタンの上で Enter を押したままにしたとき（キーリピート）は、働かせない。描き直しのあとに置き直した部品が、続けて押されるのを防ぐ */
     if (e.key === "Enter" && e.repeat && e.target.closest("button[data-a]")) { e.preventDefault(); return; }
-    if (e.key !== "Enter" || e.isComposing || e.target.tagName !== "INPUT") return;
+    /* かな漢字変換を確定する Enter では、何もしない。Safari は、確定の Enter の keydown で isComposing が false になることがあるので、keyCode の 229 も見る */
+    if (e.key !== "Enter" || e.isComposing || e.keyCode === 229 || e.target.tagName !== "INPUT") return;
     e.preventDefault();
-    const holder = e.target.closest(".said, .card, .item"); const btn = holder && [...holder.querySelectorAll('button[data-a="push"]')].pop();
+    /* 押したまま（キーリピート）では、進まず、足さない */
+    if (e.repeat) return;
+    /* 行の並びに属する欄だけが働く。同じ行の次の文字の欄へ進む。行の最後の欄では、次の行の最初の欄へ進み、次の行がなければ、同じ並びの行を足す
+       （足した行の最初の欄には、「足す」のボタンの処理がフォーカスを移す）。同じ欄が2か所に出る用語は、押した側の項目（.item）の中で進む */
+    const p = e.target.dataset.p || "", row = ENTER_ROWS.map(r => [r[0].exec(p), r[1]]).find(r => r[0]), holder = e.target.closest(".item"); if (!row || !holder) return;
+    const lp = row[0][1], i = +row[0][2], fields = row[1], at = fields.indexOf(p.slice((lp + "." + i).length));
+    const find = q => [...holder.querySelectorAll("input[data-p]")].find(o => o.dataset.p === q);
+    const next = at < fields.length - 1 ? find(lp + "." + i + fields[at + 1]) : find(lp + "." + (i + 1) + fields[0]);
+    if (next) { next.focus(); return; }
+    const btn = at === fields.length - 1 && [...holder.querySelectorAll('button[data-a="push"]')].find(o => o.dataset.p === lp);
     if (btn) btn.click();
   });
   $("bookSel").addEventListener("change", e => { store.current = e.target.value; save(); render(); window.scrollTo(0, 0); });
