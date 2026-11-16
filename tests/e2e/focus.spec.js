@@ -209,6 +209,7 @@ test("「×」で行を消すと、次の行の「×」、次がなければ前�
 });
 
 test("命題、根拠、下位の区分、問題の「×」でも、近くの「×」か「足す」にフォーカスがある", async ({ page }) => {
+  page.on("dialog", d => d.accept()); // 中身のある命題・部分・問題を消す前の確認（#61）を受ける
   await setup(page);
   // 根拠（命題 P2 のカードの中）
   let y = await put(page, page.locator('button[data-a="del"][data-p="props.1.grounds"][data-i="0"]'));
@@ -490,6 +491,7 @@ async function hold(page, key, times) {
 
 test.describe("押したまま、マウスのあとのキー（審査の指摘）", () => {
   test("「×」で Enter を押したままにしても、消えるのは1行だけ（命題と、要点の一覧）", async ({ page }) => {
+    page.on("dialog", d => d.accept()); // 中身のある命題・部分・問題を消す前の確認（#61）を受ける
     await setup(page);
     await put(page, page.locator('button[data-a="del"][data-p="props"][data-i="0"]'));
     await hold(page, "Enter", 8);
@@ -510,6 +512,7 @@ test.describe("押したまま、マウスのあとのキー（審査の指摘�
   });
 
   test("サンプルの本: 規則6の P1 の「×」で Enter を押したままにしても、P2 から後ろの命題は残る", async ({ page }) => {
+    page.on("dialog", d => d.accept()); // 中身のある命題・部分・問題を消す前の確認（#61）を受ける
     await openTool(page);
     const ids = (await current(page)).v.props.map(o => o.id);
     expect(ids.length, "サンプルの命題の数").toBeGreaterThan(2);
@@ -567,6 +570,7 @@ test.describe("押したまま、マウスのあとのキー（審査の指摘�
   });
 
   test("マウスで「×」を押したあとは、どの「×」にもフォーカスを置かない。続く Space と Enter で、別の行が消えない", async ({ page }) => {
+    page.on("dialog", d => d.accept()); // 中身のある命題・部分・問題を消す前の確認（#61）を受ける
     await setup(page);
     // 命題 P2 の「×」
     await page.locator('button[data-a="del"][data-p="props"][data-i="1"]').click();

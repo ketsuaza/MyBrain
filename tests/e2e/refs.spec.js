@@ -170,6 +170,7 @@ test("読み込んだ読書メモで、相手の文が空の参照や、相手�
 });
 
 test("これまでどおり: 「×」で消したときは、参照を外す（命題、部分、問題）", async ({ page }) => {
+  page.on("dialog", d => d.accept()); // 中身のある命題・部分・問題を消す前の確認（#61）を受ける
   await setup(page);
   await ruleItem(page, 6).locator('button[data-a="del"][data-p="props"][data-i="1"]').click();
   await ruleItem(page, 3).locator('button[data-a="del"][data-p="parts"][data-i="1"]').click();

@@ -802,6 +802,14 @@ if (typeof document !== "undefined") (function () {
   const TPL = { str: () => "", term: () => ({ w: "", m: "", p: "", g: false }), part: v => ({ id: nextId(v, "S"), t: "", role: "", to: (arr(v.parts).filter(o => txt(o.t)).pop() || {}).id || "", link: "", sum: "", rel: "", subs: [] }), ground: () => ({ t: "", kind: "" }),
     q: v => ({ id: nextId(v, "Q"), t: "", parent: "" }), prop: v => ({ id: nextId(v, "P"), t: "", loc: "", sup: "", q: "", grounds: [], arg: "", judge: "", why: "", self: "", k12: "", k13: "", k14: "", k15: "" }) };
 
+  /* 命題・部分・問題の行に、中身があるか。利用者が書いたり選んだりした値が1つでもあれば true（「×」で消す前に確かめる）。
+     番号（id）と、足したときに自動で入る値（部分の「どの部分と」。「独立している」は利用者が選んだ値）だけなら、空として扱う。命題の空の根拠の行、空の区分も数えない */
+  const anyOf = (o, ks) => ks.some(k => txt(o[k]));
+  const BODY = { props: (v, o) => anyOf(o, ["t", "loc", "sup", "q", "arg", "judge", "why", "self", "k12", "k13", "k14", "k15"]) || arr(o.grounds).some(g => g && anyOf(g, ["t", "kind"])),
+    parts: (v, o) => anyOf(o, ["t", "role", "link", "sum", "rel"]) || o.to === "none" || liveList(o.subs).length > 0,
+    qs: (v, o) => anyOf(o, ["t", "parent"]) || anyOf((v.solved || {})[o.id] || {}, ["s", "aware", "why"]) };
+  const ALSO = { props: "この命題の根拠、判断、理由、規則10〜15に書いた内容も消える。", parts: "この部分の役割、つながり、概要、受け持つ所、区分も消える。", qs: "規則8に書いた、この問題の解決と理由も消える。" };
+
   /* Enter で進む、行の並び。[欄の data-p の形（1: 並びのパス、2: 何行目）, 1行の中の文字の欄（行のパスに続く部分。進む順）]。プルダウンとボタンは飛ばす。
      ここにない欄（統一の文、主題、論証の一言、言い直しと例、規則8の理由、規則10〜15の欄など）は、行の並びに属さない */
   const ENTER_ROWS = [[/^(points|pointsHow|unclear)\.(\d+)$/, [""]], [/^(terms)\.(\d+)\.(?:w|m|p)$/, [".w", ".m", ".p"]], [/^(parts)\.(\d+)\.(?:t|sum|rel)$/, [".t", ".sum", ".rel"]],
@@ -819,7 +827,10 @@ if (typeof document !== "undefined") (function () {
       case "flip": setPath(v, p, !getPath(v, p)); break;
       case "alt": { const m = v._alt && typeof v._alt === "object" ? v._alt : (v._alt = {}); if (m[p] === true) delete m[p]; else m[p] = true; break; } /* 欄の内容（v[p]）には触らない */
       case "push": { let a = getPath(v, p); if (!Array.isArray(a)) { a = []; setPath(v, p, a); } a.push(TPL[d.tpl](v)); focus = p + "." + (a.length - 1); break; }
-      case "del": { const a = getPath(v, p), gone = a.splice(+d.i, 1)[0];
+      case "del": { const a = getPath(v, p), row = a[+d.i];
+        /* 中身のある命題・部分・問題は、消す前に確かめる。やめたら、何も変えず、描き直さない（フォーカスは、押した「×」に残る） */
+        if (BODY[p] && row && BODY[p](v, row) && !confirm(txt(row.id) + "「" + txt(row.t) + "」を消す。" + ALSO[p])) return;
+        const gone = a.splice(+d.i, 1)[0];
         if (p === "props" && gone) arr(v.props).forEach(o => { if (o.sup === gone.id) o.sup = ""; });
         if (p === "parts" && gone) arr(v.parts).forEach(o => { if (o.to === gone.id) { o.to = ""; o.link = ""; } });
         if (p === "qs" && gone) { arr(v.props).forEach(o => { if (o.q === gone.id) o.q = ""; }); if (v.solved) delete v.solved[gone.id]; }

@@ -68,6 +68,7 @@ test("サンプルの本: 画面の下端の「↓」を Space で押すと、�
 });
 
 test("サンプルの本: 見出しのすぐ下の、末尾の行の「×」を Enter で押すと、前の行の「×」にフォーカスが移り、見出しの下に見えている", async ({ page }) => {
+  page.on("dialog", d => d.accept()); // 中身のある命題・部分・問題を消す前の確認（#61）を受ける
   await openTool(page);
   const last = IDS.length - 1;
   await putBelowHeader(page, btn(page, "del", last), 8);
@@ -109,6 +110,7 @@ test("フォーカスのある部品が見えているときは、「↑」「�
 });
 
 test("マウスで「↑」を押したときの動きは変わらない: 行が上へ動いても、画面の縦の位置は変わらない", async ({ page }) => {
+  page.on("dialog", d => d.accept()); // 中身のある命題・部分・問題を消す前の確認（#61）を受ける
   await openTool(page);
   await putBelowHeader(page, btn(page, "up", 3), 8);
   const y = await scrollY(page), box = await btn(page, "up", 3).boundingBox();
@@ -126,6 +128,7 @@ test("マウスで「↑」を押したときの動きは変わらない: 行が
 });
 
 test("ほかの一覧（用語、命題、問題、根拠）の「×」でも、フォーカスの移った先が見出しに隠れたら、見える所まで動く", async ({ page }) => {
+  page.on("dialog", d => d.accept()); // 中身のある命題・部分・問題を消す前の確認（#61）を受ける
   await openTool(page);
   // 命題は1つが高いので、末尾の「×」を見出しのすぐ下に置くと、前の命題の「×」は見出しの上に出る
   const n = SAMPLE.v.props.length;
@@ -141,6 +144,7 @@ test("ほかの一覧（用語、命題、問題、根拠）の「×」でも、
 test.describe("iPhone の幅（390px）", () => {
   test.use({ viewport: { width: 390, height: 844 } });
   test("390px の幅でも、キーボードで「↑」「↓」「×」を押したあと、フォーカスのある部品が見えていて、横にはみ出さない", async ({ page }) => {
+    page.on("dialog", d => d.accept()); // 中身のある命題・部分・問題を消す前の確認（#61）を受ける
     await openTool(page);
     await putBelowHeader(page, btn(page, "up", 3), 8);
     await page.keyboard.press("Enter");
