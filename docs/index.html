@@ -698,10 +698,15 @@ if (typeof document !== "undefined") (function () {
       '<button data-a="save">Obsidian に保存</button><button data-a="copy">Markdown をコピー</button><span id="msg" class="help" style="margin:0"></span></div>' +
       (memOnly ? '<div class="todo">このブラウザでは入力を保存できない。閉じる前に Obsidian に保存すること。</div>' : "");
   }
+  /* 下読みの「何についての本か」の答えを、規則2の欄へ写す。判定が「分析読書へ進む」で、規則2の答えがまだなく、下読みの2つの空所が両方埋まっているときだけ。写したら true */
+  function copyUnity(book) {
+    if (!book || !isAna(book.v) || book.v.unityA || !unityOk(book.v.unity)) return false;
+    book.v.unityA = JSON.parse(JSON.stringify(book.v.unity)); save(); return true;
+  }
   function render() {
     const book = cur();
     $("bookSel").innerHTML = store.books.map(b => '<option value="' + esc(b.id) + '"' + (book && b.id === book.id ? " selected" : "") + ">" + (b.meta.finished ? "✓ " : "") + h(b.meta.title || "無題") + "</option>").join("");
-    if (book && isAna(book.v) && !book.v.unityA && unityOk(book.v.unity)) { book.v.unityA = JSON.parse(JSON.stringify(book.v.unity)); save(); }
+    copyUnity(book);
     if (!book) { $("app").innerHTML = '<div class="empty">「本を足す」から、読む本を選ぶ。</div>'; $("prog").innerHTML = ""; return; }
     $("app").innerHTML = appHtml(book);
     progress();
@@ -824,6 +829,13 @@ if (typeof document !== "undefined") (function () {
     /* プルダウンは、このあとの change で全体を描き直す。文字の欄は、入力中の欄を残して、ほかを最新にする */
     if (el.tagName !== "SELECT") refresh(el);
     save(); progress();
+  });
+  /* 下読みの「何についての本か」の2つの欄から離れたときに、規則2の欄へ写す（打っている途中では写さない。2つの欄のあいだを移っただけでも写さない）。
+     フォーカスは、次の部品へ移る途中である。離れた欄を残して違う所だけを書き換える refresh を使い、移った先の部品（次の欄、押そうとしているボタン）は作り直さない */
+  const isUnity = el => !!el && el.tagName === "INPUT" && /^unity\./.test(el.dataset.p || "");
+  $("app").addEventListener("focusout", e => {
+    if (!isUnity(e.target) || isUnity(e.relatedTarget)) return;
+    if (copyUnity(cur())) { refresh(e.target); progress(); }
   });
   $("app").addEventListener("change", e => { const el = e.target; if (el.tagName !== "SELECT") return;
     const app = $("app"), had = app.contains(document.activeElement), want = { p: el.dataset.p }, n = alike(app, "SELECT", want).indexOf(el), y = window.scrollY;
