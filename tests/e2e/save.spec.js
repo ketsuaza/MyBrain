@@ -56,10 +56,18 @@ test("サンプルを保存すると、60_notes/読書メモ/ に有効な Markd
   const { fm, state } = validate(rel, content, "【サンプル】学問のすすめ");
   expect(fm.depth).toBe("分析");
   expect(state).toEqual(book);
-  // 書き出したファイルを「読み込む」に貼ると、同じ本になる
+  // 書き出したファイルを「読み込む」に貼ると、同じ本になる。
+  // 読み込む前に、同じ本の中身を変えておく（読み込みが効いていなければ、変えたままで、下の確認が落ちる）。中身が違う同じ本なので、置き換える前の確認（#59）が出る。受ける
+  await page.locator("#app textarea[data-p='purpose']").fill("保存のあとで書き換えた目的");
+  expect(await page.evaluate(() => window.__dokusho.current())).not.toEqual(book);
+  const asked = [];
+  page.once("dialog", d => { asked.push(d.type()); d.accept(); });
   await page.click("#btnImport");
   await page.locator("#formImport textarea").fill(fs.readFileSync(file, "utf8"));
   await page.locator("#formImport").getByRole("button", { name: "読み込む" }).click();
+  // 読み込みが反映されるまで待ってから比べる
+  await expect(page.locator("#app textarea[data-p='purpose']")).toHaveValue(book.v.purpose);
+  expect(asked).toEqual(["confirm"]);
   expect(await page.evaluate(() => window.__dokusho.current())).toEqual(book);
 });
 
