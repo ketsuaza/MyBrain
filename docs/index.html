@@ -778,6 +778,13 @@ if (typeof document !== "undefined") (function () {
     const hits = alike(root, tag, want), el = hits[n] || hits[0]; if (!el || el.disabled) return false;
     el.focus({ preventScroll: true }); return document.activeElement === el;
   }
+  /* フォーカスのある部品 el が、固定の見出しの下や、画面の外に出ていたら、見える所まで画面を動かす。見えているときは動かさない。
+     動かす量は、見えるようになる最小限（フォーカスの枠が見えるよう、端から 4px だけ離す） */
+  function reveal(el) {
+    const r = el.getBoundingClientRect(), head = document.querySelector("header").getBoundingClientRect().bottom, pad = 4;
+    if (r.top < head) window.scrollBy(0, Math.floor(r.top - head - pad));
+    else if (r.bottom > window.innerHeight) window.scrollBy(0, Math.ceil(r.bottom - window.innerHeight + pad));
+  }
   const TPL = { str: () => "", term: () => ({ w: "", m: "", p: "", g: false }), part: v => ({ id: nextId(v, "S"), t: "", role: "", to: (arr(v.parts).filter(o => txt(o.t)).pop() || {}).id || "", link: "", sum: "", rel: "", subs: [] }), ground: () => ({ t: "", kind: "" }),
     q: v => ({ id: nextId(v, "Q"), t: "", parent: "" }), prop: v => ({ id: nextId(v, "P"), t: "", loc: "", sup: "", q: "", grounds: [], arg: "", judge: "", why: "", self: "", k12: "", k13: "", k14: "", k15: "" }) };
 
@@ -821,7 +828,11 @@ if (typeof document !== "undefined") (function () {
     render(); window.scrollTo(0, y);
     if (focus && secId) { const s = document.getElementById(secId); const el = s && s.querySelector('[data-p^="' + focus + '"]'); if (el) el.focus(); }
     /* 「読了にする」が押せない（足りない項目がある）ときは、隣の「Obsidian に保存」に置く */
-    else if (!focus && had && want) refocus(app, "BUTTON", want, n) || (want.a === "finish" && refocus(app, "BUTTON", { a: "save" }, 0));
+    else if (!focus && had && want) {
+      const put = refocus(app, "BUTTON", want, n) || (want.a === "finish" && refocus(app, "BUTTON", { a: "save" }, 0));
+      /* キーボードで「↑」「↓」「×」を押したとき（detail が 0）は、行が動いたり消えたりして、置き直した部品が見えない所に出ることがある。そのときだけ、見える所まで画面を動かす */
+      if (put && e.detail === 0 && (d.a === "up" || d.a === "down" || d.a === "del")) reveal(document.activeElement);
+    }
   });
   $("app").addEventListener("input", e => {
     const el = e.target, p = el.dataset.p; if (!p || el.tagName === "BUTTON") return;

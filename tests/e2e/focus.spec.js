@@ -170,10 +170,15 @@ test("「↓」「↑」を押すと、動かした行の同じ向きのボタ�
   const y = await put(page, page.locator('button[data-a="down"][data-p="parts"][data-i="0"]'));
   await press(page, "Space", y, BTN, { a: "down", p: "parts", i: "1" });
   expect(await ids()).toEqual(["S2", "S1", "S3"]);
-  await press(page, "Space", y, BTN, { a: "down", p: "parts", i: "2" });
+  // 2回目は、動かした行が画面の下へ出る。フォーカスのある「↓」が見える所まで、画面が動く（issue #75）
+  await page.keyboard.press("Space");
+  await expectFocus(page, BTN, { a: "down", p: "parts", i: "2" });
+  const y1 = await scrollY(page);
+  expect(y1, "画面の縦の位置（下へ動く）").toBeGreaterThan(y);
+  expect(await page.evaluate(() => document.activeElement.getBoundingClientRect().bottom <= window.innerHeight), "フォーカスのある「↓」が、画面の中にある").toBe(true);
   expect(await ids()).toEqual(["S2", "S3", "S1"]);
   // いちばん下では動かない。フォーカスは同じボタンに残る
-  await press(page, "Enter", y, BTN, { a: "down", p: "parts", i: "2" });
+  await press(page, "Enter", y1, BTN, { a: "down", p: "parts", i: "2" });
   expect(await ids()).toEqual(["S2", "S3", "S1"]);
   await tabGoesNext(page);
   await expectFocus(page, BTN, { a: "del", p: "parts", i: "2" });
@@ -410,8 +415,14 @@ test.describe("iPhone の幅（390px）", () => {
     await press(page, "Q", y, SEL, { p: "props.0.q" });
     expect((await current(page)).v.props[0].q).toBe("Q3");
     y = await put(page, page.locator('button[data-a="down"][data-p="parts"][data-i="0"]'));
-    await press(page, "Space", y, BTN, { a: "down", p: "parts", i: "1" });
-    await press(page, "Space", y, BTN, { a: "down", p: "parts", i: "2" });
+    // この幅では、動かした行が画面の下へ出る。フォーカスのある「↓」が見える所まで、画面が動く（issue #75）
+    for (const i of ["1", "2"]) {
+      await page.keyboard.press("Space");
+      await expectFocus(page, BTN, { a: "down", p: "parts", i });
+      expect(await scrollY(page), "画面の縦の位置（下へ動く）").toBeGreaterThan(y);
+      expect(await page.evaluate(() => document.activeElement.getBoundingClientRect().bottom <= window.innerHeight), "フォーカスのある「↓」が、画面の中にある").toBe(true);
+      y = await scrollY(page);
+    }
     y = await put(page, page.locator('button[data-a="del"][data-p="points"][data-i="2"]'));
     await press(page, "Enter", y, BTN, { a: "del", p: "points", i: "1" });
     await press(page, "Enter", y, BTN, { a: "del", p: "points", i: "0" });
