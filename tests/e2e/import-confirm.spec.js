@@ -20,13 +20,15 @@ function watch(page, answer) {
   page.on("dialog", d => { seen.push({ type: d.type(), text: d.message() }); if (answer) d.accept(); else d.dismiss(); });
   return seen;
 }
-/* 「読み込む」に text を貼って、読み込む */
+/* 「読み込む」に text を貼って、読み込む。ダイアログを閉じたときの処理（close イベント。確認もこの中で出る）が終わるまで待つ */
 async function paste(page, text, how) {
   await page.click("#btnImport");
   await page.locator("#formImport textarea").fill(text);
+  await page.evaluate(() => { window.__closed = new Promise(done => document.getElementById("dlgImport").addEventListener("close", done, { once: true })); });
   if (how === "keyboard") await page.keyboard.press("Tab"); // 欄から「読み込む」のボタンへ
   if (how === "keyboard") await page.keyboard.press("Enter"); else await page.locator("#formImport").getByRole("button", { name: "読み込む" }).click();
   await page.locator("#dlgImport").waitFor({ state: "hidden" });
+  await page.evaluate(() => window.__closed);
 }
 const md = book => "# 見出し\n\n%%\n" + F + "state\n" + JSON.stringify(book) + "\n" + F + "\n%%\n";
 /* 「Markdown をコピー」と同じ Markdown */
