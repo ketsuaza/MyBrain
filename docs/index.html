@@ -94,8 +94,9 @@ dialog#dlgBook[open] { display: flex; flex-direction: column; }
 #formBook label { margin-top: 6px; }
 #formBook input[type=text] { padding: 4px 8px; }
 #formBook .actions { padding: 10px 0 0; flex: none; }
-/* 幅の狭い画面では、固定の見出しが2段になって高くなる。部分の行の字下げもやめる */
-@media (max-width: 620px) { html { scroll-padding-top: 170px; } .prow .sub, .prow .id + input + select { margin-left: 0; } }
+/* 幅の狭い画面では、固定の見出しを本の選択の行（2段）だけにする。進み具合の行（.prog）は、見出しの外（すぐ下）へ出し、ページと一緒に流す（下の placeProg）。
+   見出しの高さを 100px までに収めるよう、余白を詰める。部分の行の字下げもやめる */
+@media (max-width: 620px) { html { scroll-padding-top: 104px; } .bar { padding: 8px 16px; gap: 6px 8px; } header + .prog { padding-top: 8px; } .prow .sub, .prow .id + input + select { margin-left: 0; } }
 @media (max-width: 620px) { #formBook .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 dialog::backdrop { background: rgba(0,0,0,.4); }
 dialog label { display: block; font-size: 12.5px; color: var(--sub); margin-top: 10px; }
@@ -556,6 +557,15 @@ if (typeof module !== "undefined") module.exports = { ALT, isAlt, SECTIONS, J, f
 
 /* ---------- 画面 ---------- */
 if (typeof document !== "undefined") (function () {
+  /* 幅の狭い画面（CSS の境目と同じ 620px 以下）では、進み具合の行を、固定の見出しの外（すぐ下）に置く。広い画面では、見出しの中に置く。画面を出す前に置き、幅が変わったら置き直す */
+  (function () {
+    const head = typeof document.querySelector === "function" && document.querySelector("header"), prog = head && document.getElementById("prog");
+    if (!prog || typeof window.matchMedia !== "function") return;
+    const narrow = window.matchMedia("(max-width: 620px)");
+    const placeProg = () => { if (narrow.matches) { if (prog.parentNode === head) head.parentNode.insertBefore(prog, head.nextSibling); } else if (prog.parentNode !== head) head.appendChild(prog); };
+    placeProg();
+    if (narrow.addEventListener) narrow.addEventListener("change", placeProg); else if (narrow.addListener) narrow.addListener(placeProg);
+  })();
   /* factcheck.js とブックリストは、開くたびに読み直す。ブラウザが古い内容を使うと、足した本や Agent の結果が出ないため */
   const files = ["factcheck.js", "sample.js"]; let left = files.length;
   const next = () => { if (--left === 0) boot(); };
