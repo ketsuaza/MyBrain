@@ -574,8 +574,10 @@ if (typeof document !== "undefined") (function () {
   const BOOKLIST = withPriority((typeof window !== "undefined" && window.BOOKLIST) || []);
   const FC = (typeof window !== "undefined" && window.FACTCHECK) || {};
   let store = { books: [], current: null }, memOnly = false;
+  /* seenRaw: ブラウザに残っている内容のうち、このタブが最後に読み書きしたもの（文字列）。baseRaw: そのときの、このタブの状態。ほかのタブの保存を取り込むときに使う（pull） */
+  let seenRaw = null, baseRaw = "";
   const openHelp = new Set();
-  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && Array.isArray(s.books)) store = s; } catch (e) { memOnly = true; }
+  try { seenRaw = localStorage.getItem(KEY); const s = JSON.parse(seenRaw); if (s && Array.isArray(s.books)) store = s; } catch (e) { memOnly = true; }
   /* サンプルは、初めて見たときだけ本の一覧に足す。消したあとに戻ってこないよう、見た id を覚える */
   store.books.forEach(migrateBook);
   store.seen = arr(store.seen);
@@ -583,7 +585,55 @@ if (typeof document !== "undefined") (function () {
     if (!store.books.some(o => o.id === b.id)) store.books.push(migrateBook(JSON.parse(JSON.stringify(b)))); });
   const today = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
   const cur = () => store.books.find(b => b.id === store.current) || store.books[0];
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { memOnly = true; } }
+  baseRaw = JSON.stringify(store);
+  /* 保存の直前に、ほかのタブの保存を取り込む。取り込んだら true を返す（呼んだ側が、画面を最新にする） */
+  function save() { const got = pull(); try { const raw = JSON.stringify(store); localStorage.setItem(KEY, raw); seenRaw = baseRaw = raw; } catch (e) { memOnly = true; } return got; }
+
+  /* ---------- ほかのタブの保存を取り込む ----------
+     同じブラウザの別のタブも、同じ場所（KEY）に全体を書く。そのまま書くと、ほかのタブの入力を消すので、保存の直前（save）と、ほかのタブが保存したとき（storage）に取り込む。
+     base（最後に読み書きしたときの状態）、mine（このタブの今の状態）、theirs（ブラウザにある内容）を比べ、このタブが変えていない所は theirs に合わせ、変えた所は mine を残す
+     （両方が変えた所は、あとから書く mine）。本と、番号のある行（命題・部分・問題）は、番号（id）で突き合わせる。mine の本や行は、同じオブジェクトのまま書き換える。
+     どのタブが今どの本を開いているか（current）は、タブごとのもので、取り込まない。保存の形は変えない */
+  const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  const isObj = x => !!x && typeof x === "object" && !Array.isArray(x);
+  const clone = x => (x === undefined ? x : JSON.parse(JSON.stringify(x)));
+  function merge3(base, mine, theirs) {
+    if (same(mine, theirs) || same(theirs, base)) return mine;
+    if (isObj(mine) && isObj(theirs)) { const b = isObj(base) ? base : {};
+      [...new Set(Object.keys(mine).concat(Object.keys(theirs)))].forEach(k => { const x = merge3(b[k], mine[k], theirs[k]); if (x === undefined) delete mine[k]; else mine[k] = x; });
+      return mine; }
+    if (Array.isArray(mine) && Array.isArray(theirs)) { const b = arr(base);
+      if ([b, mine, theirs].every(a => a.every(o => isObj(o) && o.id))) return mergeRows(b, mine, theirs);
+      if (b.length === mine.length && b.length === theirs.length) return mine.map((m, i) => merge3(b[i], m, theirs[i])); }
+    return same(mine, base) ? clone(theirs) : mine;
+  }
+  function mergeRows(base, mine, theirs) {
+    const at = (a, id) => a.find(o => o.id === id), ids = a => a.map(o => o.id);
+    /* 残す行: 両方にある行、このタブが足した行、ほかのタブが消したがこのタブが書き換えた行。このタブが消した行は、戻さない */
+    const kept = mine.filter(m => at(theirs, m.id) || !at(base, m.id) || !same(m, at(base, m.id)));
+    kept.forEach(m => { const t = at(theirs, m.id); if (t) merge3(at(base, m.id), m, t); });
+    /* 並び: このタブが並びを変えていなければ、ほかのタブの並びに合わせる */
+    const pos = m => { const i = ids(theirs).indexOf(m.id); return i < 0 ? theirs.length : i; };
+    const out = same(ids(mine), ids(base)) ? kept.slice().sort((x, y) => pos(x) - pos(y)) : kept;
+    /* ほかのタブが足した行は、ほかのタブの並びで次に来る行の前に入れる（次に来る行がなければ、末尾） */
+    theirs.forEach((t, i) => { if (at(base, t.id) || at(mine, t.id)) return;
+      const later = ids(theirs.slice(i + 1)), j = out.findIndex(o => later.includes(o.id));
+      out.splice(j < 0 ? out.length : j, 0, clone(t)); });
+    return out;
+  }
+  /* ブラウザにある内容が、このタブが最後に読み書きしたものと違っていたら、取り込む。取り込んだら true */
+  function pull() {
+    let raw, theirs, base = null;
+    try { raw = localStorage.getItem(KEY); if (raw == null || raw === seenRaw) return false;
+      theirs = JSON.parse(raw); if (!theirs || !Array.isArray(theirs.books)) return false; theirs.books.forEach(migrateBook); } catch (e) { return false; }
+    try { base = JSON.parse(baseRaw); } catch (e) { base = null; }
+    if (!base || !Array.isArray(base.books)) base = { books: [] };
+    store.books = mergeRows(base.books, store.books, theirs.books);
+    store.seen = [...new Set(arr(store.seen).concat(arr(theirs.seen)))];
+    const sort = merge3(base.sort, store.sort, theirs.sort); if (sort === undefined) delete store.sort; else store.sort = sort;
+    seenRaw = raw; baseRaw = JSON.stringify(Object.assign({}, theirs, { current: store.current }));
+    return true;
+  }
 
   /* 読み込んだ読書メモの値（id、判定など）は、HTML や属性に入れる前に、必ず esc を通す。data-p には、問題の id が入ることがある（solved.Q1.s）。
      入力欄とプルダウンには、読み上げられる名前（name）を aria-label で付ける。名前には、行や命題の番号を入れて、同じ項目の中で重ならないようにする */
@@ -717,9 +767,12 @@ if (typeof document !== "undefined") (function () {
     if (!book || !isAna(book.v) || book.v.unityA || !unityOk(book.v.unity)) return false;
     book.v.unityA = JSON.parse(JSON.stringify(book.v.unity)); save(); return true;
   }
+  /* 本の選択の中身。shownOpts は、いま出しているもの */
+  let shownOpts = "";
+  const bookOpts = book => store.books.map(b => '<option value="' + esc(b.id) + '"' + (book && b.id === book.id ? " selected" : "") + ">" + (b.meta.finished ? "✓ " : "") + h(b.meta.title || "無題") + "</option>").join("");
   function render() {
     const book = cur();
-    $("bookSel").innerHTML = store.books.map(b => '<option value="' + esc(b.id) + '"' + (book && b.id === book.id ? " selected" : "") + ">" + (b.meta.finished ? "✓ " : "") + h(b.meta.title || "無題") + "</option>").join("");
+    $("bookSel").innerHTML = shownOpts = bookOpts(book);
     copyUnity(book);
     if (!book) { $("app").innerHTML = '<div class="empty">「本を足す」から、読む本を選ぶ。</div>'; $("prog").innerHTML = ""; return; }
     $("app").innerHTML = appHtml(book);
@@ -773,6 +826,44 @@ if (typeof document !== "undefined") (function () {
     list(a, as.slice(i + 1), bs.slice(j + 1), null);
     if (d < olds.length - 1) { attrs(olds[d], news[d]); morphKids(olds[d], news[d], olds, news, d + 1); }
   }
+  /* 入力中の欄 el が、いま何を指しているか（取り込む前に控える）。sig: どの本の、どの並びの、どの値か。nodes: 欄のパスをたどった途中のオブジェクト。
+     n: 同じ data-p の欄のうち何番目か（同じ欄が2か所に出る用語）。start、end: カーソルの位置 */
+  function markOf(el) {
+    const book = cur(), app = $("app"), p = el && el.dataset ? el.dataset.p : "";
+    if (!book || !p || !app.contains(el) || (el.tagName !== "INPUT" && el.tagName !== "TEXTAREA")) return null;
+    const keys = p.split("."), nodes = [book.v], sig = [book.id]; let a = book.v;
+    keys.forEach(k => { if (Array.isArray(a)) sig.push(a.length + ":" + a.map(o => (o && o.id) || "").join(",")); a = a == null ? a : a[k]; nodes.push(a); });
+    return { el, p, keys, nodes, sig: JSON.stringify(sig.concat(a == null ? "" : String(a))), n: alike(app, el.tagName, { p }).indexOf(el), start: el.selectionStart, end: el.selectionEnd };
+  }
+  /* 取り込んだあと、控えた欄が指していた行が、いまどのパスにあるか。行（オブジェクト）は取り込んでも同じものなので、並びの中の位置を探す。行がなくなっていたら null */
+  function pathNow(m) {
+    const book = cur(); if (!book || book.v !== m.nodes[0]) return null;
+    const out = []; let a = book.v;
+    for (let i = 0; i < m.keys.length; i++) { let k = m.keys[i];
+      if (Array.isArray(a) && isObj(m.nodes[i + 1])) { const j = a.indexOf(m.nodes[i + 1]); if (j < 0) return null; k = String(j); }
+      out.push(k); a = a == null ? a : a[k]; }
+    return out.join(".");
+  }
+  /* ほかのタブの保存を取り込んだあとの画面を、最新にする。m は、取り込む前に控えた入力中の欄（markOf）。
+     入力中の欄が同じ行の同じ値を指したままなら、その欄を残して、ほかを書き換える（refresh。フォーカス、カーソル、かな漢字変換の途中は変わらない）。
+     そうでないとき（入力中の欄がない、同じ欄をほかのタブが書き換えた、行がずれた）は、画面を作り直したものと比べて違う所だけを書き換え、欄の値も状態に合わせる。
+     フォーカスは、同じ行の欄（ボタンやプルダウンなら、同じ働きの部品）に置き直す */
+  function settle(m) {
+    const app = $("app"), book = cur(), act = document.activeElement, had = app.contains(act), tag = had ? act.tagName : "", want = had ? Object.assign({}, act.dataset) : null, n = had ? alike(app, tag, want).indexOf(act) : -1;
+    const opts = bookOpts(book); if (opts !== shownOpts) $("bookSel").innerHTML = shownOpts = opts;
+    if (!book || !app.querySelector("section")) { render(); return; }
+    const p = m ? pathNow(m) : null;
+    if (m && p === m.p && markOf(m.el) && markOf(m.el).sig === m.sig && refresh(m.el)) { progress(); return; }
+    const fresh = document.createElement("main"); fresh.innerHTML = appHtml(book);
+    list(app, [...app.childNodes], [...fresh.childNodes], null);
+    app.querySelectorAll("input[data-p], textarea[data-p]").forEach(o => { const x = getPath(book.v, o.dataset.p), val = (x == null ? "" : String(x)).replace(/\r\n?/g, "\n"); if (o.value !== val) o.value = val; });
+    if (m && p && document.activeElement === m.el) { const hits = alike(app, m.el.tagName, { p }), to = hits[m.n] || hits[0];
+      if (to) { to.focus({ preventScroll: true }); try { to.setSelectionRange(Math.min(m.start, to.value.length), Math.min(m.end, to.value.length)); } catch (e) {} } }
+    else if (had && document.activeElement !== act) refocus(app, tag, want, n);
+    progress();
+  }
+  window.addEventListener("storage", e => { if (e.key !== KEY && e.key !== null) return;
+    const m = markOf(document.activeElement); if (pull()) settle(m); });
   function progress() {
     const book = cur(); if (!book) return; const v = book.v;
     const sh = ["s1", "s2", "s3", "s4", "s5", "s6"].filter(k => isAlt(v, k) || txt(v[k])).length;
@@ -862,9 +953,11 @@ if (typeof document !== "undefined") (function () {
   $("app").addEventListener("input", e => {
     const el = e.target, p = el.dataset.p; if (!p || el.tagName === "BUTTON") return;
     setPath(cur().v, p, el.value);
+    /* 保存の直前に、ほかのタブの保存を取り込むことがある（got）。そのときは、行がずれていることがあるので、settle で画面を最新にする */
+    const m = markOf(el), got = save();
     /* プルダウンは、このあとの change で全体を描き直す。文字の欄は、入力中の欄を残して、ほかを最新にする */
-    if (el.tagName !== "SELECT") refresh(el);
-    save(); progress();
+    if (el.tagName !== "SELECT") { if (got) settle(m); else refresh(el); }
+    progress();
   });
   /* 下読みの「何についての本か」の2つの欄から離れたときに、規則2の欄へ写す（打っている途中では写さない。2つの欄のあいだを移っただけでも写さない）。
      フォーカスは、次の部品へ移る途中である。離れた欄を残して違う所だけを書き換える refresh を使い、移った先の部品（次の欄、押そうとしているボタン）は作り直さない */
