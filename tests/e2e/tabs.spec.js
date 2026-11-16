@@ -347,3 +347,98 @@ test("ほかのタブが長い文を書くと、こちらのタブの欄の高�
   expect(await p0.evaluate(el => el.getBoundingClientRect().height)).toBeLessThanOrEqual(40);
   expect(Math.abs((await a.evaluate(el => el.getBoundingClientRect().top)) - top)).toBeLessThanOrEqual(1);
 });
+
+/* ---------- 番号のない一覧（用語、要点、根拠）で、片方が行を足しただけのとき（審査の指摘） ----------
+   2つのタブとも、ほかのタブの保存が届かない状態にして、保存の直前の取り込みだけで確かめる */
+async function twoDeafTabs(page, context) {
+  await deaf(page);
+  await openTool(page);
+  const book = base("t-tabs-x", "タブのテスト X");
+  book.v.judge = "分析読書へ進む"; book.v.props[0].grounds = [{ t: "根拠A", kind: "" }, { t: "根拠B", kind: "" }];
+  await importState(page, book);
+  const pageB = await context.newPage();
+  await deaf(pageB);
+  await openTool(pageB);
+  await expect(pageB.locator("#bookSel option:checked")).toHaveText("タブのテスト X");
+  return pageB;
+}
+const push = (page, sec, p) => page.locator("#" + sec + ' button[data-a="push"][data-p="' + p + '"]').click();
+const g = (page, sec, p) => page.locator("#" + sec + ' [data-p="' + p + '"]');
+const storedV = async page => (await storedBook(page, "t-tabs-x")).v;
+
+test("審査の再現: B が用語2の意味を書き、A が用語を1行足して書く。保存が届いていなくても、両方残る", async ({ page, context }) => {
+  const pageB = await twoDeafTabs(page, context);
+  await f(pageB, "terms.1.m").fill("B で書いた意味");
+  await expect(f(page, "terms.1.m"), "A の画面は、まだ古い").toHaveValue("意味B");
+  await push(page, "sec-shitayomi", "terms");
+  await page.keyboard.type("A で足した用語");
+  expect((await storedV(page)).terms.map(t => [t.w, t.m])).toEqual([["用語A", "意味A"], ["用語B", "B で書いた意味"], ["A で足した用語", ""]]);
+  await expect(f(page, "terms.1.m"), "A の画面にも、B の入力が出る").toHaveValue("B で書いた意味");
+  // 逆向き: 足した側の保存があとから届いていない B が、既存の行に書く
+  await f(pageB, "terms.0.m").fill("B で書いた意味 2");
+  expect((await storedV(page)).terms.map(t => [t.w, t.m])).toEqual([["用語A", "B で書いた意味 2"], ["用語B", "B で書いた意味"], ["A で足した用語", ""]]);
+  await expect(f(pageB, "terms.2.w")).toHaveValue("A で足した用語");
+});
+
+test("逆向き: B が用語を1行足して書き、A が既存の行に書く。要点（文字の一覧）と根拠でも、両方残る", async ({ page, context }) => {
+  const pageB = await twoDeafTabs(page, context);
+  await push(pageB, "sec-shitayomi", "terms");
+  await pageB.keyboard.type("B で足した用語");
+  await f(page, "terms.0.m").fill("A で書いた意味");
+  expect((await storedV(page)).terms.map(t => [t.w, t.m])).toEqual([["用語A", "A で書いた意味"], ["用語B", "意味B"], ["B で足した用語", ""]]);
+  // 要点: B が既存の行に書き、A が足す。続けて、A が既存の行に書き、B が足す
+  await g(pageB, "sec-hyomen", "points.1").fill("B で書いた要点");
+  await push(page, "sec-hyomen", "points");
+  await page.keyboard.type("A で足した要点");
+  expect((await storedV(page)).points).toEqual(["要点A", "B で書いた要点", "A で足した要点"]);
+  await g(page, "sec-hyomen", "points.0").fill("A で書いた要点");
+  await push(pageB, "sec-hyomen", "points");
+  await pageB.keyboard.type("B で足した要点");
+  expect((await storedV(page)).points).toEqual(["A で書いた要点", "B で書いた要点", "A で足した要点", "B で足した要点"]);
+  // 根拠: B が既存の行に書き、A が足す
+  await g(pageB, "sec-a2", "props.0.grounds.0.t").fill("B で書いた根拠");
+  await push(page, "sec-a2", "props.0.grounds");
+  await page.keyboard.type("A で足した根拠");
+  expect((await storedV(page)).props[0].grounds.map(o => o.t)).toEqual(["B で書いた根拠", "根拠B", "A で足した根拠"]);
+});
+
+test("両方のタブが同じ一覧に行を足したときは、両方の行が残る（ほかのタブの分、このタブの分の順）。足した行に続けて打った文字は、自分の行に入る", async ({ page, context }) => {
+  const pageB = await twoDeafTabs(page, context);
+  await push(pageB, "sec-shitayomi", "terms");
+  await pageB.keyboard.type("B で足した用語");
+  await f(pageB, "terms.0.m").fill("B で書いた意味");
+  await push(page, "sec-shitayomi", "terms");
+  await page.keyboard.type("A で足した用語");
+  expect((await storedV(page)).terms.map(t => [t.w, t.m])).toEqual([["用語A", "B で書いた意味"], ["用語B", "意味B"], ["B で足した用語", ""], ["A で足した用語", ""]]);
+  // A のフォーカスは、A が足した行にある。続けて打っても、A の行に入る
+  expect(await page.evaluate(() => [document.activeElement.dataset.p, document.activeElement.value])).toEqual(["terms.3.w", "A で足した用語"]);
+  await page.keyboard.type("!");
+  // B が、自分の足した行に続けて打っても、B の行に入る
+  await f(pageB, "terms.2.w").focus();
+  await pageB.keyboard.press("End");
+  await pageB.keyboard.type("?");
+  expect((await storedV(page)).terms.map(t => t.w)).toEqual(["用語A", "用語B", "B で足した用語?", "A で足した用語!"]);
+  // 文字の一覧（要点）でも同じ
+  await push(pageB, "sec-hyomen", "points");
+  await pageB.keyboard.type("B で足した要点");
+  await push(page, "sec-hyomen", "points");
+  await page.keyboard.type("A で足した要点");
+  expect(await page.evaluate(() => [document.activeElement.dataset.p, document.activeElement.value])).toEqual(["points.3", "A で足した要点"]);
+  await page.keyboard.type("!");
+  expect((await storedV(page)).points).toEqual(["要点A", "要点B", "B で足した要点", "A で足した要点!"]);
+});
+
+test("見張り: 片方が途中の行を消したとき（消してから足したときも）は、これまでどおり、あとから書いたタブの一覧が残り、入力が別の行に混ざらない", async ({ page, context }) => {
+  const pageB = await twoDeafTabs(page, context);
+  // B が先頭の用語を消す。A（まだ知らない）が、用語2の意味を書く
+  await pageB.locator('#sec-shitayomi button[data-a="del"][data-p="terms"][data-i="0"]').click();
+  await expect.poll(async () => (await storedV(page)).terms.map(t => t.w)).toEqual(["用語B"]);
+  await f(page, "terms.1.m").fill("A で書いた意味");
+  expect((await storedV(page)).terms.map(t => [t.w, t.m])).toEqual([["用語A", "意味A"], ["用語B", "A で書いた意味"]]);
+  // B が先頭の要点を消して、2行足す（行の数は増えているが、行の位置がずれている）。A が、要点2に書く
+  await pageB.locator('#sec-hyomen button[data-a="del"][data-p="points"][data-i="0"]').click();
+  for (const t of ["B で足した要点 1", "B で足した要点 2"]) { await push(pageB, "sec-hyomen", "points"); await pageB.keyboard.type(t); }
+  await expect.poll(async () => (await storedV(page)).points).toEqual(["要点B", "B で足した要点 1", "B で足した要点 2"]);
+  await g(page, "sec-hyomen", "points.1").fill("A で書いた要点");
+  expect((await storedV(page)).points, "A の一覧がそのまま残る（B の行に、A の入力が混ざらない）").toEqual(["要点A", "A で書いた要点"]);
+});

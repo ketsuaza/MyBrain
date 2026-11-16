@@ -639,9 +639,16 @@ if (typeof document !== "undefined") (function () {
       return mine; }
     if (Array.isArray(mine) && Array.isArray(theirs)) { const b = arr(base);
       if ([b, mine, theirs].every(a => a.every(o => isObj(o) && o.id))) return mergeRows(b, mine, theirs);
-      if (b.length === mine.length && b.length === theirs.length) return mine.map((m, i) => merge3(b[i], m, theirs[i])); }
+      /* 番号のない一覧（用語、要点、根拠、区分）。両方とも、base の行を同じ位置に持ったまま、末尾に行を足しただけ（または行の数を変えていない）なら、
+         base と重なる部分を行ごとに突き合わせ、足した行は、ほかのタブの分、このタブの分の順に両方残す（足した部分がまったく同じなら、1つにする）。
+         どちらかが途中の行を消したり並べ替えたりしていたら、行の位置がずれているので、突き合わせない（下の行で、このタブが変えていればこのタブの一覧を残す） */
+      if (grown(b, mine) && grown(b, theirs)) { const n = b.length, more = mine.slice(n), their = theirs.slice(n);
+        return mine.slice(0, n).map((m, i) => merge3(b[i], m, theirs[i])).concat(same(more, their) ? more : clone(their).concat(more)); } }
     return same(mine, base) ? clone(theirs) : mine;
   }
+  /* side は、base の行を同じ位置に持ったまま、末尾に行を足しただけ（または行の数を変えていない）と見てよいか。行の数が減っていれば、いいえ。
+     base の行が、元の位置になく、別の位置にあれば（途中の行を消してから足した、並べ替えた）、いいえ。行の中身を書き換えただけなら、はい */
+  const grown = (base, side) => side.length >= base.length && !base.some((b, i) => !same(side[i], b) && side.some((x, j) => j !== i && same(x, b) && !same(base[j], b)));
   function mergeRows(base, mine, theirs) {
     const at = (a, id) => a.find(o => o.id === id), ids = a => a.map(o => o.id);
     /* 残す行: 両方にある行、このタブが足した行、ほかのタブが消したがこのタブが書き換えた行。このタブが消した行は、戻さない */
@@ -963,7 +970,7 @@ if (typeof document !== "undefined") (function () {
 
   $("app").addEventListener("click", e => {
     const b = e.target.closest("button[data-a]"); if (!b) return;
-    const book = cur(), v = book.v, d = b.dataset, p = d.p; let focus = null;
+    const book = cur(), v = book.v, d = b.dataset, p = d.p; let focus = null, pushed;
     /* 描き直したあとにフォーカスを置く部品。押したボタンと同じ働きのボタン。行を消す・動かす・読了を入れ替えるときは、下で変える。
        フォーカスが #app の外にあるときは、動かさない */
     const app = $("app"), had = app.contains(document.activeElement), n = alike(app, "BUTTON", d).indexOf(b); let want = Object.assign({}, d);
@@ -972,7 +979,7 @@ if (typeof document !== "undefined") (function () {
       case "tog": { const s = new Set(arr(getPath(v, p))); s.has(d.val) ? s.delete(d.val) : s.add(d.val); setPath(v, p, [...s]); break; }
       case "flip": setPath(v, p, !getPath(v, p)); break;
       case "alt": { const m = v._alt && typeof v._alt === "object" ? v._alt : (v._alt = {}); if (m[p] === true) delete m[p]; else m[p] = true; break; } /* 欄の内容（v[p]）には触らない */
-      case "push": { let a = getPath(v, p); if (!Array.isArray(a)) { a = []; setPath(v, p, a); } a.push(TPL[d.tpl](v)); focus = p + "." + (a.length - 1); break; }
+      case "push": { let a = getPath(v, p); if (!Array.isArray(a)) { a = []; setPath(v, p, a); } a.push(TPL[d.tpl](v)); focus = p + "." + (a.length - 1); pushed = a[a.length - 1]; break; }
       case "del": { const a = getPath(v, p), row = a[+d.i];
         /* 中身のある命題・部分・問題は、消す前に確かめる。やめたら、何も変えず、描き直さない（フォーカスは、押した「×」に残る） */
         if (BODY[p] && row && BODY[p](v, row) && !confirm(txt(row.id) + "「" + txt(row.t) + "」を消す。" + ALSO[p])) return;
@@ -994,7 +1001,9 @@ if (typeof document !== "undefined") (function () {
       case "copy": navigator.clipboard.writeText(toMarkdown(book, FC)).then(() => say("コピーした。"), () => say("コピーできなかった。")); return;
       case "askfc": navigator.clipboard.writeText("読書メモ『" + txt(book.meta.title) + "』の命題をファクトチェックして。reading-memo スキルを使う。読書メモは " + FOLDER + "/" + fileName(book) + ".md、本の id は " + book.id).then(() => { b.textContent = "コピーした。先に「Obsidian に保存」を押してから、Claude Code に貼る"; }, () => {}); return;
     }
-    save();
+    /* 保存の直前に、ほかのタブが足した行を取り込むと、いま足した行の位置がずれることがある。足した行の、いまの位置を探し直す
+       （番号のある行と用語・根拠は、同じオブジェクトを探す。文字の一覧では、このタブが足した行は末尾にある） */
+    if (save() && focus) { const a = arr(getPath(v, p)), j = isObj(pushed) ? a.indexOf(pushed) : a.length - 1; if (j >= 0) focus = p + "." + j; }
     const sec = b.closest("section"), secId = sec && sec.id, y = window.scrollY;
     render(); window.scrollTo(0, y);
     if (focus && secId) { const s = document.getElementById(secId); const el = s && s.querySelector('[data-p^="' + focus + '"]'); if (el) el.focus(); }
