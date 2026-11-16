@@ -203,9 +203,6 @@ const JUDGES = ["賛成", "反対", "判断保留"];
 const THEORY_SUB = ["歴史", "科学", "哲学"];
 const isRead = v => v.judge === J.read || v.judge === J.ana;
 const isAna = v => v.judge === J.ana;
-/* 本の種類による注意。英語版 第13章（実用書）は日本語版にない */
-const PRACTICAL_NOTE = "実践書では、著者は読者に何をさせたいか、どうやってそれをせよと言っているか、と読み替える（英語版 第13章による。日本語版にはこの章がない）。";
-const kindNote = v => v.kind === "文学" ? "文学には、分析読書の規則がそのままは当てはまらない。規則5〜8は、読み方を変えて使う。" : v.kind === "実践書" ? PRACTICAL_NOTE : "";
 const Q_TYPES = { "理論書": "理論書の問いの型: 存在、種類、原因、目的、結果、特性、関係（「〜はあるか」「〜とは何か」「なぜ〜か」）。", "実践書": "実践書の問いの型: 目的、手段、順序、条件（「何を目ざすべきか」「どうすれば〜できるか」）。" };
 /* 規則1〜15のラベルは、訳書の「分析読書の三段階のまとめ」の文言。説明文の最初に、章の中の文言を引く */
 const SECTIONS = [
@@ -593,7 +590,6 @@ if (typeof document !== "undefined") (function () {
       (f.stale ? "。<b>そのあと命題が書き換えられた。</b>調べたときの文: " + h(f.text) : "") + "</div></div>";
   }
   const card = (id, ro, inner) => '<div class="card"><div class="head"><span class="id">' + esc(id) + '</span><span class="ro">' + ro + "</span></div>" + inner + "</div>";
-  const note = t => (t ? '<div class="note">' + h(t) + "</div>" : "");
   const unclearHtml = v => (!isAlt(v, "unclear") && liveList(v.unclear).length ? '<div class="note">表面読みで分からなかった所: ' + liveList(v.unclear).map(h).join(" / ") + "</div>" : "");
   const unityHtml = (k, u, where) => '<div class="sentence"><span>この本は</span>' + inp(k + ".what", u.what, "何について", "", "この本は何について（" + where + "）") + "<span>について、</span>" + inp(k + ".claim", u.claim, "結局どうだ、どうせよと言っているか", "", "結局どうだ、どうせよと言っているか（" + where + "）") + "<span></span><span>と言っている本</span></div>";
   function bodyHtml(it, book) {
@@ -601,7 +597,7 @@ if (typeof document !== "undefined") (function () {
     switch (it.t) {
       case "choice": return chips(it.k, it.opts, x);
       case "classify": return chips(it.k, it.opts, x) + (x === "理論書" ? '<div style="margin-top:8px">' + chips("ksub", THEORY_SUB, v.ksub, { sm: 1, cap: "理論書の種類" }) + "</div>" : "") +
-        '<div class="sentence" style="margin-top:8px"><span>主題</span>' + inp("subject", v.subject, "本が扱う分野", "", "主題") + "</div>" + note(kindNote(v));
+        '<div class="sentence" style="margin-top:8px"><span>主題</span>' + inp("subject", v.subject, "本が扱う分野", "", "主題") + "</div>";
       case "multi": return chips(it.k, it.opts, x, { multi: 1 });
       case "line": return (isAlt(v, it.k) ? "" : area(it.k, x, 0, it.label)) + (it.alt ? '<div class="opts" style="margin-top:8px"><button class="' + (isAlt(v, it.k) ? "on" : "") + '"' + pressed(isAlt(v, it.k)) + ' data-a="alt" data-p="' + it.k + '">' + esc(it.alt) + "</button></div>" : "");
       case "memo": return area(it.k, x, 5, it.label);
@@ -622,7 +618,7 @@ if (typeof document !== "undefined") (function () {
           '<div class="sub"><div class="sentence"><span>概要</span>' + inp("parts." + i + ".sum", o.sum, "この部分が言っていること", "", o.id + " の概要") + "<span>受け持つ所</span>" + inp("parts." + i + ".rel", o.rel, "統一の文のどこを受け持つか", "", o.id + " の受け持つ所") +
           arr(o.subs).map((t, j) => "<span>区分 " + (j + 1) + '</span><div class="row" style="margin:0">' + inp("parts." + i + ".subs." + j, t, "下位の区分", "", o.id + " の区分 " + (j + 1)) + del("parts." + i + ".subs", j) + "</div>").join("") +
           "</div>" + add("parts." + i + ".subs", "str", "下位の区分を足す") + "</div></div>").join("") + add("parts", "part", "部分を足す"); }
-      case "qs": return note(v.kind === "実践書" ? PRACTICAL_NOTE : "") + arr(x).map((o, i) => '<div class="row"><span class="rule">' + esc(o.id) + "</span>" + inp("qs." + i + ".t", o.t, "著者が答えようとしている問い", "", o.id + " の問い") +
+      case "qs": return arr(x).map((o, i) => '<div class="row"><span class="rule">' + esc(o.id) + "</span>" + inp("qs." + i + ".t", o.t, "著者が答えようとしている問い", "", o.id + " の問い") +
         sel("qs." + i + ".parent", o.parent || "", parentOpts(v, o), o.id + " の従属先") + del("qs", i) + "</div>").join("") + add("qs", "q", "問題を足す");
       case "props": {
         const all = arr(x);
@@ -641,7 +637,7 @@ if (typeof document !== "undefined") (function () {
           '<div class="line">' + inp("props." + i + ".arg", p.arg, p.sup === "main" ? "この論証を一言で（〜だから〜。中心の主張は必須）" : "この論証を一言で（〜だから〜）", "", p.id + " の論証") + "</div>")).join("");
       }
       case "solved": { const qs = liveBy(v.qs); if (!qs.length) return '<div class="help">規則4で問題を足すと、ここに並ぶ。</div>';
-        return note(v.kind === "実践書" ? PRACTICAL_NOTE : "") + qs.map(o => { const r = (v.solved || {})[o.id] || {}, ans = liveBy(v.props).filter(p => p.q === o.id).map(p => p.id);
+        return qs.map(o => { const r = (v.solved || {})[o.id] || {}, ans = liveBy(v.props).filter(p => p.q === o.id).map(p => p.id);
           return card(o.id, h(o.t), '<div class="help" style="margin:0 0 6px">答えている命題: ' + (ans.length ? esc(ans.join("、")) : "なし") + "</div>" + chips("solved." + o.id + ".s", SOLVED, r.s, { sm: 1 }) +
             (r.s && r.s !== "解決した" ? '<div style="margin-top:6px">' + chips("solved." + o.id + ".aware", AWARE, r.aware, { sm: 1, cap: "著者は" }) + "</div>" : "") +
             '<div class="line">' + inp("solved." + o.id + ".why", r.why, "そう見た理由", "", o.id + " をそう見た理由") + "</div>"); }).join("") +

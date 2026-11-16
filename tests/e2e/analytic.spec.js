@@ -16,7 +16,7 @@ async function setup(page, over) { await openTool(page); await importState(page,
 const fillP = (page, p, v) => page.locator(`[data-p="${p}"]`).first().fill(v);
 const chip = (page, p, val) => page.locator(`#sec-a1 button[data-p="${p}"][data-val="${val}"], #sec-a2 button[data-p="${p}"][data-val="${val}"], #sec-a3 button[data-p="${p}"][data-val="${val}"], #sec-a4 button[data-p="${p}"][data-val="${val}"]`).click();
 
-test("規則1: 「まだ分からない」では済みにならず、理論書は歴史・科学・哲学を選ぶ。文学と実践書には注意が出る", async ({ page }) => {
+test("規則1: 「まだ分からない」では済みにならず、理論書は歴史・科学・哲学を選ぶ。文学と実践書の注意は出ない（issue #73）", async ({ page }) => {
   await setup(page);
   const item = ruleItem(page, 1);
   await fillP(page, "subject", "教育");
@@ -28,10 +28,12 @@ test("規則1: 「まだ分からない」では済みにならず、理論書�
   await chip(page, "ksub", "哲学");
   expect((await done(page))[1]).toBe(true);
   await chip(page, "kind", "文学");
-  await expect(item).toContainText("文学には、分析読書の規則がそのままは当てはまらない");
+  await expect(item.locator('button[data-p="kind"][data-val="文学"]')).toHaveAttribute("aria-pressed", "true");
+  await expect(item).not.toContainText("文学には、分析読書の規則がそのままは当てはまらない");
   await chip(page, "kind", "実践書");
-  await expect(item).toContainText("著者は読者に何をさせたいか");
-  await expect(ruleItem(page, 4)).toContainText("著者は読者に何をさせたいか");
+  await expect(item.locator('button[data-p="kind"][data-val="実践書"]')).toHaveAttribute("aria-pressed", "true");
+  await expect(item).not.toContainText("著者は読者に何をさせたいか");
+  await expect(ruleItem(page, 4)).not.toContainText("著者は読者に何をさせたいか");
 });
 
 test("規則2: 下読みの答えとは別に持ち、規則3を埋めるまでは確かめられない", async ({ page }) => {
