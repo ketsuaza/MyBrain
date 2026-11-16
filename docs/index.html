@@ -119,6 +119,9 @@ dialog label { display: block; font-size: 12.5px; color: var(--sub); margin-top:
 .opts .loc { flex: 0 0 120px; width: 120px; }
 button:disabled { opacity: .45; cursor: default; }
 .empty { color: var(--sub); padding: 40px 0; text-align: center; }
+/* 表面読みの「何が」と「どのように」。それぞれ、見出しと、行を足していく一覧 */
+.said + .said { margin-top: 12px; }
+.said .cap { font-size: 13px; color: var(--sub); margin-bottom: 6px; }
 </style>
 </head>
 <body>
@@ -201,6 +204,10 @@ const SOLVED = ["解決した", "一部", "未解決"];
 const AWARE = ["自覚している", "自覚していない", "分からない"];
 const JUDGES = ["賛成", "反対", "判断保留"];
 const THEORY_SUB = ["歴史", "科学", "哲学"];
+/* 表面読みの「何がどのように詳しく述べられているか」の2つの欄。[キー, 欄の名前, 行を足すボタンのラベル, Markdown での見出し]。
+   これまでの要点は v.points（「何が」）にそのまま残し、「どのように」は v.pointsHow に持つ。前の形（v.pointsHow がない）は、「どのように」が空の本として読める */
+const SAID = [["points", "何が（著者の主な考えと主張）", "考えや主張", "何が"], ["pointsHow", "どのように（それを支える理由や根拠）", "理由や根拠", "どのように"]];
+const saidLines = v => SAID.map(g => { const ls = liveList(v[g[0]]); return ls.length ? g[3] + ":\n" + ls.join("\n") : ""; }).filter(Boolean).join("\n");
 const isRead = v => v.judge === J.read || v.judge === J.ana;
 const isAna = v => v.judge === J.ana;
 const Q_TYPES = { "理論書": "理論書の問いの型: 存在、種類、原因、目的、結果、特性、関係（「〜はあるか」「〜とは何か」「なぜ〜か」）。", "実践書": "実践書の問いの型: 目的、手段、順序、条件（「何を目ざすべきか」「どうすれば〜できるか」）。" };
@@ -223,7 +230,7 @@ const SECTIONS = [
     { k: "judge", t: "choice", label: "判定", opts: [J.quit, J.end, J.read, J.ana], help: "この本をどの深さまで読むか。多くの本は、点検読書で足りる。あとで変えてよい。" },
   ]},
   { id: "hyomen", title: "点検読書 ② 表面読み", sub: "止まらず、調べず、とにかく通して読む", when: isRead, items: [
-    { k: "points", t: "list", add: "考えや主張", label: "何がどのように述べられていたか", help: "止まらずに最後まで読んでから、要点を3つまで書く。" },
+    { k: "points", t: "said", label: "何がどのように詳しく述べられているか", help: "止まらずに最後まで読んでから、分かった範囲で書く。「何が」には著者の主な考えと主張を、「どのように」にはそれを支える理由や根拠を、1行ずつ足していく。" },
     { k: "unclear", t: "list", add: "分からなかった所", none: "なかった", label: "分からなかった所", help: "ページや言葉だけでよい。分析読書の規則5と6の欄に出る。" },
   ]},
   { id: "a1", title: "分析読書 第一段階", sub: "何についての本であるか見分ける", when: isAna, items: [
@@ -304,6 +311,7 @@ function filled(it, v) {
     case "classify": return !!x && x !== "まだ分からない" && !!txt(v.subject) && (x !== "理論書" || !!v.ksub);
     case "line": case "memo": return isAlt(v, it.k) || !!txt(x);
     case "list": return isAlt(v, it.k) || liveList(x).length > 0;
+    case "said": return liveList(v.points).length > 0; /* 「何が」に1行以上あれば済み。「どのように」は問わない */
     case "terms": return it.r ? liveTerms(x).some(t => txt(t.m)) : liveTerms(x).length > 0;
     case "multi": return arr(x).length > 0;
     case "unity": return unityOk(x);
@@ -374,6 +382,7 @@ function toMarkdown(book, FC) {
       case "multi": out.push("- " + head + ": " + arr(x).join("、")); break;
       case "line": { const ls = (isAlt(v, it.k) ? it.alt : txt(x)).split("\n"); out.push("- " + head + ": " + ls[0]); ls.slice(1).forEach(l => out.push("  " + l)); break; }
       case "list": if (isAlt(v, it.k)) { out.push("- " + head + ": " + it.none); break; } out.push("- " + head + ":"); liveList(x).forEach(l => out.push("  - " + l)); break;
+      case "said": out.push("- " + head + ":"); SAID.forEach(g => { out.push("  - " + g[3] + ":"); liveList(v[g[0]]).forEach(l => out.push("    - " + l)); }); break;
       case "terms": out.push("- " + head + ": " + liveTerms(x).map(t => txt(t.w)).join("、") + (liveTerms(x).length ? "（下の「用語」）" : "")); break;
       case "unity": out.push("- " + head + ": " + unityText(x)); break;
       case "unity2": out.push("- " + head + ": " + unityText(x) + (v.unity2 ? "（" + v.unity2 + "）" : "")); break;
@@ -604,6 +613,8 @@ if (typeof document !== "undefined") (function () {
       case "memo": return area(it.k, x, 5, it.label);
       case "list": return (isAlt(v, it.k) ? "" : arr(x).map((l, i) => '<div class="row">' + inp(it.k + "." + i, l, "", "", it.label + " " + (i + 1)) + del(it.k, i) + "</div>").join("")) +
         '<div class="opts">' + (isAlt(v, it.k) ? "" : add(it.k, "str", it.add)) + (it.none ? '<button class="' + (isAlt(v, it.k) ? "on" : "") + '"' + pressed(isAlt(v, it.k)) + ' data-a="alt" data-p="' + it.k + '">' + esc(it.none) + "</button>" : "") + "</div>";
+      case "said": return SAID.map(g => '<div class="said" role="group" aria-label="' + esc(g[1]) + '"><div class="cap">' + esc(g[1]) + "</div>" +
+        arr(v[g[0]]).map((l, i) => '<div class="row">' + inp(g[0] + "." + i, l, "", "", g[1] + " " + (i + 1)) + del(g[0], i) + "</div>").join("") + '<div class="opts">' + add(g[0], "str", g[2]) + "</div></div>").join("");
       case "terms": return (it.r ? unclearHtml(v) : "") + arr(x).map((t, i) => '<div class="row">' + inp("terms." + i + ".w", t.w, "用語", "w", "用語 " + (i + 1) + " の言葉") + inp("terms." + i + ".m", t.m, "この本での意味", "m", "用語 " + (i + 1) + " の意味") + inp("terms." + i + ".p", t.p, "ページ", "p", "用語 " + (i + 1) + " のページ") + del("terms", i) + "</div>").join("") + add("terms", "term", "用語");
       case "unity": return unityHtml("unity", x || {}, "下読み");
       case "unity2": { const ready = partsDone(v) || book.skip[3];
@@ -673,7 +684,7 @@ if (typeof document !== "undefined") (function () {
   }
   function summaryHtml(book) {
     const v = book.v, d = (t, s) => "<dt>" + t + "</dt><dd" + (txt(s) ? ">" + h(s) : ' class="none">まだ書いていない') + "</dd>";
-    const ps = liveBy(v.props), said = ps.map(p => p.id + " " + txt(p.t)).join("\n") || liveList(v.points).join("\n");
+    const ps = liveBy(v.props), said = ps.map(p => p.id + " " + txt(p.t)).join("\n") || saidLines(v);
     const tally = ps.length ? JUDGES.map(j => j + " " + ps.filter(p => p.judge === j).length).join(" / ") : "";
     return '<div class="item"><div class="label"><span class="grow">4つの問いへの答え</span></div><dl class="sum">' +
       d("1 全体として何に関する本か", unityText(unityOk(v.unityA) ? v.unityA : v.unity)) + d("2 何がどのように詳しく述べられているか", said) +
@@ -821,7 +832,7 @@ if (typeof document !== "undefined") (function () {
     if (e.key === "Enter" && e.repeat && e.target.closest("button[data-a]")) { e.preventDefault(); return; }
     if (e.key !== "Enter" || e.isComposing || e.target.tagName !== "INPUT") return;
     e.preventDefault();
-    const holder = e.target.closest(".card, .item"); const btn = holder && [...holder.querySelectorAll('button[data-a="push"]')].pop();
+    const holder = e.target.closest(".said, .card, .item"); const btn = holder && [...holder.querySelectorAll('button[data-a="push"]')].pop();
     if (btn) btn.click();
   });
   $("bookSel").addEventListener("change", e => { store.current = e.target.value; save(); render(); window.scrollTo(0, 0); });

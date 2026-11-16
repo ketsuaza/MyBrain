@@ -43,7 +43,7 @@ test("行を足すボタンのラベルが、足すものの名詞になって�
   expect(await addButtons(ruleItem(page, 4))).toEqual([["qs", "＋ 問題"]]);
   expect(await addButtons(ruleItem(page, 6))).toEqual([["props", "＋ 命題"]]);
   expect(await addButtons(ruleItem(page, 7))).toEqual([["props.0.grounds", "＋ P1 の根拠"], ["props.1.grounds", "＋ P2 の根拠"], ["props.2.grounds", "＋ P3 の根拠"]]);
-  expect((await addButtons(page.locator("#sec-hyomen"))).map(b => b[1]), "表面読みのボタンに「＋ 考えや主張」がある").toContain("＋ 考えや主張");
+  expect(await addButtons(page.locator("#sec-hyomen"))).toEqual([["points", "＋ 考えや主張"], ["pointsHow", "＋ 理由や根拠"], ["unclear", "＋ 分からなかった所"]]);
   // 「足す」という述語のラベルは、行を足すボタンには残っていない
   const all = (await addButtons(page.locator("#app"))).map(b => b[1]);
   expect(all.filter(t => /足す/.test(t)), "「足す」を含むラベル").toEqual([]);
@@ -121,7 +121,7 @@ test.describe("iPhone の幅（390px）", () => {
     book.v.parts[2].id = "S12"; book.v.props[2].id = "P12"; book.v._n = { S: 12, Q: 2, P: 12 };
     await setup(page, book);
     const labels = (await addButtons(page.locator("#app"))).map(b => b[1]);
-    for (const t of ["＋ 分からなかった所", "＋ 考えや主張", "＋ 用語", "＋ S12 の区分", "＋ 部分", "＋ 問題", "＋ 命題", "＋ P12 の根拠"]) expect(labels, "画面に出ているラベル").toContain(t);
+    for (const t of ["＋ 分からなかった所", "＋ 考えや主張", "＋ 理由や根拠", "＋ 用語", "＋ S12 の区分", "＋ 部分", "＋ 問題", "＋ 命題", "＋ P12 の根拠"]) expect(labels, "画面に出ているラベル").toContain(t);
     expect(await wrapped(page), "2行以上に折り返したラベル").toEqual([]);
     expect(await overflow(page), "横にはみ出した幅（px）").toBeLessThanOrEqual(0);
     for (const b of await page.locator('#app button[data-a="push"]').all()) {
