@@ -295,3 +295,55 @@ test("ブラウザに保存できないときの動きは変わらない（入�
   await expect(pageC.locator("#finish")).toContainText("このブラウザでは入力を保存できない");
   expect((await current(pageC)).v.purpose).toBe("読めないタブの目的");
 });
+
+test("ほかのタブの保存が届く前に「読み込む」を使っても、確認（#59）は、ブラウザにある最新の内容と比べて出る。やめると、ほかのタブの入力が残る", async ({ page, context }) => {
+  await deaf(page);
+  const pageB = await twoTabs(page, context);
+  const copied = await page.evaluate(() => window.__dokusho.toMarkdown(window.__dokusho.current())); // A が開いたときの内容
+  await f(pageB, "memo").fill("B で書いたメモ");
+  await expect.poll(async () => (await storedBook(page, "t-tabs-x")).v.memo).toBe("B で書いたメモ");
+  await expect(f(page, "memo"), "A の画面は、まだ古い").toHaveValue("");
+  let ok = false; const seen = [];
+  page.on("dialog", d => { seen.push(d.type()); if (ok) d.accept(); else d.dismiss(); });
+  const paste = async () => {
+    await page.click("#btnImport");
+    await page.locator("#formImport textarea").fill(copied);
+    await page.evaluate(() => { window.__closed = new Promise(done => document.getElementById("dlgImport").addEventListener("close", done, { once: true })); });
+    await page.locator("#formImport").getByRole("button", { name: "読み込む" }).click();
+    await page.evaluate(() => window.__closed);
+  };
+  // A の画面の内容とは同じでも、ブラウザにある内容（B の入力が入っている）とは違うので、確認が出る
+  await paste();
+  expect(seen).toEqual(["confirm"]);
+  await expect(f(page, "memo"), "やめたあと、A の画面にも B の入力が出る").toHaveValue("B で書いたメモ");
+  expect((await storedBook(page, "t-tabs-x")).v.memo).toBe("B で書いたメモ");
+  // 受けると、貼った内容に置き換わる
+  ok = true;
+  await paste();
+  expect(seen).toEqual(["confirm", "confirm"]);
+  await expect(f(page, "memo")).toHaveValue("");
+  expect((await storedBook(page, "t-tabs-x")).v.memo).toBe("");
+  await expect(f(pageB, "memo"), "B の画面にも、読み込んだ内容が出る").toHaveValue("");
+});
+
+test("ほかのタブが長い文を書くと、こちらのタブの欄の高さも内容に合う（#63）。入力中の欄は、画面の同じ位置に残る", async ({ page, context }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const pageB = await twoTabs(page, context);
+  const a = f(page, "props.2.t");
+  await a.click();
+  await a.evaluate(el => { el.__same = true; el.setSelectionRange(2, 2); });
+  const top = await a.evaluate(el => el.getBoundingClientRect().top);
+  const long = "あいうえおかきくけこ".repeat(6);
+  await f(pageB, "props.0.t").fill(long);
+  const p0 = f(page, "props.0.t");
+  await expect(p0).toHaveValue(long);
+  expect(await p0.evaluate(el => el.scrollHeight <= el.clientHeight + 1 && el.clientHeight > 60), "取り込んだ長い文が、欄の中に全部見えている").toBe(true);
+  const st = await page.evaluate(() => { const el = document.activeElement; return { same: el.__same === true, start: el.selectionStart, top: el.getBoundingClientRect().top }; });
+  expect({ same: st.same, start: st.start }).toEqual({ same: true, start: 2 });
+  expect(Math.abs(st.top - top), "入力中の欄の、画面の中の縦の位置").toBeLessThanOrEqual(1);
+  // 短く書き直すと、高さも戻る
+  await f(pageB, "props.0.t").fill("短い文");
+  await expect(p0).toHaveValue("短い文");
+  expect(await p0.evaluate(el => el.getBoundingClientRect().height)).toBeLessThanOrEqual(40);
+  expect(Math.abs((await a.evaluate(el => el.getBoundingClientRect().top)) - top)).toBeLessThanOrEqual(1);
+});

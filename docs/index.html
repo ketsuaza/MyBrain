@@ -1121,11 +1121,13 @@ if (typeof document !== "undefined") (function () {
   $("btnImport").addEventListener("click", () => { $("formImport").elements.md.value = ""; $("dlgImport").showModal(); });
   $("dlgImport").addEventListener("close", () => {
     if ($("dlgImport").returnValue !== "ok") return;
+    /* 比べる相手は、ブラウザにある最新の内容にする。ほかのタブの保存がまだ届いていなければ、先に取り込む（取り込んだら、やめたときも画面を最新にする） */
+    const got = pull();
     try { const b = migrateBook(fromMarkdown($("formImport").elements.md.value)), i = store.books.findIndex(o => o.id === b.id);
       /* 同じ本がブラウザにあり、中身が違うときは、置き換える前に確かめる。やめたら、何も変えない */
-      if (i >= 0 && !sameBook(store.books[i], b) && !confirm("『" + txt(store.books[i].meta.title) + "』は、このブラウザにもあり、中身が違う。読み込むと、このブラウザに入力した内容は、貼った読書メモの内容に置き換わる。")) return;
+      if (i >= 0 && !sameBook(store.books[i], b) && !confirm("『" + txt(store.books[i].meta.title) + "』は、このブラウザにもあり、中身が違う。読み込むと、このブラウザに入力した内容は、貼った読書メモの内容に置き換わる。")) { if (got) settle(null); return; }
       if (i >= 0) store.books[i] = b; else store.books.unshift(b); store.current = b.id; save(); render();
-    } catch (err) { alert("読み込めなかった: " + err.message); }
+    } catch (err) { if (got) settle(null); alert("読み込めなかった: " + err.message); }
   });
   /* 外から使う口。obsidian:// を開く処理は、テストで差し替えられるよう、ここを通す */
   const api = window.__dokusho = { openUri: u => { location.href = u; }, current: () => JSON.parse(JSON.stringify(cur() || null)), done: () => { const o = {}; rules(cur()).forEach(r => { o[r.it.r] = r.done; }); return o; }, toMarkdown: b => toMarkdown(b, FC), listed: () => !listLoading };
