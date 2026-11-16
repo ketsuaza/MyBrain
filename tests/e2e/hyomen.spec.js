@@ -100,6 +100,7 @@ test("保存する Markdown と、チェックアウトの「4つの問いへの
   const before = await current(page);
   const saved = await markdown(page);
   await last.fill("書き換えた");
+  page.once("dialog", d => d.accept()); // 中身を変えた同じ本を置き換える前の確認（#59）を受ける
   await page.click("#btnImport");
   await page.locator("#formImport textarea").fill(saved);
   await page.locator("#formImport").getByRole("button", { name: "読み込む" }).click();
@@ -200,6 +201,7 @@ test("書いた文に記号や HTML があっても、文字として出るだ�
   expect(await page.evaluate(() => document.querySelectorAll("#app img").length)).toBe(0);
   const before = await current(page), saved = await markdown(page);
   await how(page).nth(0).fill("書き換えた");
+  page.once("dialog", d => d.accept()); // 中身を変えた同じ本を置き換える前の確認（#59）を受ける
   await page.click("#btnImport");
   await page.locator("#formImport textarea").fill(saved);
   await page.locator("#formImport").getByRole("button", { name: "読み込む" }).click();

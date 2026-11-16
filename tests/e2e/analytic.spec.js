@@ -147,6 +147,7 @@ test("規則9: 規則1〜8の済み具合が出て、言い直しと例を書く
 test("規則10〜15: 反対には自分の側の誤りの検討と規則12〜14のどれかが、判断保留には規則15が、どの判断にも根拠が要る", async ({ page }) => {
   await setup(page, { });
   const b = base(); b.v.restate = { s: "つまり", ex: "たとえば" };
+  page.once("dialog", d => d.accept()); // 中身を変えた同じ本を置き換える前の確認（#59）を受ける
   await importState(page, b);
   await chip(page, "props.0.judge", "賛成");
   await chip(page, "props.1.judge", "反対");

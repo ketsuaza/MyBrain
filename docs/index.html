@@ -433,6 +433,20 @@ function fromMarkdown(md) {
   b.skip = b.skip || {};
   return b;
 }
+/* 2冊の本の中身が同じか。「読み込む」で、同じ本を置き換える前に確認するかどうかを決める。どちらの本も変えない。
+   形の違いだけでは「違う」としない。比べる前に、今の形に直し（migrateBook）、次の違いをそろえる:
+   キーの並び、空の値（""、false、null、空の一覧）とキーがないこととの違い、番号を振るための数（v._n）、開いたときに足される規則2の写し（copyUnity） */
+function sameBook(a, b) {
+  const norm = x => {
+    if (Array.isArray(x)) { const l = x.map(norm).filter(y => y !== undefined); return l.length ? l : undefined; }
+    if (x && typeof x === "object") { const o = {}; Object.keys(x).sort().forEach(k => { const y = norm(x[k]); if (y !== undefined) o[k] = y; }); return Object.keys(o).length ? o : undefined; }
+    return x === "" || x === false || x == null ? undefined : x;
+  };
+  const shape = x => { const c = migrateBook(JSON.parse(JSON.stringify(x))); delete c.v._n;
+    if (isAna(c.v) && !c.v.unityA && unityOk(c.v.unity)) c.v.unityA = c.v.unity;
+    return JSON.stringify(norm(c)); };
+  return shape(a) === shape(b);
+}
 function obsidianUri(book, FC) {
   return "obsidian://new?vault=" + encodeURIComponent(VAULT) + "&file=" + encodeURIComponent(FOLDER + "/" + fileName(book)) +
     "&content=" + encodeURIComponent(toMarkdown(book, FC)) + "&overwrite=true";
@@ -944,6 +958,8 @@ if (typeof document !== "undefined") (function () {
   $("dlgImport").addEventListener("close", () => {
     if ($("dlgImport").returnValue !== "ok") return;
     try { const b = migrateBook(fromMarkdown($("formImport").elements.md.value)), i = store.books.findIndex(o => o.id === b.id);
+      /* 同じ本がブラウザにあり、中身が違うときは、置き換える前に確かめる。やめたら、何も変えない */
+      if (i >= 0 && !sameBook(store.books[i], b) && !confirm("『" + txt(store.books[i].meta.title) + "』は、このブラウザにもあり、中身が違う。読み込むと、このブラウザに入力した内容は、貼った読書メモの内容に置き換わる。")) return;
       if (i >= 0) store.books[i] = b; else store.books.unshift(b); store.current = b.id; save(); render();
     } catch (err) { alert("読み込めなかった: " + err.message); }
   });

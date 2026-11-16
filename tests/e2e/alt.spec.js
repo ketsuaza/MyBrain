@@ -193,6 +193,7 @@ test("「ない」にした本を保存した Markdown を読み込み直すと�
   await altBtn(page, "やること", "やらない").click();
   expect(await current(page)).not.toEqual(saved);
 
+  page.once("dialog", d => d.accept()); // 中身を変えた同じ本を置き換える前の確認（#59）を受ける
   await page.click("#btnImport");
   await page.locator("#formImport textarea").fill(md);
   await page.locator("#formImport").getByRole("button", { name: "読み込む" }).click();
