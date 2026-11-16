@@ -555,23 +555,28 @@ if (typeof module !== "undefined") module.exports = { ALT, isAlt, SECTIONS, J, f
 /* ---------- 画面 ---------- */
 if (typeof document !== "undefined") (function () {
   /* factcheck.js とブックリストは、開くたびに読み直す。ブラウザが古い内容を使うと、足した本や Agent の結果が出ないため */
-  const files = ["factcheck.js", "sample.js"]; let left = files.length + 1;
+  const files = ["factcheck.js", "sample.js"]; let left = files.length;
   const next = () => { if (--left === 0) boot(); };
-  if (typeof document.createElement !== "function" || !document.head) { boot(); return; }
-  /* ブックリストを取る。8秒で諦め、取れなくても画面は出す */
+  /* 画面は、factcheck.js と sample.js が読めたら出す。ブックリストの取得は待たない。
+     listDone: 取得が終わったか（取れたときも、諦めたときも）。onList: 終わったときに呼ぶ、画面の側の続き（boot が入れる） */
+  let listDone = false, onList = null;
+  const listEnd = () => { listDone = true; if (onList) onList(); };
+  if (typeof document.createElement !== "function" || !document.head) { listDone = true; boot(); return; }
+  /* ブックリストを取る。8秒で諦める */
   (function () {
-    if (typeof fetch !== "function") { next(); return; }
+    if (typeof fetch !== "function") { listEnd(); return; }
     const ac = typeof AbortController === "function" ? new AbortController() : null;
     const timer = setTimeout(() => { if (ac) ac.abort(); }, 8000);
     fetch(BOOKLIST_URL, ac ? { signal: ac.signal } : undefined).then(r => (r.ok ? r.json() : Promise.reject(new Error(r.status))))
-      .then(d => { window.BOOKLIST = fromBooklist(d); }).catch(() => {}).then(() => { clearTimeout(timer); next(); });
+      .then(d => { window.BOOKLIST = fromBooklist(d); }).catch(() => {}).then(() => { clearTimeout(timer); listEnd(); });
   })();
   files.forEach(f => { const s = document.createElement("script"); s.src = f + "?t=" + Date.now(); s.onload = next; s.onerror = next; document.head.appendChild(s); });
  function boot() {
   const $ = id => document.getElementById(id);
   const esc = s => (s == null ? "" : String(s)).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const h = s => esc(txt(s));
-  const BOOKLIST = withPriority((typeof window !== "undefined" && window.BOOKLIST) || []);
+  /* ブックリストは、画面を出したあとに届くことがある。listLoading は、まだ取得の途中か */
+  let BOOKLIST = withPriority((typeof window !== "undefined" && window.BOOKLIST) || []), listLoading = !listDone;
   const FC = (typeof window !== "undefined" && window.FACTCHECK) || {};
   let store = { books: [], current: null }, memOnly = false;
   /* seenRaw: ブラウザに残っている内容のうち、このタブが最後に読み書きしたもの（文字列）。baseRaw: そのときの、このタブの状態。ほかのタブの保存を取り込むときに使う（pull） */
@@ -1000,7 +1005,7 @@ if (typeof document !== "undefined") (function () {
   function showHits() {
     const s = store.sort && store.sort.col ? store.sort : { col: "status", dir: 1 };
     const hits = searchBooks(BOOKLIST, $("pickQ").value, 0, s.col, s.dir);
-    $("pickCount").textContent = hits.length + "件 / 全" + BOOKLIST.length + "件";
+    $("pickCount").textContent = listLoading ? "読み込み中" : hits.length + "件 / 全" + BOOKLIST.length + "件";
     const cell = x => (x == null || x === "" ? '<span class="added" style="margin:0">なし</span>' : esc(x));
     /* 表は丸ごと作り直す。フォーカスが表の中（行か、見出しの並べ替えのボタン）にあったら、作り直したあとの同じ行・同じ列に置き直し、表の中のスクロールの位置も戻す */
     const box = $("pickHits"), act = box.contains(document.activeElement) ? document.activeElement : null, top = box.scrollTop, left = box.scrollLeft;
@@ -1008,7 +1013,7 @@ if (typeof document !== "undefined") (function () {
     box.innerHTML = hits.length ? "<table><thead><tr>" + COLS.map(c => '<th><button type="button" data-col="' + c[0] + '" title="' + esc(c[3] || c[1]) + '" class="' + (s.col === c[0] ? "on" : "") + '">' + c[1] + (s.col === c[0] ? (s.dir === 1 ? " ▼" : " ▲") : "") + "</button></th>").join("") + "</tr></thead><tbody>" +
       hits.map(b => '<tr tabindex="0" data-no="' + esc(b.no) + '" class="' + (picked === b.no ? "sel" : "") + '"><td>' + esc(b.no) + "</td><td>" + h(b.title) + (store.books.some(o => o.meta.isbn === b.isbn) ? '<span class="added">追加済み</span>' : "") + "</td><td>" + cell(b.status) + "</td><td>" +
         [b.importance, b.difficulty, b.fame, b.principle, b.priority, b.extscore, b.booklog, b.bookmeter, b.amazon].map(cell).join("</td><td>") + "</td></tr>").join("") + "</tbody></table>"
-      : '<div class="help" style="padding:8px 10px;margin:0">' + (BOOKLIST.length ? "見つからない。ブックリストにない本は、Claude Code に「ISBN ○○ をブックリストに追加して」と頼む。" : "ブックリストを読めなかった（通信を確かめて、開き直す）。下の欄に直接書くこともできる。") + "</div>";
+      : '<div class="help" style="padding:8px 10px;margin:0">' + (BOOKLIST.length ? "見つからない。ブックリストにない本は、Claude Code に「ISBN ○○ をブックリストに追加して」と頼む。" : listLoading ? "ブックリストを読み込み中。下の欄に直接書くこともできる。" : "ブックリストを読めなかった（通信を確かめて、開き直す）。下の欄に直接書くこともできる。") + "</div>";
     if (want) { refocus(box, tag, want, 0); box.scrollTop = top; box.scrollLeft = left; }
   }
   function pickRow(no) { const k = BOOKLIST.find(o => o.no === no); if (!k) return; picked = no;
@@ -1032,6 +1037,9 @@ if (typeof document !== "undefined") (function () {
     if (!book) { $("pickQ").value = ""; picked = ""; showHits(); }
     $("dlgBook").showModal();
   }
+  /* ブックリストの取得が終わったら、「本を足す」を開いたままのときは、表に出す（取れなかったときは、読めなかった旨に変える）。
+     検索の欄と書誌の欄には触らない。表の中のフォーカスとスクロールの位置は、showHits が残す */
+  onList = () => { BOOKLIST = withPriority(window.BOOKLIST || []); listLoading = false; if ($("dlgBook").open && !editing) showHits(); };
   $("pickQ").addEventListener("input", showHits);
   $("pickHits").addEventListener("click", e => {
     const th = e.target.closest("button[data-col]");
@@ -1068,7 +1076,7 @@ if (typeof document !== "undefined") (function () {
     } catch (err) { alert("読み込めなかった: " + err.message); }
   });
   /* 外から使う口。obsidian:// を開く処理は、テストで差し替えられるよう、ここを通す */
-  const api = window.__dokusho = { openUri: u => { location.href = u; }, current: () => JSON.parse(JSON.stringify(cur() || null)), done: () => { const o = {}; rules(cur()).forEach(r => { o[r.it.r] = r.done; }); return o; }, toMarkdown: b => toMarkdown(b, FC) };
+  const api = window.__dokusho = { openUri: u => { location.href = u; }, current: () => JSON.parse(JSON.stringify(cur() || null)), done: () => { const o = {}; rules(cur()).forEach(r => { o[r.it.r] = r.done; }); return o; }, toMarkdown: b => toMarkdown(b, FC), listed: () => !listLoading };
   render();
  }
 })();

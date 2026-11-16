@@ -14,12 +14,15 @@ function loadWindowJs(file) {
   return sandbox.window;
 }
 
-/* HTML を開く。GitHub の book_principles.json は手元の版に、openBD は空の応答に差し替える */
+/* HTML を開く。GitHub の book_principles.json は手元の版に、openBD は空の応答に差し替える。
+   入力の画面は、ブックリストの取得を待たずに出る（#62）。「本を足す」の表をすぐに見る仕様が、届く前の表を見ないよう、ブックリストが届くまで待つ
+   （届かない場合、届く前の場合を確かめる仕様は、この道具を使わずに開く） */
 async function openTool(page, opts = {}) {
   await page.route("https://raw.githubusercontent.com/**", r => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(opts.booklist || BOOKLIST) }));
   await page.route("https://api.openbd.jp/**", r => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(opts.openbd || [null]) }));
   await page.goto("index.html");
   await page.locator("#app section").first().waitFor();
+  await page.waitForFunction(() => window.__dokusho.listed());
 }
 
 async function shot(page, name, target) {
