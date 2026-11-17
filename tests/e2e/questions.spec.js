@@ -205,7 +205,7 @@ test("問いの型のプルダウン: 理論書なら理論書の型、実践書
 test("型を選ぶと、文の欄の書き出しの例が変わり、type として保存される。選ばなくても「済み」。型を外すと、例が元に戻る", async ({ page }) => {
   await setup(page, base({ kind: "" }));
   await expect(qField(page, 0)).toHaveAttribute("placeholder", PH);
-  const EX = { "存在": "〜はあるか", "種類": "〜とは何か", "原因": "なぜ〜か", "条件": "どんな条件で〜か", "目的": "〜は何のためか／何を目ざすべきか", "結果": "〜の結果、何が起きるか", "特性": "〜の特徴は何か", "関係": "〜と〜はどう関係するか",
+  const EX = { "存在": "〜はあるか", "種類": "〜はどんな種類のものか", "原因": "なぜ〜か", "条件": "どんな条件で〜か", "目的": "〜は何のためか／何を目ざすべきか", "結果": "〜の結果、何が起きるか", "特性": "〜の特徴は何か", "関係": "〜と〜はどう関係するか",
     "ふるまい": "〜はどうふるまうか", "手段": "どうすれば〜できるか", "順序": "何を、どんな順序ですべきか", "どちらがより良いか": "〜と〜のどちらが良いか" };
   expect(Object.keys(EX)).toEqual(BOTH);
   for (const t of BOTH) {
@@ -224,7 +224,7 @@ test("型を選ぶと、文の欄の書き出しの例が変わり、type とし
   await qType(page, 3).selectOption("");
   await expect(qField(page, 3)).toHaveAttribute("placeholder", PH);
   b = await current(page);
-  expect(b.v.qs[3].type || "").toBe("");
+  expect(b.v.qs[3], "型を外すと、type のキーが消える（空の値を残さない）").toEqual({ id: "Q4", t: "問いの四", parent: "Q1" });
   // プルダウンにフォーカスを置いて選ぶと、描き直したあとも、同じプルダウンにフォーカスが残る
   await qType(page, 1).focus();
   await qType(page, 1).selectOption("存在");
@@ -360,21 +360,72 @@ test("Markdown と再読み込みの往復: 型と並びを変えたあと、Mar
   expect(await current(page)).toEqual(before);
   expect(await rows(page)).toEqual(shown);
   await expect(qType(page, 4)).toHaveValue("関係");
-  // 同じ中身の Markdown を読み込んでも、確認は出ない（型を外して空の値が残った本と、キーのない本は、同じ）
+  // 型を選び直したり、選んで外したりしても、状態は元と同じ（外した問題に、type のキーは残らない）
   const seen = watch(page, () => false);
   await qType(page, 0).selectOption("");
   await qType(page, 0).selectOption("原因");
   await qType(page, 2).selectOption("目的");
   await qType(page, 2).selectOption("");
-  expect((await current(page)).v.qs[2].type).toBe("");
+  expect(await current(page)).toEqual(before);
+  expect("type" in (await current(page)).v.qs[2]).toBe(false);
+  // 同じ中身の Markdown を読み込んでも、確認は出ない
   await page.click("#btnImport");
   await page.locator("#formImport textarea").fill(md);
   await page.locator("#formImport").getByRole("button", { name: "読み込む" }).click();
   await page.locator("#dlgImport").waitFor({ state: "hidden" });
-  await expect.poll(async () => (await current(page)).v.qs[2].type).toBeUndefined();
   expect(seen, "確認は出ない").toEqual([]);
   expect(await current(page)).toEqual(before);
   expect(await markdown(page)).toBe(md);
+});
+
+test("見張り: 前に保存された空の型（\"type\": \"\"）は、未選択として、そのまま読める。キーのない同じ本を読み込んでも、確認は出ない", async ({ page }) => {
+  const book = base();
+  book.v.qs[1].type = ""; book.v.qs[2].type = "原因";
+  await setup(page, book);
+  expect(await current(page), "読み込んだ値は、書き直さない").toEqual(book);
+  await expect(qType(page, 1)).toHaveValue("");
+  await expect(qField(page, 1)).toHaveAttribute("placeholder", PH);
+  await expect(ruleItem(page, 8).locator(".card").nth(1).locator(".qof")).toHaveText("Q1 に従属");
+  expect((await mdRule(page, 4))[1]).toBe("    - Q2 問いの二（Q1 に従属）");
+  const seen = watch(page, () => false);
+  const same = base(); same.v.qs[2].type = "原因";
+  await importState(page, same);
+  expect(seen, "確認は出ない").toEqual([]);
+  expect(await current(page)).toEqual(same);
+});
+
+test("本の種類や問いの型が、想定しない値（constructor、__proto__、toString、数、配列）の state を読み込んでも、エラーが出ず、規則4の欄が出る。再読み込みのあとも出る", async ({ page }) => {
+  await openTool(page);
+  const errors = [], dialogs = [];
+  page.on("pageerror", e => errors.push(String(e)));
+  page.on("dialog", d => { dialogs.push(d.type() + ": " + d.message()); d.accept(); });
+  const odd = ["constructor", "__proto__", "toString", "hasOwnProperty", 5, ["理論書"], { a: 1 }];
+  for (const [n, x] of odd.entries()) {
+    const book = base({ kind: x }); book.id = "t-questions-odd-" + n; book.meta.title = "想定しない値 " + n;
+    book.v.qs.forEach(o => { o.type = x; });
+    const check = async when => {
+      await expect(page.locator("#bookSel option:checked"), when).toHaveText(book.meta.title);
+      expect(await rows(page), when + ": 規則4の行").toEqual([["Q1", "主"], ["Q2", "従"], ["Q4", "従"], ["Q3", "主"], ["Q5", "従"]]);
+      // 本の種類が、理論書でも実践書でもないので、型の一覧は両方。保存されている値は、文字として末尾に出て、選ばれたまま
+      expect(await qType(page, 0).locator("option").evaluateAll(os => os.map(o => o.value)), when + ": 型の一覧").toEqual([""].concat(BOTH, [String(x)]));
+      await expect(qType(page, 0)).toHaveValue(String(x));
+      await expect(qField(page, 0), when + ": 書き出しの例は、未選択のときと同じ").toHaveAttribute("placeholder", PH);
+      await expect(ruleItem(page, 8).locator(".card")).toHaveCount(5);
+      expect(await current(page), when + ": 読み込んだ値は変えない").toEqual(book);
+    };
+    await importState(page, book);
+    await check("読み込んだあと（" + JSON.stringify(x) + "）");
+    await ruleItem(page, 4).locator('button[data-a="help"]').click();
+    const help = ruleItem(page, 4).locator(".help").first();
+    await expect(help).toContainText("理論書の問いの型: " + THEORY.join("、") + "（「〜はあるか」「〜とは何か」「なぜ〜か」）。実践書の問いの型: " + PRACTICE.join("、") + "（");
+    await expect(help).not.toContainText("function");
+    expect(typeof (await markdown(page))).toBe("string");
+    await page.reload();
+    await page.locator("#app section").first().waitFor();
+    await check("再読み込みのあと（" + JSON.stringify(x) + "）");
+  }
+  expect(errors, "ページのエラー").toEqual([]);
+  expect(dialogs, "「読み込めなかった」などのダイアログ").toEqual([]);
 });
 
 test("「×」: 従属する問いのある主な問いを消すとき、確認の文に、従属する問いが主な問いになることが出る。消すと、従属する問いは残り、主な問いになる", async ({ page }) => {
