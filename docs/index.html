@@ -622,7 +622,7 @@ if (typeof document !== "undefined") (function () {
   const cur = () => store.books.find(b => b.id === store.current) || store.books[0];
   baseRaw = JSON.stringify(store);
   /* 保存の直前に、ほかのタブの保存を取り込む。取り込んだら true を返す（呼んだ側が、画面を最新にする） */
-  function save() { const got = pull(); try { const raw = JSON.stringify(store); localStorage.setItem(KEY, raw); seenRaw = baseRaw = raw; } catch (e) { memOnly = true; } return got; }
+  function save() { const got = pull(); try { publishCuts(); const raw = JSON.stringify(store); localStorage.setItem(KEY, raw); seenRaw = baseRaw = raw; cutsOwn = {}; } catch (e) { memOnly = true; } return got; }
 
   /* ---------- ほかのタブの保存を取り込む ----------
      同じブラウザの別のタブも、同じ場所（KEY）に全体を書く。そのまま書くと、ほかのタブの入力を消すので、保存の直前（save）と、ほかのタブが保存したとき（storage）に取り込む。
@@ -632,28 +632,31 @@ if (typeof document !== "undefined") (function () {
   const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
   const isObj = x => !!x && typeof x === "object" && !Array.isArray(x);
   const clone = x => (x === undefined ? x : JSON.parse(JSON.stringify(x)));
-  function merge3(base, mine, theirs) {
-    if (same(mine, theirs) || same(theirs, base)) return mine;
+  /* path は、いま突き合わせている所の名前（"." + 本の id + ".v.terms"、".…v.props.P1.grounds" など。番号のある行は、位置ではなく id でたどる） */
+  function merge3(base, mine, theirs, path) {
+    /* ほかのタブが変えていなければ、このタブのまま。両方が同じ内容に変えていても、中の一覧に両方が足した行があるかもしれないので、中まで見る */
+    if (same(theirs, base)) return mine;
+    if (Array.isArray(mine) && Array.isArray(theirs)) { const b = arr(base), n = b.length;
+      if ([b, mine, theirs].every(a => a.every(o => isObj(o) && o.id))) return mergeRows(b, mine, theirs, path);
+      /* 番号のない一覧（用語、要点、根拠、区分）。行を消す操作がどちらのタブにもなければ（wasCut）、行は末尾に足されるだけで、base の行は同じ位置にある。
+         base と重なる部分を行ごとに突き合わせ、足した行は、ほかのタブの分、このタブの分の順に、全部残す（中身が同じでも、別々のタブが足した別の行なので、まとめない）。
+         どちらかが行を消していたら（または、行の数が base より少なければ）、行の位置がずれているので、突き合わせない。このタブが変えていれば、このタブの一覧を丸ごと残す。
+         ほかのタブも変えていたときは、ほかのタブから見ると行の位置がずれるので、この一覧に印を付ける（cut）。このタブが変えていなければ、ほかのタブの一覧にする */
+      if (!wasCut(path) && mine.length >= n && theirs.length >= n)
+        return mine.slice(0, n).map((m, i) => merge3(b[i], m, theirs[i], path + "." + i)).concat(clone(theirs.slice(n)), mine.slice(n));
+      if (same(mine, theirs)) return mine;
+      if (same(mine, base)) return clone(theirs);
+      cut(path); return mine; }
     if (isObj(mine) && isObj(theirs)) { const b = isObj(base) ? base : {};
-      [...new Set(Object.keys(mine).concat(Object.keys(theirs)))].forEach(k => { const x = merge3(b[k], mine[k], theirs[k]); if (x === undefined) delete mine[k]; else mine[k] = x; });
+      [...new Set(Object.keys(mine).concat(Object.keys(theirs)))].forEach(k => { const x = merge3(b[k], mine[k], theirs[k], path + "." + k); if (x === undefined) delete mine[k]; else mine[k] = x; });
       return mine; }
-    if (Array.isArray(mine) && Array.isArray(theirs)) { const b = arr(base);
-      if ([b, mine, theirs].every(a => a.every(o => isObj(o) && o.id))) return mergeRows(b, mine, theirs);
-      /* 番号のない一覧（用語、要点、根拠、区分）。両方とも、base の行を同じ位置に持ったまま、末尾に行を足しただけ（または行の数を変えていない）なら、
-         base と重なる部分を行ごとに突き合わせ、足した行は、ほかのタブの分、このタブの分の順に両方残す（足した部分がまったく同じなら、1つにする）。
-         どちらかが途中の行を消したり並べ替えたりしていたら、行の位置がずれているので、突き合わせない（下の行で、このタブが変えていればこのタブの一覧を残す） */
-      if (grown(b, mine) && grown(b, theirs)) { const n = b.length, more = mine.slice(n), their = theirs.slice(n);
-        return mine.slice(0, n).map((m, i) => merge3(b[i], m, theirs[i])).concat(same(more, their) ? more : clone(their).concat(more)); } }
     return same(mine, base) ? clone(theirs) : mine;
   }
-  /* side は、base の行を同じ位置に持ったまま、末尾に行を足しただけ（または行の数を変えていない）と見てよいか。行の数が減っていれば、いいえ。
-     base の行が、元の位置になく、別の位置にあれば（途中の行を消してから足した、並べ替えた）、いいえ。行の中身を書き換えただけなら、はい */
-  const grown = (base, side) => side.length >= base.length && !base.some((b, i) => !same(side[i], b) && side.some((x, j) => j !== i && same(x, b) && !same(base[j], b)));
-  function mergeRows(base, mine, theirs) {
+  function mergeRows(base, mine, theirs, path) {
     const at = (a, id) => a.find(o => o.id === id), ids = a => a.map(o => o.id);
     /* 残す行: 両方にある行、このタブが足した行、ほかのタブが消したがこのタブが書き換えた行。このタブが消した行は、戻さない */
     const kept = mine.filter(m => at(theirs, m.id) || !at(base, m.id) || !same(m, at(base, m.id)));
-    kept.forEach(m => { const t = at(theirs, m.id); if (t) merge3(at(base, m.id), m, t); });
+    kept.forEach(m => { const t = at(theirs, m.id); if (t) merge3(at(base, m.id), m, t, path + "." + m.id); });
     /* 並び: このタブが並びを変えていなければ、ほかのタブの並びに合わせる */
     const pos = m => { const i = ids(theirs).indexOf(m.id); return i < 0 ? theirs.length : i; };
     const out = same(ids(mine), ids(base)) ? kept.slice().sort((x, y) => pos(x) - pos(y)) : kept;
@@ -663,6 +666,21 @@ if (typeof document !== "undefined") (function () {
       out.splice(j < 0 ? out.length : j, 0, clone(t)); });
     return out;
   }
+  /* 番号のない一覧の行を消したこと（と、本を丸ごと読み込み直したこと）の印。一覧の中身からは、「行を消してから足した」と「行を書き換えて足した」を見分けられないので、
+     消した側が、別の場所（CUTS。一覧の名前 → 消した回数）に書いておく。読書メモの状態（KEY の中身と、Markdown の state）には入れない。
+     cutsOwn: このタブが消して、まだ保存していない一覧。cutsSeen: 最後に取り込んだときの回数。cutsNew: いま取り込んでいる内容で、ほかのタブが消していた一覧
+     （回数が、最後に取り込んだときと違う一覧。印を読めないときや、印が消えていたときも、違うとして扱い、行ごとの突き合わせをしない側に倒す） */
+  const CUTS = KEY + ".cuts";
+  const readCuts = () => { try { const o = JSON.parse(localStorage.getItem(CUTS)); return isObj(o) ? o : {}; } catch (e) { return {}; } };
+  let cutsSeen = readCuts(), cutsOwn = {}, cutsNew = [];
+  const cut = path => { cutsOwn[path] = true; };
+  const wasCut = path => Object.keys(cutsOwn).concat(cutsNew).some(k => path === k || path.startsWith(k + "."));
+  /* 本 book の一覧 p（data-p の形。"props.0.grounds" など）の名前。途中の番号のある行は、位置ではなく id で表す */
+  function listName(book, p) { let a = book.v; return "." + book.id + ".v." + p.split(".").map(k => { const x = a == null ? a : a[k], name = Array.isArray(a) && isObj(x) && x.id ? x.id : k; a = x; return name; }).join("."); }
+  /* このタブが消した印を、ほかのタブに見える所へ書く（保存の直前。印を先に、内容をあとに書く） */
+  function publishCuts() { const ks = Object.keys(cutsOwn); if (!ks.length) return;
+    const now = readCuts(); ks.forEach(k => { now[k] = (Number(now[k]) || 0) + 1; cutsSeen[k] = (Number(cutsSeen[k]) || 0) + 1; });
+    localStorage.setItem(CUTS, JSON.stringify(now)); }
   /* ブラウザにある内容が、このタブが最後に読み書きしたものと違っていたら、取り込む。取り込んだら true */
   function pull() {
     let raw, theirs, base = null;
@@ -670,9 +688,11 @@ if (typeof document !== "undefined") (function () {
       theirs = JSON.parse(raw); if (!theirs || !Array.isArray(theirs.books)) return false; theirs.books.forEach(migrateBook); } catch (e) { return false; }
     try { base = JSON.parse(baseRaw); } catch (e) { base = null; }
     if (!base || !Array.isArray(base.books)) base = { books: [] };
-    store.books = mergeRows(base.books, store.books, theirs.books);
+    const now = readCuts(); cutsNew = Object.keys(Object.assign({}, cutsSeen, now)).filter(k => (Number(now[k]) || 0) !== (Number(cutsSeen[k]) || 0));
+    store.books = mergeRows(base.books, store.books, theirs.books, "");
+    cutsSeen = now; cutsNew = [];
     store.seen = [...new Set(arr(store.seen).concat(arr(theirs.seen)))];
-    const sort = merge3(base.sort, store.sort, theirs.sort); if (sort === undefined) delete store.sort; else store.sort = sort;
+    const sort = merge3(base.sort, store.sort, theirs.sort, "sort"); if (sort === undefined) delete store.sort; else store.sort = sort;
     seenRaw = raw; baseRaw = JSON.stringify(Object.assign({}, theirs, { current: store.current }));
     return true;
   }
@@ -896,6 +916,8 @@ if (typeof document !== "undefined") (function () {
     keys.forEach(k => { if (Array.isArray(a)) sig.push(a.length + ":" + a.map(o => (o && o.id) || "").join(",")); a = a == null ? a : a[k]; nodes.push(a); });
     return { el, p, keys, nodes, sig: JSON.stringify(sig.concat(a == null ? "" : String(a))), n: alike(app, el.tagName, { p }).indexOf(el), start: el.selectionStart, end: el.selectionEnd };
   }
+  /* パス p をたどった途中のオブジェクト（pathNow に渡して、取り込んだあとのパスを探す） */
+  const traceOf = (v, p) => { const keys = p.split("."), nodes = [v]; let a = v; keys.forEach(k => { a = a == null ? a : a[k]; nodes.push(a); }); return { keys, nodes }; };
   /* 取り込んだあと、控えた欄が指していた行が、いまどのパスにあるか。行（オブジェクト）は取り込んでも同じものなので、並びの中の位置を探す。行がなくなっていたら null */
   function pathNow(m) {
     const book = cur(); if (!book || book.v !== m.nodes[0]) return null;
@@ -983,6 +1005,8 @@ if (typeof document !== "undefined") (function () {
       case "del": { const a = getPath(v, p), row = a[+d.i];
         /* 中身のある命題・部分・問題は、消す前に確かめる。やめたら、何も変えず、描き直さない（フォーカスは、押した「×」に残る） */
         if (BODY[p] && row && BODY[p](v, row) && !confirm(txt(row.id) + "「" + txt(row.t) + "」を消す。" + ALSO[p])) return;
+        /* 番号のない一覧（用語、要点、根拠、区分）の行を消すと、後ろの行の位置がずれる。ほかのタブが行を取り違えないよう、印を付ける */
+        if (!BODY[p]) cut(listName(book, p));
         const gone = a.splice(+d.i, 1)[0];
         if (p === "props" && gone) arr(v.props).forEach(o => { if (o.sup === gone.id) o.sup = ""; });
         if (p === "parts" && gone) arr(v.parts).forEach(o => { if (o.to === gone.id) { o.to = ""; o.link = ""; } });
@@ -1001,9 +1025,10 @@ if (typeof document !== "undefined") (function () {
       case "copy": navigator.clipboard.writeText(toMarkdown(book, FC)).then(() => say("コピーした。"), () => say("コピーできなかった。")); return;
       case "askfc": navigator.clipboard.writeText("読書メモ『" + txt(book.meta.title) + "』の命題をファクトチェックして。reading-memo スキルを使う。読書メモは " + FOLDER + "/" + fileName(book) + ".md、本の id は " + book.id).then(() => { b.textContent = "コピーした。先に「Obsidian に保存」を押してから、Claude Code に貼る"; }, () => {}); return;
     }
-    /* 保存の直前に、ほかのタブが足した行を取り込むと、いま足した行の位置がずれることがある。足した行の、いまの位置を探し直す
-       （番号のある行と用語・根拠は、同じオブジェクトを探す。文字の一覧では、このタブが足した行は末尾にある） */
-    if (save() && focus) { const a = arr(getPath(v, p)), j = isObj(pushed) ? a.indexOf(pushed) : a.length - 1; if (j >= 0) focus = p + "." + j; }
+    /* 保存の直前に、ほかのタブの保存を取り込むと、いま足した行の位置がずれることがある（ほかのタブが足した行が前に入る。一覧を持つ命題や部分が、前の行を消されて上へずれる）。
+       一覧のいまの場所（pathNow）と、その中の足した行のいまの位置を探し直す（番号のある行と用語・根拠は、同じオブジェクトを探す。文字の一覧では、このタブが足した行は末尾にある） */
+    const at = focus ? traceOf(v, p) : null;
+    if (save() && focus) { const p2 = pathNow(at) || p, a = arr(getPath(v, p2)), j = isObj(pushed) ? a.indexOf(pushed) : a.length - 1; if (j >= 0) focus = p2 + "." + j; }
     const sec = b.closest("section"), secId = sec && sec.id, y = window.scrollY;
     render(); window.scrollTo(0, y);
     if (focus && secId) { const s = document.getElementById(secId); const el = s && s.querySelector('[data-p^="' + focus + '"]'); if (el) el.focus(); }
@@ -1135,7 +1160,8 @@ if (typeof document !== "undefined") (function () {
     try { const b = migrateBook(fromMarkdown($("formImport").elements.md.value)), i = store.books.findIndex(o => o.id === b.id);
       /* 同じ本がブラウザにあり、中身が違うときは、置き換える前に確かめる。やめたら、何も変えない */
       if (i >= 0 && !sameBook(store.books[i], b) && !confirm("『" + txt(store.books[i].meta.title) + "』は、このブラウザにもあり、中身が違う。読み込むと、このブラウザに入力した内容は、貼った読書メモの内容に置き換わる。")) { if (got) settle(null); return; }
-      if (i >= 0) store.books[i] = b; else store.books.unshift(b); store.current = b.id; save(); render();
+      /* 同じ本を置き換えると、中の一覧は別物になる。ほかのタブが行を取り違えないよう、本ごと印を付ける */
+      if (i >= 0) { store.books[i] = b; cut("." + b.id); } else store.books.unshift(b); store.current = b.id; save(); render();
     } catch (err) { if (got) settle(null); alert("読み込めなかった: " + err.message); }
   });
   /* 外から使う口。obsidian:// を開く処理は、テストで差し替えられるよう、ここを通す */
