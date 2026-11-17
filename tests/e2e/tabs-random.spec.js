@@ -37,6 +37,12 @@ async function openDeaf(context, init) {
   await openTool(page);
   return page;
 }
+/* 片方のタブがブラウザに残した内容は、もう片方のタブ（別のプロセス）から読めるようになるまで、数ミリ秒かかることがある。
+   操作の前に、どのタブからも同じ内容（入力と、行を消した印）が読めるまで待つ（人の操作では、この数ミリ秒のあいだに、もう片方のタブを操作することはない） */
+async function synced(...pages) {
+  const read = p => p.evaluate(k => JSON.stringify([localStorage.getItem(k), localStorage.getItem(k + ".cuts")]), KEY);
+  await expect.poll(async () => new Set(await Promise.all(pages.map(read))).size, "どのタブからも、ブラウザに残した同じ内容が読める").toBe(1);
+}
 /* タブの画面に出ている、一覧の行（欄ごとの値） */
 const domRows = (page, L) => page.evaluate(([sec, base, fields]) => { const out = [];
   document.querySelectorAll(sec + " input[data-p], " + sec + " textarea[data-p]").forEach(el => { const p = el.dataset.p; if (!p.startsWith(base + ".")) return;
@@ -56,6 +62,7 @@ async function run(context, mode, seed, nops) {
   /* 行を見分ける名前。行を消さない列では、行の位置（どのタブでも、最後まで同じ）。行を消す列では、行の最初の欄にある印 */
   const keyOf = (name, value, i) => (mode === "add" ? "#" + i : ((value || "").match(TOK) || []).find(t => marks.has(t)) || null);
   for (let step = 0, tries = 0; step < nops && tries < nops * 4; tries++) {
+    await synced(tabs.a, tabs.b);
     const who = pick(["a", "b"]), page = tabs[who], name = pick(Object.keys(LISTS)), L = LISTS[name], rows = await domRows(page, L), x = r(), tok = who + (n++) + ";";
     if (mode === "del" && x < 0.15 && rows.length) { const i = Math.floor(r() * rows.length);
       await page.locator(L.sec + ' button[data-a="del"][data-p="' + L.base + '"][data-i="' + i + '"]').first().click(); log.push(who + " 消す " + name + "[" + i + "]"); step++; continue; }
@@ -74,7 +81,8 @@ async function run(context, mode, seed, nops) {
     writes.push({ tok, who, name, field: f, key }); log.push(who + " 書く " + name + "[" + i + "]" + f + " " + tok + "（" + key + "）"); step++;
   }
   // 両方のタブが、互いの保存を取り込むまで、ほかの欄に書く
-  for (const who of ["a", "b", "a", "b"]) { await tabs[who].locator("#app textarea[data-p='purpose']").focus(); await tabs[who].keyboard.type("."); }
+  for (const who of ["a", "b", "a", "b"]) { await synced(tabs.a, tabs.b); await tabs[who].locator("#app textarea[data-p='purpose']").focus(); await tabs[who].keyboard.type("."); }
+  await synced(tabs.a, tabs.b);
   const disk = await tabs.a.evaluate(([k, id]) => JSON.parse(localStorage.getItem(k)).books.find(b => b.id === id).v, [KEY, b0.id]);
   const shown = { a: await tabs.a.evaluate(() => window.__dokusho.current().v), b: await tabs.b.evaluate(() => window.__dokusho.current().v) };
   const fails = [];
