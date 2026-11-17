@@ -15,7 +15,7 @@ function evil() {
   const prop = (id, t, sup, judge) => ({ id, t, loc: "1章", sup, q: Q1, grounds: [{ t: "根拠A", kind: X("gkind") }], arg: "", judge, why: "", self: "", k12: "", k13: "", k14: "", k15: "" });
   return { id: X("book"), meta: { title: "エスケープのテスト", author: "", publisher: "", published: "", isbn: "", booklist_no: "", started: "2026-11-15", finished: "" }, skip: {},
     v: { _n: { S: 3, Q: 3, P: 3 }, purpose: "テスト用の目的", budget: X("budget"), judge: "分析読書へ進む", kind: "理論書", ksub: X("ksub"), subject: "テスト", unity: { what: "学問", claim: "学べ" }, unityA: { what: "学問", claim: "学べ" }, unity2: X("unity2"),
-      terms: [{ w: "用語A", m: "意味", p: "1", g: true }], points: ["要点A"], unclear: ["分からない語A"], stance: X("stance"),
+      terms: [{ w: "用語A", m: "意味", p: "1", g: true }], points: [{ what: "要点A", how: "" }], unclear: ["分からない語A"], stance: X("stance"),
       parts: [part(S1, "第1部", ""), part(S2, "第2部", S1), part("S3", "第3部", X("to"))],
       qs: [{ id: Q1, t: "問いの一", parent: "" }, { id: Q2, t: "問いの二", parent: Q1 }, { id: "Q3", t: "問いの三", parent: X("parent") }],
       solved: { [Q1]: { s: X("solved"), aware: X("aware"), why: "" }, [Q2]: { s: "一部", aware: "", why: "" } },

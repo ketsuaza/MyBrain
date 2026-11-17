@@ -1,4 +1,4 @@
-// 仕様: 2つのタブで、番号のない一覧（要点、用語、根拠、区分）を、でたらめな順で操作しても、入力が消えたり、別の行に混ざったりしない（issue #60）。
+// 仕様: 2つのタブで、番号のない一覧（表面読みの組、分からなかった所、用語、根拠、区分）を、でたらめな順で操作しても、入力が消えたり、別の行に混ざったりしない（issue #60）。
 // 2つのタブとも、ほかのタブの保存が届かない状態にして（storage イベントを止める）、保存の直前の取り込みだけで確かめる。操作の列は、種から決まる（同じ種なら同じ列）。
 // - 行を消さない列: 既存の行に書く、末尾の空の行に書く、行を足す（ボタンと Enter。足して書く場合と、空のまま残す場合）。
 //   どちらのタブが打った文字も、打った行の打った欄に残る（同じ行の同じ欄を両方が書いた場合だけ、片方がなくなってよい）。行は1つも減らず、まとまらない。
@@ -10,23 +10,24 @@ const KEY = "dokusho-memo.v2";
 const rng = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
 /* 一覧: ある section、data-p の頭、1行の中の欄、状態の中の場所、行から欄の値を取り出す方法 */
 const LISTS = {
-  points: { sec: "#sec-hyomen", base: "points", fields: [""], get: v => v.points, val: r => r },
+  points: { sec: "#sec-hyomen", base: "points", fields: [".what", ".how"], get: v => v.points, val: (r, f) => r[f.slice(1)] },
+  unclear: { sec: "#sec-hyomen", base: "unclear", fields: [""], get: v => v.unclear, val: r => r },
   terms: { sec: "#sec-shitayomi", base: "terms", fields: [".w", ".m", ".p"], get: v => v.terms, val: (r, f) => r[f.slice(1)] },
   grounds: { sec: "#sec-a2", base: "props.0.grounds", fields: [".t"], get: v => v.props[0].grounds, val: r => r.t },
   subs: { sec: "#sec-a1", base: "parts.0.subs", fields: [""], get: v => v.parts[0].subs, val: r => r },
 };
-/* 打つ文字は、「タブの名前 + 通し番号 + ;」（a12; など）。もとの行の印は z0; 〜 z11; */
+/* 打つ文字は、「タブの名前 + 通し番号 + ;」（a12; など）。もとの行の印は z0; 〜 z14; */
 const TOK = /[abz]\d+;/g;
-const Z = { points: [0, 1, 2], terms: [3, 4, 5], grounds: [6, 7, 8], subs: [9, 10, 11] };
+const Z = { points: [0, 1, 2], terms: [3, 4, 5], grounds: [6, 7, 8], subs: [9, 10, 11], unclear: [12, 13, 14] };
 /* 始まりの本。行を消さない列では、空の行や同じ内容の行がある一覧、空の一覧、空の行だけの一覧のどれか。行を消す列では、どの行にも印を入れておく */
 function book(mode, r) {
   const b = { id: "t-random", meta: { title: "でたらめな操作のテスト", author: "", publisher: "", published: "", isbn: "", booklist_no: "", started: "", finished: "" }, skip: {},
     v: { _n: { S: 1, Q: 0, P: 1 }, purpose: "", judge: "分析読書へ進む", kind: "理論書", unity: { what: "学問", claim: "学べ" }, unityA: { what: "学問", claim: "学べ" },
       parts: [{ id: "S1", t: "テスト用の部分", role: "", to: "", link: "", sum: "", rel: "", subs: [] }], props: [{ id: "P1", t: "テスト用の命題", loc: "", sup: "main", q: "", grounds: [], arg: "" }] } };
-  const term = w => ({ w, m: "", p: "", g: false }), gr = t => ({ t, kind: "" }), z = name => Z[name].map(i => "z" + i + ";");
-  if (mode === "del") { b.v.points = z("points"); b.v.terms = z("terms").map(term); b.v.props[0].grounds = z("grounds").map(gr); b.v.parts[0].subs = z("subs"); return b; }
+  const term = w => ({ w, m: "", p: "", g: false }), gr = t => ({ t, kind: "" }), pt = what => ({ what, how: "" }), z = name => Z[name].map(i => "z" + i + ";");
+  if (mode === "del") { b.v.points = z("points").map(pt); b.v.unclear = z("unclear"); b.v.terms = z("terms").map(term); b.v.props[0].grounds = z("grounds").map(gr); b.v.parts[0].subs = z("subs"); return b; }
   const k = Math.floor(r() * 3);
-  b.v.points = [["同じ文", "", "同じ文", ""], [], ["", ""]][k]; b.v.terms = [[term("同じ語"), term(""), term("同じ語")], [], [term("")]][k];
+  b.v.points = [[pt("同じ文"), pt(""), pt("同じ文")], [], [pt("")]][k]; b.v.unclear = [["同じ文", "", "同じ文", ""], [], ["", ""]][k]; b.v.terms = [[term("同じ語"), term(""), term("同じ語")], [], [term("")]][k];
   b.v.props[0].grounds = [[gr(""), gr("同じ文")], [], [gr("")]][k]; b.v.parts[0].subs = [["", ""], [], ["同じ文", "同じ文", ""]][k];
   return b;
 }

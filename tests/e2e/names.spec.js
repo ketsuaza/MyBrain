@@ -92,7 +92,7 @@ test("分析読書まで進めた本でも、名前のない入力欄が0個。�
   const nameOf = p => fs.filter(f => f.p === p).map(f => f.name);
   // 行や命題の番号が入る
   for (const [p, re] of [["props.0.t", /P1/], ["props.2.t", /P3/], ["props.1.sup", /P2/], ["props.1.q", /P2/], ["props.1.loc", /P2/], ["parts.1.t", /S2/], ["parts.1.role", /S2/], ["parts.1.to", /S2/], ["parts.1.link", /S2/],
-    ["parts.1.sum", /S2/], ["parts.1.rel", /S2/], ["parts.2.subs.1", /S3.*2/], ["qs.2.t", /Q3/], ["qs.2.parent", /Q3/], ["points.1", /2/], ["unclear.0", /1/], ["terms.2.w", /3/], ["terms.2.m", /3/], ["terms.2.p", /3/],
+    ["parts.1.sum", /S2/], ["parts.1.rel", /S2/], ["parts.2.subs.1", /S3.*2/], ["qs.2.t", /Q3/], ["qs.2.parent", /Q3/], ["points.1.what", /2.*何が/], ["points.1.how", /2.*どのように/], ["unclear.0", /1/], ["terms.2.w", /3/], ["terms.2.m", /3/], ["terms.2.p", /3/],
     ["props.1.grounds.1.t", /P2.*2/], ["props.0.arg", /P1/], ["solved.Q1.why", /Q1/], ["props.1.self", /P2/], ["props.2.why", /P3/], ["props.1.k12", /P2.*12/], ["props.1.k14", /P2.*14/], ["props.2.k15", /P3.*15/]]) {
     const ns = nameOf(p);
     expect(ns.length, p + " の欄がある").toBeGreaterThan(0);

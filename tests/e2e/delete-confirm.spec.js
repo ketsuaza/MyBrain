@@ -10,7 +10,7 @@ function base(over) {
   const prop = (id, sup) => ({ id, t: "テスト用の命題 " + id, loc: "1章", sup, q: "Q1", grounds: [{ t: "根拠A", kind: "" }], arg: "", judge: "", why: "", self: "" });
   const b = { id: "t-delconfirm", meta: { title: "消す前の確認のテスト", author: "", publisher: "", published: "", isbn: "", booklist_no: "", started: "2026-11-15", finished: "" }, skip: {},
     v: { _n: { S: 3, Q: 3, P: 3 }, purpose: "テスト用の目的", judge: "分析読書へ進む", kind: "理論書", subject: "テスト", unity: { what: "学問", claim: "学べ" },
-      terms: ["用語A", "用語B"].map(w => ({ w, m: "意味", p: "1", g: false })), points: ["要点A", "要点B"], pointsHow: ["根拠A"], unclear: ["分からない語A"],
+      terms: ["用語A", "用語B"].map(w => ({ w, m: "意味", p: "1", g: false })), points: ["要点A", "要点B"], unclear: ["分からない語A"],
       parts: [part("S1", "第1部", ""), part("S2", "第2部", "S1"), part("S3", "第3部", "S2")],
       qs: [{ id: "Q1", t: "問いの一", parent: "" }, { id: "Q2", t: "問いの二", parent: "" }, { id: "Q3", t: "問いの三", parent: "" }],
       solved: { Q2: { s: "一部", aware: "自覚している", why: "テスト用の理由" } },
@@ -124,7 +124,7 @@ test("文が空でも、ほかに書いたり選んだりした値が1つでも�
 test("見張り: 用語、根拠、区分、表面読み、分からなかった所の行は、書いてあっても、これまでどおり確認なしで消える", async ({ page }) => {
   await setup(page);
   const seen = watch(page, () => false);
-  for (const [p, key] of [["terms", v => v.terms], ["props.0.grounds", v => v.props[0].grounds], ["parts.0.subs", v => v.parts[0].subs], ["points", v => v.points], ["pointsHow", v => v.pointsHow], ["unclear", v => v.unclear]]) {
+  for (const [p, key] of [["terms", v => v.terms], ["props.0.grounds", v => v.props[0].grounds], ["parts.0.subs", v => v.parts[0].subs], ["points", v => v.points], ["unclear", v => v.unclear]]) {
     const n = key((await current(page)).v).length;
     await x(page, p, 0).click();
     await expect.poll(async () => key((await current(page)).v).length, p).toBe(n - 1);

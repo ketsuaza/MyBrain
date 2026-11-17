@@ -198,13 +198,13 @@ test("「×」で行を消すと、次の行の「×」、次がなければ前�
   // 3行のまん中を消す → 次の行（同じ位置に来る）の「×」
   const y = await put(page, item.locator('button[data-a="del"][data-i="1"]'));
   await press(page, "Space", y, BTN, { a: "del", p: "points", i: "1" });
-  expect((await current(page)).v.points).toEqual(["要点A", "要点C"]);
+  expect((await current(page)).v.points.map(o => o.what)).toEqual(["要点A", "要点C"]);
   // 末尾を消す → 前の行の「×」
   await press(page, "Space", y, BTN, { a: "del", p: "points", i: "0" });
-  expect((await current(page)).v.points).toEqual(["要点A"]);
+  expect((await current(page)).v.points.map(o => o.what)).toEqual(["要点A"]);
   // 最後の1行を消す → 「足す」
-  await press(page, "Enter", y, BTN, { a: "push", p: "points", tpl: "str" });
-  expect((await current(page)).v.points).toEqual([]);
+  await press(page, "Enter", y, BTN, { a: "push", p: "points", tpl: "pair" });
+  expect((await current(page)).v.points.map(o => o.what)).toEqual([]);
   await tabGoesNext(page);
 });
 
@@ -334,10 +334,12 @@ test("いままでどおり: 「足す」を押すと、足した行の最初の
   await setup(page);
   await put(page, page.locator('button[data-a="push"][data-p="points"]'));
   await page.keyboard.press("Enter");
-  await expect(page.locator('input[data-p="points.3"]')).toBeFocused();
-  // 欄の中の Enter でも、行が足されて、足した行に移る
+  await expect(page.locator('[data-p="points.3.what"]')).toBeFocused();
+  // 欄の中の Enter でも、行が足されて、足した行に移る（表面読みの行は「何が」と「どのように」の組。最後の行の「どのように」で足される。issue #71）
   await page.keyboard.press("Enter");
-  await expect(page.locator('input[data-p="points.4"]')).toBeFocused();
+  await expect(page.locator('[data-p="points.3.how"]')).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.locator('[data-p="points.4.what"]')).toBeFocused();
   await page.locator("#bookSel").focus();
   await page.evaluate(() => document.querySelector('button[data-a="set"][data-p="budget"][data-val="30分"]').click());
   expect((await current(page)).v.budget).toBe("30分");
@@ -427,7 +429,7 @@ test.describe("iPhone の幅（390px）", () => {
     y = await put(page, page.locator('button[data-a="del"][data-p="points"][data-i="2"]'));
     await press(page, "Enter", y, BTN, { a: "del", p: "points", i: "1" });
     await press(page, "Enter", y, BTN, { a: "del", p: "points", i: "0" });
-    await press(page, "Enter", y, BTN, { a: "push", p: "points", tpl: "str" });
+    await press(page, "Enter", y, BTN, { a: "push", p: "points", tpl: "pair" });
     await tabGoesNext(page);
     expect(await overflow(page), "横にはみ出した幅（px）").toBeLessThanOrEqual(0);
   });
@@ -500,14 +502,14 @@ test.describe("押したまま、マウスのあとのキー（審査の指摘�
     await put(page, page.locator('button[data-a="del"][data-p="points"][data-i="0"]'));
     await hold(page, "Enter", 8);
     await expectFocus(page, BTN, { a: "del", p: "points", i: "0" });
-    expect((await current(page)).v.points, "残った要点").toEqual(["要点B", "要点C"]);
+    expect((await current(page)).v.points.map(o => o.what), "残った要点").toEqual(["要点B", "要点C"]);
     // 離してから押し直すと、次の1行が消える（続けて消す働きは、いままでどおり）
     await page.keyboard.press("Enter");
-    expect((await current(page)).v.points).toEqual(["要点C"]);
+    expect((await current(page)).v.points.map(o => o.what)).toEqual(["要点C"]);
     // Space の押したままも、1行だけ
     await hold(page, "Space", 8);
-    expect((await current(page)).v.points).toEqual([]);
-    await expectFocus(page, BTN, { a: "push", p: "points", tpl: "str" });
+    expect((await current(page)).v.points.map(o => o.what)).toEqual([]);
+    await expectFocus(page, BTN, { a: "push", p: "points", tpl: "pair" });
     expect((await current(page)).v.props.map(o => o.id)).toEqual(["P2", "P3"]);
   });
 
@@ -584,14 +586,14 @@ test.describe("押したまま、マウスのあとのキー（審査の指摘�
     expect((await active(page)).data.a, "フォーカスのある部品は「×」ではない").not.toBe("del");
     await page.keyboard.press("Enter");
     await page.keyboard.press("Space");
-    expect((await current(page)).v.points, "残った要点").toEqual(["要点B", "要点C"]);
+    expect((await current(page)).v.points.map(o => o.what), "残った要点").toEqual(["要点B", "要点C"]);
     // マウスでほかのボタンを押したときの置き直しは、いままでどおり
     await page.locator('button[data-a="set"][data-p="budget"][data-val="30分"]').click();
     await expectFocus(page, BTN, { a: "set", p: "budget", val: "30分" });
     // キーボードで「×」を押したときも、いままでどおり（次の行の「×」）
     const y = await put(page, page.locator('button[data-a="del"][data-p="points"][data-i="0"]'));
     await press(page, "Enter", y, BTN, { a: "del", p: "points", i: "0" });
-    expect((await current(page)).v.points).toEqual(["要点C"]);
+    expect((await current(page)).v.points.map(o => o.what)).toEqual(["要点C"]);
   });
 
   test("選択肢が日本語だけのプルダウン（部分の「役割」「どうつながる」）を変えても、フォーカスが残る", async ({ page }) => {

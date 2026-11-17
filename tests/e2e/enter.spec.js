@@ -9,7 +9,7 @@ function base(over) {
   const b = { id: "t-enter", meta: { title: "Enter のテスト", author: "", publisher: "", published: "", isbn: "", booklist_no: "", started: "2026-11-15", finished: "" }, skip: {},
     v: { _n: { S: 2, Q: 2, P: 3 }, purpose: "テスト用の目的", judge: "分析読書へ進む", kind: "理論書", subject: "テスト", unity: { what: "学問", claim: "学べ" }, unityA: { what: "学問", claim: "学べ" },
       terms: ["用語A", "用語B"].map(w => ({ w, m: "意味", p: "1", g: false })),
-      points: ["要点A", "要点B"], pointsHow: ["根拠の要点A", "根拠の要点B"], unclear: ["分からない語A", "分からない語B"],
+      points: [{ what: "要点A", how: "根拠の要点A" }, { what: "要点B", how: "根拠の要点B" }], unclear: ["分からない語A", "分からない語B"],
       parts: [part("S1", "第1部", ""), part("S2", "第2部", "S1")],
       qs: [{ id: "Q1", t: "問いの一", parent: "" }, { id: "Q2", t: "問いの二", parent: "" }],
       solved: { Q1: { s: "一部", aware: "", why: "そう見た理由" } }, newq: "新しい問題",
@@ -26,8 +26,8 @@ async function setup(page, book) {
 }
 /* いまフォーカスのある部品の、data-p と、それがある section */
 const at = page => page.evaluate(() => { const el = document.activeElement, sec = el.closest("section"); return { tag: el.tagName, p: el.dataset.p || "", sec: sec ? sec.id : "" }; });
-/* 命題の文、部分の概要、根拠、問題の文は、長い文が折り返せるよう textarea で出る（#63）。ほかの文字の欄は input */
-const tagOf = p => (/^(props\.\d+\.t|parts\.\d+\.sum|qs\.\d+\.t|props\.\d+\.grounds\.\d+\.t)$/.test(p) ? "TEXTAREA" : "INPUT");
+/* 命題の文、部分の概要、根拠、問題の文、表面読みの「何が」と「どのように」は、長い文が折り返せるよう textarea で出る（#63）。ほかの文字の欄は input */
+const tagOf = p => (/^(props\.\d+\.t|parts\.\d+\.sum|qs\.\d+\.t|props\.\d+\.grounds\.\d+\.t|points\.\d+\.(what|how))$/.test(p) ? "TEXTAREA" : "INPUT");
 /* root の中の欄 p にフォーカスを置く */
 async function put(root, p) {
   const loc = root.locator(tagOf(p).toLowerCase() + '[data-p="' + p + '"]');
@@ -45,9 +45,9 @@ async function hold(page, key, n) {
   await page.keyboard.up(key);
 }
 /* 行の数 */
-const counts = b => ({ terms: b.v.terms.length, points: b.v.points.length, pointsHow: b.v.pointsHow.length, unclear: b.v.unclear.length, parts: b.v.parts.length, subs: b.v.parts.map(o => o.subs.length),
+const counts = b => ({ terms: b.v.terms.length, points: b.v.points.length, unclear: b.v.unclear.length, parts: b.v.parts.length, subs: b.v.parts.map(o => o.subs.length),
   qs: b.v.qs.length, props: b.v.props.length, grounds: b.v.props.map(o => o.grounds.length) });
-const START = { terms: 2, points: 2, pointsHow: 2, unclear: 2, parts: 2, subs: [2, 2], qs: 2, props: 3, grounds: [2, 2, 2] };
+const START = { terms: 2, points: 2, unclear: 2, parts: 2, subs: [2, 2], qs: 2, props: 3, grounds: [2, 2, 2] };
 const overflow = page => page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
 
 test("用語: Enter で 言葉 → 意味 → ページ と進み、行は足されない。最後の行のページで押すと、用語が1行足される", async ({ page }) => {
@@ -132,23 +132,23 @@ test("問題と根拠: Enter で次の行へ進み、最後の行で押すと、
   expect(counts(await current(page)), "P2 にだけ根拠が足される").toEqual(Object.assign({}, START, { qs: 3, grounds: [2, 3, 2] }));
 });
 
-test("表面読みの2つの一覧と、分からなかった所: Enter で次の行へ進み、最後の行で押すと、その一覧に1行足される", async ({ page }) => {
+test("表面読みの組と、分からなかった所: Enter で「何が」→「どのように」→ 次の行と進み、最後の行の最後の欄で押すと、その一覧に1行足される", async ({ page }) => {
   await setup(page);
   const sec = page.locator("#sec-hyomen"), before = await current(page);
-  for (const k of ["points", "pointsHow", "unclear"]) {
-    await put(sec, k + ".0");
-    await enterTo(page, k + ".1", "sec-hyomen");
-  }
+  await put(sec, "points.0.what");
+  await enterTo(page, "points.0.how", "sec-hyomen");
+  await enterTo(page, "points.1.what", "sec-hyomen");
+  await enterTo(page, "points.1.how", "sec-hyomen");
+  await put(sec, "unclear.0");
+  await enterTo(page, "unclear.1", "sec-hyomen");
   expect(await current(page)).toEqual(before);
-  await put(sec, "points.1");
-  await enterTo(page, "points.2", "sec-hyomen");
+  await put(sec, "points.1.how");
+  await enterTo(page, "points.2.what", "sec-hyomen");
   expect(counts(await current(page))).toEqual(Object.assign({}, START, { points: 3 }));
-  await put(sec, "pointsHow.1");
-  await enterTo(page, "pointsHow.2", "sec-hyomen");
-  expect(counts(await current(page))).toEqual(Object.assign({}, START, { points: 3, pointsHow: 3 }));
+  expect((await current(page)).v.points[2], "足されるのは、空の組").toEqual({ what: "", how: "" });
   await put(sec, "unclear.1");
   await enterTo(page, "unclear.2", "sec-hyomen");
-  expect(counts(await current(page))).toEqual(Object.assign({}, START, { points: 3, pointsHow: 3, unclear: 3 }));
+  expect(counts(await current(page))).toEqual(Object.assign({}, START, { points: 3, unclear: 3 }));
 });
 
 test("行の並びに属さない欄では、Enter で何も足されず、フォーカスも動かない", async ({ page }) => {
@@ -170,7 +170,7 @@ test("Enter を押したままにしても、足されるのは1行だけ。次�
   await setup(page);
   // 最後の行の最後の欄: 1行だけ足される
   for (const [root, p, to, sec, want] of [
-    [page.locator("#sec-hyomen"), "points.1", "points.2", "sec-hyomen", { points: 3 }],
+    [page.locator("#sec-hyomen"), "points.1.how", "points.2.what", "sec-hyomen", { points: 3 }],
     [ruleItem(page, 4), "qs.1.t", "qs.2.t", "sec-a1", { points: 3, qs: 3 }],
     [page.locator("#sec-shitayomi"), "terms.1.p", "terms.2.w", "sec-shitayomi", { points: 3, qs: 3, terms: 3 }],
     [ruleItem(page, 7), "props.0.grounds.1.t", "props.0.grounds.2.t", "sec-a2", { points: 3, qs: 3, terms: 3, grounds: [3, 2, 2] }],
@@ -196,20 +196,20 @@ test("かな漢字変換を確定する Enter では、何も起きない（isCo
   await setup(page);
   const before = await current(page);
   /* 変換を確定する Enter の keydown を、欄に送る。Safari は、確定の Enter で isComposing が false、keyCode が 229 になることがある */
-  const send = (p, init) => page.locator('#sec-hyomen input[data-p="' + p + '"], #sec-shitayomi input[data-p="' + p + '"]').first().evaluate((el, init) => {
+  const send = (p, init) => page.locator('#sec-hyomen [data-p="' + p + '"], #sec-shitayomi input[data-p="' + p + '"]').first().evaluate((el, init) => {
     el.focus(); el.__same = true;
     const e = new KeyboardEvent("keydown", Object.assign({ key: "Enter", bubbles: true, cancelable: true }, init));
     el.dispatchEvent(e);
     return { prevented: e.defaultPrevented, same: document.activeElement.__same === true && document.activeElement === el };
   }, init);
-  for (const p of ["points.1", "terms.0.w", "terms.1.p"]) {
+  for (const p of ["points.1.what", "points.1.how", "unclear.1", "terms.0.w", "terms.1.p"]) {
     for (const init of [{ isComposing: true }, { isComposing: true, keyCode: 229 }, { isComposing: false, keyCode: 229 }]) {
       expect(await send(p, init), p + " で " + JSON.stringify(init)).toEqual({ prevented: false, same: true });
       expect(await current(page), p + " で " + JSON.stringify(init) + ": 何も足されない").toEqual(before);
     }
   }
   // ブラウザの口から、変換の途中の状態を入れて確かめる: 変換の途中の Enter（確定）では行が足されず、確定した文字が入る
-  const inp = page.locator('#sec-hyomen input[data-p="points.1"]');
+  const inp = page.locator('#sec-hyomen [data-p="points.1.how"]');
   await inp.click();
   await inp.evaluate(el => el.setSelectionRange(el.value.length, el.value.length));
   const cdp = await page.context().newCDPSession(page);
@@ -217,12 +217,12 @@ test("かな漢字変換を確定する Enter では、何も起きない（isCo
   await cdp.send("Input.dispatchKeyEvent", { type: "rawKeyDown", key: "Process", code: "Enter", windowsVirtualKeyCode: 229, nativeVirtualKeyCode: 229 });
   await cdp.send("Input.insertText", { text: "確定" });
   await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13, nativeVirtualKeyCode: 13 });
-  await expect(inp).toHaveValue("要点B確定");
+  await expect(inp).toHaveValue("根拠の要点B確定");
   await expect(inp).toBeFocused();
-  expect((await current(page)).v.points).toEqual(["要点A", "要点B確定"]);
+  expect((await current(page)).v.points).toEqual([{ what: "要点A", how: "根拠の要点A" }, { what: "要点B", how: "根拠の要点B確定" }]);
   // 確定したあとの、ふつうの Enter は働く
   await page.keyboard.press("Enter");
-  expect(await at(page)).toEqual({ tag: "INPUT", p: "points.2", sec: "sec-hyomen" });
+  expect(await at(page)).toEqual({ tag: "TEXTAREA", p: "points.2.what", sec: "sec-hyomen" });
 });
 
 test("複数行の欄（この本を読む目的、自由メモ）の Enter は、これまでどおり改行になる", async ({ page }) => {
