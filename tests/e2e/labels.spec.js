@@ -40,7 +40,7 @@ test("行を足すボタンのラベルが、足すものの名詞になって�
   expect(await addButtons(item(page, "鍵になりそうな言葉"))).toEqual([["terms", "＋ 用語"]]);
   expect(await addButtons(ruleItem(page, 5))).toEqual([["terms", "＋ 用語"]]);
   expect(await addButtons(ruleItem(page, 3))).toEqual([["parts.0.subs", "＋ S1 の区分"], ["parts.1.subs", "＋ S2 の区分"], ["parts.2.subs", "＋ S3 の区分"], ["parts", "＋ 部分"]]);
-  expect(await addButtons(ruleItem(page, 4))).toEqual([["qs", "＋ 問題"]]);
+  expect(await addButtons(ruleItem(page, 4))).toEqual([["qs", "＋ Q1 に従属する問い"], ["qs", "＋ Q2 に従属する問い"], ["qs", "＋ 主な問い"]]);
   expect(await addButtons(ruleItem(page, 6))).toEqual([["props", "＋ 命題"]]);
   expect(await addButtons(ruleItem(page, 7))).toEqual([["props.0.grounds", "＋ P1 の根拠"], ["props.1.grounds", "＋ P2 の根拠"], ["props.2.grounds", "＋ P3 の根拠"]]);
   expect(await addButtons(page.locator("#sec-hyomen"))).toEqual([["points", "＋ 述べられていたこと"], ["unclear", "＋ 分からなかった所"]]);
@@ -67,7 +67,8 @@ test("ボタンの働きは変わらない: 押すと、その並びの末尾に
     [item(page, "鍵になりそうな言葉"), "＋ 用語", "terms.1.w", b => b.v.terms.length, 2],
     [ruleItem(page, 3), "＋ S2 の区分", "parts.1.subs.1", b => b.v.parts[1].subs.length, 2],
     [ruleItem(page, 3), "＋ 部分", "parts.3.t", b => b.v.parts.length, 4],
-    [ruleItem(page, 4), "＋ 問題", "qs.2.t", b => b.v.qs.length, 3],
+    [ruleItem(page, 4), "＋ 主な問い", "qs.2.t", b => b.v.qs.length, 3],
+    [ruleItem(page, 4), "＋ Q2 に従属する問い", "qs.3.t", b => b.v.qs.length, 4],
     [ruleItem(page, 6), "＋ 命題", "props.3.t", b => b.v.props.length, 4],
     [ruleItem(page, 7), "＋ P3 の根拠", "props.2.grounds.1.t", b => b.v.props[2].grounds.length, 2],
   ];
@@ -121,7 +122,7 @@ test.describe("iPhone の幅（390px）", () => {
     book.v.parts[2].id = "S12"; book.v.props[2].id = "P12"; book.v._n = { S: 12, Q: 2, P: 12 };
     await setup(page, book);
     const labels = (await addButtons(page.locator("#app"))).map(b => b[1]);
-    for (const t of ["＋ 分からなかった所", "＋ 述べられていたこと", "＋ 用語", "＋ S12 の区分", "＋ 部分", "＋ 問題", "＋ 命題", "＋ P12 の根拠"]) expect(labels, "画面に出ているラベル").toContain(t);
+    for (const t of ["＋ 分からなかった所", "＋ 述べられていたこと", "＋ 用語", "＋ S12 の区分", "＋ 部分", "＋ Q1 に従属する問い", "＋ 主な問い", "＋ 命題", "＋ P12 の根拠"]) expect(labels, "画面に出ているラベル").toContain(t);
     expect(await wrapped(page), "2行以上に折り返したラベル").toEqual([]);
     expect(await overflow(page), "横にはみ出した幅（px）").toBeLessThanOrEqual(0);
     for (const b of await page.locator('#app button[data-a="push"]').all()) {

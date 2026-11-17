@@ -52,11 +52,13 @@ test("id、判定、選択の値にタグと引用符を入れた state を読�
   await expect(ruleItem(page, 11).locator(".card").first()).toContainText("テスト用の命題1 — " + X("judge"));
   // 名前（aria-label）にも、そのまま入る
   await expect(ruleItem(page, 6).locator('[data-p="props.0.t"]')).toHaveAttribute("aria-label", P1 + " の命題");
-  await expect(ruleItem(page, 4).locator('select[data-p="qs.1.parent"]')).toHaveAttribute("aria-label", Q2 + " の従属先");
+  await expect(ruleItem(page, 4).locator('select[data-p="qs.1.type"]')).toHaveAttribute("aria-label", Q2 + " の問いの型");
   // 相手を指すプルダウンの選択肢にも、文字として出る
   await expect(ruleItem(page, 6).locator('select[data-p="props.1.sup"]')).toHaveValue(P1);
   await expect(ruleItem(page, 6).locator('select[data-p="props.1.sup"] option:checked')).toHaveText(P1 + " を支える");
-  await expect(ruleItem(page, 4).locator('select[data-p="qs.1.parent"]')).toHaveValue(Q1);
+  // 問題の従属先は、プルダウンではなく、主な問いの下の並びと、行を足すボタンに出る（#77）
+  await expect(ruleItem(page, 4).locator(".qrow.sub .rule")).toHaveText([Q2]);
+  await expect(ruleItem(page, 4).locator('button[data-a="push"][data-parent]').first()).toHaveText("＋ " + Q1 + " に従属する問い");
   await expect(ruleItem(page, 3).locator('select[data-p="parts.1.to"]')).toHaveValue(S1);
   // Markdown にも、そのままの文字で出る
   const md = await page.evaluate(() => window.__dokusho.toMarkdown(window.__dokusho.current()));

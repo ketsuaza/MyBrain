@@ -85,7 +85,8 @@ test("何も書いていない行（足したばかりの行）は、確認な�
   await setup(page);
   const seen = watch(page, () => false);
   for (const [k, n] of [["props", 3], ["parts", 3], ["qs", 3]]) {
-    await page.locator('#app button[data-a="push"][data-p="' + k + '"]').click();
+    // 規則4には、「＋ 主な問い」のほかに、主な問いごとの「＋ Q1 に従属する問い」（data-parent つき）がある（#77）。ここでは「＋ 主な問い」を押す
+    await page.locator('#app button[data-a="push"][data-p="' + k + '"]:not([data-parent])').click();
     await expect.poll(async () => (await current(page)).v[k].length).toBe(n + 1);
     if (k === "parts") expect((await current(page)).v.parts[3].to, "足した部分には、前の部分が初期値で入っている").toBe("S3");
     await x(page, k, n).click();
@@ -101,7 +102,8 @@ test("文が空でも、ほかに書いたり選んだりした値が1つでも�
   const parts = [{ role: "まとめる" }, { to: "none" }, { link: "と並ぶ" }, { sum: "概要" }, { rel: "受け持つ所" }, { subs: ["", "区分"] }];
   const book = base({ props: props.map((o, i) => blankP("P" + (i + 1), o)).concat([blankP("P90", { grounds: [{ t: "", kind: "" }] })]),
     parts: parts.map((o, i) => blankS("S" + (i + 1), o)).concat([blankS("S90", { to: "S1", subs: ["", " "] })]),
-    qs: [{ id: "Q1", t: "", parent: "Q9" }, { id: "Q2", t: "", parent: "" }, { id: "Q3", t: "", parent: "" }, { id: "Q4", t: "", parent: "" }, { id: "Q5", t: "", parent: "" }, { id: "Q9", t: "問いの九", parent: "" }],
+    // 問題の従属先は、行を足す場所で決まる値になった（#77）ので、中身には数えない。利用者が選ぶ値は、型（type）
+    qs: [{ id: "Q1", t: "", parent: "", type: "原因" }, { id: "Q2", t: "", parent: "" }, { id: "Q3", t: "", parent: "" }, { id: "Q4", t: "", parent: "" }, { id: "Q5", t: "", parent: "" }, { id: "Q9", t: "問いの九", parent: "" }],
     solved: { Q2: { s: "未解決", aware: "", why: "" }, Q3: { s: "", aware: "", why: "理由" }, Q4: { s: "", aware: "分からない", why: "" }, Q5: { s: "", aware: "", why: "" } } });
   await setup(page, book);
   const seen = watch(page, () => false);

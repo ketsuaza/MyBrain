@@ -65,7 +65,7 @@ test("「？」で開く説明の文言は変わらない（規則1、規則4の
   await setup(page, "実践書");
   const help = async it => { await it.locator('button[data-a="help"]').click(); return it.locator(".help").first(); };
   await expect(await help(ruleItem(page, 1))).toHaveText("章の中の規則: 読者は、今読んでいるのがどんな種類の本なのかを知らねばならない。これを知るのは早いほど良い。できれば読み始める前に知る方が良い。種類は下読みで選んだものが出ている。理論書なら、歴史・科学・哲学のどれかも選ぶ。主題には、本が扱う分野を書く。「まだ分からない」のうちは済みにならない。");
-  await expect(await help(ruleItem(page, 4))).toHaveText("章の中の規則: 著者の問題としている点は何であるかを知る。主な問いと、それに従属する問いを分け、分かる順に並べる。実践書の問いの型: 目的、手段、順序、条件（「何を目ざすべきか」「どうすれば〜できるか」）。 Q1、Q2 と番号が付き、命題と結びつけられる。");
+  await expect(await help(ruleItem(page, 4))).toHaveText("章の中の規則: 著者の問題としている点は何であるかを知る。まず主な問いを書き、主な問いが複雑なときは、その下に従属する問いを足して、分かる順に並べる。実践書の問いの型: 目的、手段、順序、条件、どちらがより良いか（「何を目ざすべきか」「どうすれば〜できるか」）。型は、行ごとに選べる（選ばなくてもよい）。選ぶと、問いの書き出しの例が欄に出る（例は、このツールの補助である）。 Q1、Q2 と番号が付き、命題と結びつけられる。");
   await expect(await help(ruleItem(page, 8))).toHaveText("規則4の問題ごとに、著者が答えを出したかを見る。答えが正しいかどうかは、第三段階で判断する。一部・未解決なら、著者がそれを自覚しているかを選ぶ。本を読んで新しく生じた問題も書ける。");
   const action = page.locator("#sec-checkout .item").filter({ has: page.locator('textarea[data-p="action"]') });
   await expect(await help(action)).toHaveText("実践書に賛成するなら、行動することになる（英語版 第13章による）。1つでよい。");

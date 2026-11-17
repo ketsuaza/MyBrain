@@ -68,18 +68,24 @@ test("規則3: 部分ごとに概要が要り、統一の文のどこを受け�
   await shot(page, "10-rule3-outline", item);
 });
 
+// 主か従かは、行を足す場所で決まる（#77。従属先のプルダウンはない）。画面からは、主な問いのない状態（従属先の循環）を作れなくなったので、
+// 「主な問いがない」は、文のある主な問いがない状態（問いの文が全部空）で確かめる。循環を含む前の読書メモの扱いは、questions.spec.js で確かめる
 test("規則4: 主な問いと従属する問いを分け、主な問いがないと済みにならない。問いの型が説明に出る", async ({ page }) => {
   await setup(page);
   const item = ruleItem(page, 4);
-  await expect(item.locator('select[data-p="qs.1.parent"] option[value="Q1"]')).toHaveText("Q1 に従属");
-  await item.locator('select[data-p="qs.1.parent"]').selectOption("Q1");
+  await expect(item.locator('select[data-p$=".parent"]')).toHaveCount(0);
+  await item.getByRole("button", { name: "＋ Q1 に従属する問い", exact: true }).click();
+  await page.keyboard.type("問いの三");
+  expect((await current(page)).v.qs[2]).toEqual({ id: "Q3", t: "問いの三", parent: "Q1" });
+  await expect(item.locator(".qrow.sub .rule")).toHaveText(["Q3"]);
+  await expect(item.locator(".qrow:not(.sub) .rule")).toHaveText(["Q1", "Q2"]);
   expect((await done(page))[4]).toBe(true);
-  await item.locator('select[data-p="qs.1.parent"]').selectOption("");
-  await item.locator('select[data-p="qs.0.parent"]').selectOption("Q2");
-  await item.locator('select[data-p="qs.1.parent"]').selectOption("Q1");
+  for (const i of [0, 1, 2]) await item.locator(`[data-p="qs.${i}.t"]`).fill("");
   expect((await done(page))[4], "主な問いがない").toBe(false);
+  await item.locator('[data-p="qs.2.t"]').fill("問いの三");
+  expect((await done(page))[4], "従属先（Q1）の文が空の問いは、主な問いとして扱う").toBe(true);
   await item.locator('button[data-a="help"]').click();
-  await expect(item.locator(".help").first()).toContainText("存在、種類、原因、目的、結果、特性、関係");
+  await expect(item.locator(".help").first()).toContainText("存在、種類、原因、条件、目的、結果、特性、関係、ふるまい");
 });
 
 test("規則5・6: 表面読みの分からなかった所が出て、命題には文の場所が要る", async ({ page }) => {

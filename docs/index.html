@@ -147,6 +147,21 @@ button:disabled { opacity: .45; cursor: default; }
 .pair .cap { padding-top: 8px; color: var(--sub); font-size: 13px; white-space: nowrap; }
 .pair button.x { margin-top: 5px; }
 @media (max-width: 620px) { .pair .two { grid-template-columns: minmax(0, 1fr); gap: 2px; } .pair .cap { padding-top: 0; } .pair .two textarea { margin-bottom: 4px; } .pair .no { padding-top: 0; } .pair button.x { margin-top: 18px; } }
+/* 規則4の問題。主な問いの行（.qrow）の下に、その従属する問いの行（.qrow.sub）を字下げして並べる。行は、番号、文、型のプルダウン、（従属する問いだけ「↑」「↓」）、「×」。
+   上と下の手がかり（.qhint）と、並びの見出し（.qcap）は、説明文と同じ薄い字。幅の狭い画面では、行を2段にして（1段目に番号と文、2段目に型とボタン）、文の欄を狭めない */
+.qhint { color: var(--sub); font-size: 13px; margin: 0 0 8px; }
+.qhint.qbottom { margin: 8px 0 0; }
+.qcap { color: var(--sub); font-size: 12.5px; margin: 0 0 4px; }
+.qrow.sub, .qcap.sub, .qadd { margin-left: 32px; }
+.qadd { margin-bottom: 10px; }
+.qrow textarea { flex: 1; min-width: 0; }
+.qrow select { flex: none; max-width: 200px; padding: 5px 6px; font-size: 13.5px; }
+@media (max-width: 620px) {
+  .qrow { flex-wrap: wrap; }
+  .qrow textarea { flex: 1 1 calc(100% - 44px); width: auto; }
+  .qrow select { margin-left: auto; min-height: 32px; }
+  .qrow.sub, .qcap.sub, .qadd { margin-left: 16px; }
+}
 </style>
 </head>
 <body>
@@ -240,7 +255,13 @@ const saidDone = v => arr(v.points).some(o => o && txt(o.what));
 const saidLines = v => saidPairs(v).map((o, i) => (i + 1) + " 何が: " + txt(o.what) + (txt(o.how) ? "\n  どのように: " + txt(o.how) : "")).join("\n");
 const isRead = v => v.judge === J.read || v.judge === J.ana;
 const isAna = v => v.judge === J.ana;
-const Q_TYPES = { "理論書": "理論書の問いの型: 存在、種類、原因、目的、結果、特性、関係（「〜はあるか」「〜とは何か」「なぜ〜か」）。", "実践書": "実践書の問いの型: 目的、手段、順序、条件（「何を目ざすべきか」「どうすれば〜できるか」）。" };
+/* 規則4の問いの型（行ごとに、任意で選ぶ。問題の type に、語のまま持つ）。Q_KINDS: 本の種類ごとの型の一覧。qTypes: いまの本の種類で選べる型
+   （理論書・実践書のほか ― 文学、まだ分からない、未選択 ― は、両方。同じ語は1回だけ）。Q_EX: 型ごとの、問いの書き出しの例（本の文言ではなく、このツールの補助） */
+const Q_KINDS = { "理論書": ["存在", "種類", "原因", "条件", "目的", "結果", "特性", "関係", "ふるまい"], "実践書": ["目的", "手段", "順序", "条件", "どちらがより良いか"] };
+const qTypes = kind => Q_KINDS[kind] || Q_KINDS["理論書"].concat(Q_KINDS["実践書"].filter(t => !Q_KINDS["理論書"].includes(t)));
+const Q_EX = { "存在": "〜はあるか", "種類": "〜とは何か", "原因": "なぜ〜か", "条件": "どんな条件で〜か", "目的": "〜は何のためか／何を目ざすべきか", "結果": "〜の結果、何が起きるか", "特性": "〜の特徴は何か", "関係": "〜と〜はどう関係するか",
+  "ふるまい": "〜はどうふるまうか", "手段": "どうすれば〜できるか", "順序": "何を、どんな順序ですべきか", "どちらがより良いか": "〜と〜のどちらが良いか" };
+const Q_TYPES = { "理論書": "理論書の問いの型: " + Q_KINDS["理論書"].join("、") + "（「〜はあるか」「〜とは何か」「なぜ〜か」）。", "実践書": "実践書の問いの型: " + Q_KINDS["実践書"].join("、") + "（「何を目ざすべきか」「どうすれば〜できるか」）。" };
 /* 規則1〜15のラベルは、訳書の「分析読書の三段階のまとめ」の文言。説明文の最初に、章の中の文言を引く */
 const SECTIONS = [
   { id: "checkin", title: "チェックイン", items: [
@@ -271,7 +292,7 @@ const SECTIONS = [
     { r: 3, k: "parts", t: "parts", label: "主要な部分を順序よく関連づけてあげ、その概要を述べる",
       help: "章の中の規則: その本の主な部分を述べ、それらの部分がどのように順序よく統一性をもって配列されて全体を構成しているかを示すこと。部分ごとに、役割、どの部分とどうつながるか、その部分が言っていること（概要）、統一の文のどこを受け持つかを書く。全体と同じように、部分の中も区分に分けてよい（理想であり、近似でよい）。" },
     { r: 4, k: "qs", t: "qs", label: "著者が解決しようとしている問題が何であるかを明らかにする",
-      help: v => "章の中の規則: 著者の問題としている点は何であるかを知る。主な問いと、それに従属する問いを分け、分かる順に並べる。" + (Q_TYPES[v.kind] || Q_TYPES["理論書"] + Q_TYPES["実践書"]) + " Q1、Q2 と番号が付き、命題と結びつけられる。" },
+      help: v => "章の中の規則: 著者の問題としている点は何であるかを知る。まず主な問いを書き、主な問いが複雑なときは、その下に従属する問いを足して、分かる順に並べる。" + (Q_TYPES[v.kind] || Q_TYPES["理論書"] + Q_TYPES["実践書"]) + "型は、行ごとに選べる（選ばなくてもよい）。選ぶと、問いの書き出しの例が欄に出る（例は、このツールの補助である）。 Q1、Q2 と番号が付き、命題と結びつけられる。" },
   ]},
   { id: "a2", title: "分析読書 第二段階", sub: "内容を解釈する", when: isAna, items: [
     { r: 5, k: "terms", t: "terms", label: "キー・ワードを見つけ、著者と折り合いをつける", help: "辞書の意味ではなく、著者がその言葉をどう使っているかを書く。読者にとって重要な語は、引っかかった語である。1つの語が複数の意味で使われていたら、意味ごとに分けて書く。" },
@@ -323,6 +344,18 @@ const supOf = (v, p) => (p.sup === "main" || p.sup === "none" ? p.sup : refTo(v.
 const toOf = (v, o) => (o.to === "none" ? "none" : refTo(v.parts, o, o.to));
 const parentOf = (v, o) => refTo(v.qs, o, o.parent);
 const qOf = (v, p) => refTo(v.qs, null, p.q);
+/* 規則4の問題を、主な問いと、その従属する問いに分ける。[{ o: 主な問い, i: v.qs の中の位置, subs: [{ o: 従属する問い, i }] }]。主な問いも、従属する問いも、v.qs の中の順。
+   主な問い: 従属先が未選択の問題（parentOf。従属先の文が空のとき、従属先がいないときを含む）。従属する問い: 従属先をたどった先の主な問いの下に、平らに並べる（孫も同じ並び）。
+   従属先が循環しているときは、循環の中の問題を主な問いとして扱う（循環に入っていく問題は、最初に着いた循環の中の問題の下）。保存された値（parent）は変えない */
+function qTree(v) {
+  const all = arr(v.qs);
+  const up = o => { const id = parentOf(v, o); return id ? all.find(q => q !== o && q.id === id && txt(q.t)) : null; };
+  const root = o => { const seen = [o]; for (;;) { const p = up(seen[seen.length - 1]); if (!p) return seen[seen.length - 1]; if (seen.includes(p)) return p; seen.push(p); } };
+  const rows = all.map((o, i) => ({ o, i, root: root(o) }));
+  return rows.filter(r => r.root === r.o).map(m => ({ o: m.o, i: m.i, subs: rows.filter(r => r.root === m.o && r.o !== m.o).map(r => ({ o: r.o, i: r.i })) }));
+}
+/* 問題を、表示の並び（主な問い、その従属する問い、次の主な問い…）で。[{ o, i, main: 主な問いか }] */
+const qOrder = v => qTree(v).reduce((l, m) => l.concat([{ o: m.o, i: m.i, main: true }], m.subs.map(s => ({ o: s.o, i: s.i, main: false }))), []);
 const partsDone = v => { const p = liveBy(v.parts); return p.length > 0 && p.every((o, i) => o.role && txt(o.sum) && (i === 0 || toOf(v, o) === "none" || (toOf(v, o) && o.link))); };
 const restated = v => !!(v.restate && txt(v.restate.s) && txt(v.restate.ex));
 const judged = ps => ps.length > 0 && ps.every(p => p.judge);
@@ -347,7 +380,7 @@ function filled(it, v) {
     case "unity": return unityOk(x);
     case "unity2": return unityOk(x) && !!v.unity2;
     case "parts": return partsDone(v);
-    case "qs": { const q = liveBy(x); return q.length > 0 && q.some(o => !parentOf(v, o)); }
+    case "qs": return qTree(v).some(m => txt(m.o.t));
     case "props": return ps.length > 0 && ps.every(p => supOf(v, p) && txt(p.loc));
     case "grounds": return ps.length > 0 && ps.every(p => arr(p.grounds).some(g => g.kind) && (p.sup !== "main" || txt(p.arg)));
     case "solved": { const q = liveBy(v.qs); return q.length > 0 && q.every(o => { const r = (v.solved || {})[o.id] || {}; return r.s && (r.s === "解決した" || r.aware); }); }
@@ -421,7 +454,7 @@ function toMarkdown(book, FC) {
         if (txt(o.sum)) out.push("    概要: " + txt(o.sum));
         if (txt(o.rel)) out.push("    統一の文で受け持つところ: " + txt(o.rel));
         liveList(o.subs).forEach(t => out.push("    - " + t)); }); break;
-      case "qs": out.push("- " + head + ":"); liveBy(x).forEach(o => out.push("  - " + o.id + " " + txt(o.t) + (parentOf(v, o) ? "（" + o.parent + " に従属）" : "（主な問い）"))); break;
+      case "qs": out.push("- " + head + ":"); qOrder(v).filter(r => txt(r.o.t)).forEach(({ o, main }) => out.push((main ? "  - " : "    - ") + o.id + " " + txt(o.t) + (main ? "（主な問い）" : "（" + o.parent + " に従属）") + (txt(o.type) ? "〔型: " + txt(o.type) + "〕" : ""))); break;
       case "props": out.push("- " + head + ":"); ps.forEach(p => out.push("  - " + p.id + " " + txt(p.t) + (supText(v, p) ? "（" + supText(v, p) + "）" : "") + (qOf(v, p) ? "〔" + p.q + " に答える〕" : "") + (txt(p.loc) ? "［" + txt(p.loc) + "］" : ""))); break;
       case "grounds": out.push("- " + head + ":"); chainOf(v).forEach(({ p, depth }) => {
         const pad = "  " + "  ".repeat(depth);
@@ -718,13 +751,12 @@ if (typeof document !== "undefined") (function () {
   const chips = (p, opts, curv, o) => '<div class="opts' + (o && o.sm ? " sm" : "") + '">' + (o && o.cap ? '<span class="cap">' + o.cap + "</span>" : "") +
     opts.map(x => { const on = o && o.multi ? arr(curv).includes(x) : curv === x; return '<button class="' + (on ? "on" : "") + '"' + pressed(on) + ' data-a="' + (o && o.multi ? "tog" : "set") + '" data-p="' + esc(p) + '" data-val="' + esc(x) + '">' + esc(x) + "</button>"; }).join("") + "</div>";
   const del = (p, i) => '<button class="x" data-a="del" data-p="' + p + '" data-i="' + i + '" aria-label="消す">×</button>';
-  /* 行を足すボタン。ラベルは、足すものの名詞（text）。入れ子の行を足すボタンには、持ち主の番号を入れる（「S1 の区分」「P1 の根拠」）。番号は読み込んだ値なので、esc を通す */
+  /* 行を足すボタン。ラベルは、足すものの名詞（text）。入れ子の行を足すボタンには、持ち主の番号を入れる（「S1 の区分」「P1 の根拠」）。規則4の「Q1 に従属する問い」のボタンは、bodyHtml の中で作る。番号は読み込んだ値なので、esc を通す */
   const add = (p, tpl, text) => '<button data-a="push" data-p="' + p + '" data-tpl="' + tpl + '">＋ ' + esc(text) + "</button>";
   const sel = (p, curv, opts, name) => '<select data-p="' + esc(p) + '"' + named(name) + ">" + opts.map(o => '<option value="' + esc(o[0]) + '"' + (curv === o[0] ? " selected" : "") + ">" + esc(o[1]) + "</option>").join("") + "</select>";
   /* 命題・部分・問題を指すプルダウンの選択肢。文を入力したその場で選べるよう、入力のたびに refresh で作り直す */
   const supOpts = (all, p) => [["", "選ぶ"], ["main", "中心の主張"]].concat(all.filter(o => o !== p && txt(o.t)).map(o => [o.id, o.id + " を支える"])).concat([["none", "つながり不明"]]);
   const toOpts = (all, o, i) => [["", i ? "どの部分と" : "（最初の部分）"]].concat(all.filter(q => q !== o && txt(q.t)).map(q => [q.id, q.id + " " + txt(q.t).slice(0, 10)])).concat([["none", "独立している"]]);
-  const parentOpts = (v, o) => [["", "主な問い"]].concat(liveBy(v.qs).filter(q => q !== o).map(q => [q.id, q.id + " に従属"]));
   const qOpts = v => [["", "なし"]].concat(liveBy(v.qs).map(o => [o.id, o.id + " " + txt(o.t).slice(0, 18)]));
   const noProps = '<div class="help">規則6で命題を足すと、ここに並ぶ。</div>';
 
@@ -769,8 +801,19 @@ if (typeof document !== "undefined") (function () {
           '<div class="sub"><div class="sentence"><span>概要</span>' + flow("parts." + i + ".sum", o.sum, "この部分が言っていること", o.id + " の概要") + "<span>受け持つ所</span>" + inp("parts." + i + ".rel", o.rel, "統一の文のどこを受け持つか", "", o.id + " の受け持つ所") +
           arr(o.subs).map((t, j) => "<span>区分 " + (j + 1) + '</span><div class="row" style="margin:0">' + inp("parts." + i + ".subs." + j, t, "下位の区分", "", o.id + " の区分 " + (j + 1)) + del("parts." + i + ".subs", j) + "</div>").join("") +
           "</div>" + add("parts." + i + ".subs", "str", o.id + " の区分") + "</div></div>").join("") + add("parts", "part", "部分"); }
-      case "qs": return arr(x).map((o, i) => '<div class="row"><span class="rule">' + esc(o.id) + "</span>" + flow("qs." + i + ".t", o.t, "著者が答えようとしている問い", o.id + " の問い") +
-        sel("qs." + i + ".parent", o.parent || "", parentOpts(v, o), o.id + " の従属先") + del("qs", i) + "</div>").join("") + add("qs", "q", "問題");
+      /* 主な問いの行の下に、その従属する問いの行を並べる（qTree）。data-p と data-i の番号は、v.qs の中の位置（表示の並びとは違うことがある）。
+         行は、主も従も、項目の直下に平らに置く（打っている途中に主と従が入れ替わっても、入力中の欄を残して書き換えられるように）。
+         型のプルダウンには、いまの本の種類の型を出す。保存されている型が一覧になければ、その値も出して、選ばれたままにする */
+      case "qs": { const types = qTypes(v.kind), uni = unityText(unityOk(v.unityA) ? v.unityA : v.unity), parts = liveBy(v.parts);
+        const row = (o, i, sub) => { const ty = o.type == null ? "" : String(o.type);
+          return '<div class="row qrow' + (sub ? " sub" : "") + '"><span class="rule">' + esc(o.id) + "</span>" + flow("qs." + i + ".t", o.t, Q_EX[ty] ? "例: " + Q_EX[ty] : "著者が答えようとしている問い", o.id + " の問い") +
+            sel("qs." + i + ".type", ty, [["", "型"]].concat((!ty || types.includes(ty) ? types : types.concat([ty])).map(t => [t, "型: " + t])), o.id + " の問いの型") +
+            (sub ? '<button class="x" data-a="up" data-p="qs" data-i="' + i + '" aria-label="上へ">↑</button><button class="x" data-a="down" data-p="qs" data-i="' + i + '" aria-label="下へ">↓</button>' : "") + del("qs", i) + "</div>"; };
+        return (uni ? '<div class="qhint qtop">規則2の文: ' + h(uni) + "（この文が答えになる問いは何か）</div>" : "") + '<div class="qcap">主な問い</div>' +
+          qTree(v).map(m => row(m.o, m.i, false) + (m.subs.length ? '<div class="qcap sub">従属する問い</div>' : "") + m.subs.map(s => row(s.o, s.i, true)).join("") +
+            /* 文が空の主な問いには、従属する問いを足せない（足しても、従属先の文が空なので、主な問いとして並ぶ） */
+            (txt(m.o.t) ? '<div class="qadd"><button data-a="push" data-p="qs" data-tpl="q" data-parent="' + esc(m.o.id) + '">＋ ' + esc(m.o.id + " に従属する問い") + "</button></div>" : "")).join("") +
+          add("qs", "q", "主な問い") + (parts.length ? '<div class="qhint qbottom">手がかり（規則3の部分）: ' + parts.map(o => esc(o.id) + " " + h(o.t)).join(" / ") + "</div>" : ""); }
       case "props": {
         const all = arr(x);
         return unclearHtml(v) + all.map((p, i) => '<div class="card"><div class="head"><span class="id">' + esc(p.id) + "</span>" + flow("props." + i + ".t", p.t, "命題を自分の言葉で", p.id + " の命題") + del("props", i) + "</div>" +
@@ -787,9 +830,10 @@ if (typeof document !== "undefined") (function () {
             '<div style="margin:0 0 10px">' + chips("props." + i + ".grounds." + j + ".kind", GROUND_KINDS, g.kind, { sm: 1 }) + "</div>").join("") + add("props." + i + ".grounds", "ground", p.id + " の根拠") +
           '<div class="line">' + inp("props." + i + ".arg", p.arg, p.sup === "main" ? "この論証を一言で（〜だから〜。中心の主張は必須）" : "この論証を一言で（〜だから〜）", "", p.id + " の論証") + "</div>")).join("");
       }
-      case "solved": { const qs = liveBy(v.qs); if (!qs.length) return '<div class="help">規則4で問題を足すと、ここに並ぶ。</div>';
-        return qs.map(o => { const r = (v.solved || {})[o.id] || {}, ans = liveBy(v.props).filter(p => p.q === o.id).map(p => p.id);
-          return card(o.id, h(o.t), '<div class="help" style="margin:0 0 6px">答えている命題: ' + (ans.length ? esc(ans.join("、")) : "なし") + "</div>" + chips("solved." + o.id + ".s", SOLVED, r.s, { sm: 1 }) +
+      /* カードは、規則4と同じ並び（主な問い、その従属する問い）。従属する問いには従属先を、型を選んだ問題には型を出す */
+      case "solved": { const qs = qOrder(v).filter(r => txt(r.o.t)); if (!qs.length) return '<div class="help">規則4で問題を足すと、ここに並ぶ。</div>';
+        return qs.map(({ o, main }) => { const r = (v.solved || {})[o.id] || {}, ans = liveBy(v.props).filter(p => p.q === o.id).map(p => p.id), of = [main ? "" : txt(o.parent) + " に従属", txt(o.type) ? "型: " + txt(o.type) : ""].filter(Boolean);
+          return card(o.id, h(o.t), (of.length ? '<div class="help qof" style="margin:0 0 2px">' + of.map(esc).join("・") + "</div>" : "") + '<div class="help" style="margin:0 0 6px">答えている命題: ' + (ans.length ? esc(ans.join("、")) : "なし") + "</div>" + chips("solved." + o.id + ".s", SOLVED, r.s, { sm: 1 }) +
             (r.s && r.s !== "解決した" ? '<div style="margin-top:6px">' + chips("solved." + o.id + ".aware", AWARE, r.aware, { sm: 1, cap: "著者は" }) + "</div>" : "") +
             '<div class="line">' + inp("solved." + o.id + ".why", r.why, "そう見た理由", "", o.id + " をそう見た理由") + "</div>"); }).join("") +
           '<div class="line"><span class="cap">新しく生じた問題</span>' + inp("newq", v.newq, "この本を読んで新しく生じた問題（なければ空）", "", "新しく生じた問題") + "</div>"; }
@@ -952,7 +996,8 @@ if (typeof document !== "undefined") (function () {
     list(app, [...app.childNodes], [...fresh.childNodes], null);
     app.querySelectorAll("input[data-p], textarea[data-p]").forEach(o => { const x = getPath(book.v, o.dataset.p), val = (x == null ? "" : String(x)).replace(/\r\n?/g, "\n"); if (o.value !== val) o.value = val; });
     fitAll();
-    if (m && p && document.activeElement === m.el) { const hits = alike(app, m.el.tagName, { p }), to = hits[m.n] || hits[0];
+    /* 入力中だった欄の部品が、書き換えで取り除かれることもある（規則4の問題の行は、見出しや「足す」のボタンと同じ並びにあり、行がずれると、別の種類の部品に置き換わる）。そのときも、同じ行の欄に置き直して、カーソルの位置を戻す */
+    if (m && p && (document.activeElement === m.el || (act === m.el && !app.contains(m.el)))) { const hits = alike(app, m.el.tagName, { p }), to = hits[m.n] || hits[0];
       if (to) { to.focus({ preventScroll: true }); try { to.setSelectionRange(Math.min(m.start, to.value.length), Math.min(m.end, to.value.length)); } catch (e) {} } }
     else if (had && document.activeElement !== act) refocus(app, tag, want, n);
     progress();
@@ -989,21 +1034,21 @@ if (typeof document !== "undefined") (function () {
     q: v => ({ id: nextId(v, "Q"), t: "", parent: "" }), prop: v => ({ id: nextId(v, "P"), t: "", loc: "", sup: "", q: "", grounds: [], arg: "", judge: "", why: "", self: "", k12: "", k13: "", k14: "", k15: "" }) };
 
   /* 命題・部分・問題の行に、中身があるか。利用者が書いたり選んだりした値が1つでもあれば true（「×」で消す前に確かめる）。
-     番号（id）と、足したときに自動で入る値（部分の「どの部分と」。「独立している」は利用者が選んだ値）だけなら、空として扱う。命題の空の根拠の行、空の区分も数えない */
+     番号（id）と、足したときに自動で入る値（部分の「どの部分と」。「独立している」は利用者が選んだ値。問題の従属先は、行を足した場所で決まる）だけなら、空として扱う。命題の空の根拠の行、空の区分も数えない */
   const anyOf = (o, ks) => ks.some(k => txt(o[k]));
   const BODY = { props: (v, o) => anyOf(o, ["t", "loc", "sup", "q", "arg", "judge", "why", "self", "k12", "k13", "k14", "k15"]) || arr(o.grounds).some(g => g && anyOf(g, ["t", "kind"])),
     parts: (v, o) => anyOf(o, ["t", "role", "link", "sum", "rel"]) || o.to === "none" || liveList(o.subs).length > 0,
-    qs: (v, o) => anyOf(o, ["t", "parent"]) || anyOf((v.solved || {})[o.id] || {}, ["s", "aware", "why"]) };
+    qs: (v, o) => anyOf(o, ["t", "type"]) || anyOf((v.solved || {})[o.id] || {}, ["s", "aware", "why"]) };
   const ALSO = { props: "この命題の根拠、判断、理由、規則10〜15に書いた内容も消える。", parts: "この部分の役割、つながり、概要、受け持つ所、区分も消える。", qs: "規則8に書いた、この問題の解決と理由も消える。" };
 
   /* Enter で進む、行の並び。[欄の data-p の形（1: 並びのパス、2: 何行目）, 1行の中の文字の欄（行のパスに続く部分。進む順）]。プルダウンとボタンは飛ばす。
-     ここにない欄（統一の文、主題、論証の一言、言い直しと例、規則8の理由、規則10〜15の欄など）は、行の並びに属さない */
+     ここにない欄（統一の文、主題、論証の一言、言い直しと例、規則8の理由、規則10〜15の欄など）は、行の並びに属さない。問題（qs）の次の行は、表示の並びで決める（keydown の中） */
   const ENTER_ROWS = [[/^(points)\.(\d+)\.(?:what|how)$/, [".what", ".how"]], [/^(unclear)\.(\d+)$/, [""]], [/^(terms)\.(\d+)\.(?:w|m|p)$/, [".w", ".m", ".p"]], [/^(parts)\.(\d+)\.(?:t|sum|rel)$/, [".t", ".sum", ".rel"]],
     [/^(parts\.\d+\.subs)\.(\d+)$/, [""]], [/^(qs)\.(\d+)\.t$/, [".t"]], [/^(props)\.(\d+)\.(?:t|loc)$/, [".t", ".loc"]], [/^(props\.\d+\.grounds)\.(\d+)\.t$/, [".t"]]];
 
   $("app").addEventListener("click", e => {
     const b = e.target.closest("button[data-a]"); if (!b) return;
-    const book = cur(), v = book.v, d = b.dataset, p = d.p; let focus = null, pushed;
+    const book = cur(), v = book.v, d = b.dataset, p = d.p, tail = d.tpl === "q" ? ".t" : ""; let focus = null, pushed;
     /* 描き直したあとにフォーカスを置く部品。押したボタンと同じ働きのボタン。行を消す・動かす・読了を入れ替えるときは、下で変える。
        フォーカスが #app の外にあるときは、動かさない */
     const app = $("app"), had = app.contains(document.activeElement), n = alike(app, "BUTTON", d).indexOf(b); let want = Object.assign({}, d);
@@ -1012,10 +1057,15 @@ if (typeof document !== "undefined") (function () {
       case "tog": { const s = new Set(arr(getPath(v, p))); s.has(d.val) ? s.delete(d.val) : s.add(d.val); setPath(v, p, [...s]); break; }
       case "flip": setPath(v, p, !getPath(v, p)); break;
       case "alt": { const m = v._alt && typeof v._alt === "object" ? v._alt : (v._alt = {}); if (m[p] === true) delete m[p]; else m[p] = true; break; } /* 欄の内容（v[p]）には触らない */
-      case "push": { let a = getPath(v, p); if (!Array.isArray(a)) { a = []; setPath(v, p, a); } a.push(TPL[d.tpl](v)); focus = p + "." + (a.length - 1); pushed = a[a.length - 1]; break; }
+      /* 「＋ Q1 に従属する問い」（data-parent がある）は、足す問題の従属先を、その主な問いにする。問題は、表示の並びと保存の並びが違うので、足した行の文の欄（.t）を名指しする */
+      case "push": { let a = getPath(v, p); if (!Array.isArray(a)) { a = []; setPath(v, p, a); } pushed = TPL[d.tpl](v); if (d.parent != null && isObj(pushed)) pushed.parent = d.parent; a.push(pushed); focus = p + "." + (a.length - 1) + tail; break; }
       case "del": { const a = getPath(v, p), row = a[+d.i];
         /* 中身のある命題・部分・問題は、消す前に確かめる。やめたら、何も変えず、描き直さない（フォーカスは、押した「×」に残る） */
-        if (BODY[p] && row && BODY[p](v, row) && !confirm(txt(row.id) + "「" + txt(row.t) + "」を消す。" + ALSO[p])) return;
+        /* 従属する問いのある主な問いを消すと、従属する問いは残る。この問いを従属先にしていた問いは、従属先がなくなって、主な問いになる。そのことを、確認の文に足す */
+        const kids = p === "qs" && row ? qOrder(v).filter(r => r.o !== row && parentOf(v, r.o) === row.id).map(r => txt(r.o.id)) : [];
+        if (BODY[p] && row && BODY[p](v, row) && !confirm(txt(row.id) + "「" + txt(row.t) + "」を消す。" + ALSO[p] + (kids.length ? "従属する問い（" + kids.join("、") + "）は消えずに残り、主な問いになる。" : ""))) return;
+        /* 問題は、表示の並びで次の行（なければ前の行）を控える（保存の並びで隣の行は、離れた所に出ていることがある） */
+        const shown = p === "qs" ? qOrder(v).map(r => r.o) : [], near = shown[shown.indexOf(row) + 1] || shown[shown.indexOf(row) - 1];
         /* 番号のない一覧（用語、要点、根拠、区分）の行を消すと、後ろの行の位置がずれる。ほかのタブが行を取り違えないよう、印を付ける */
         if (!BODY[p]) cut(listName(book, p));
         const gone = a.splice(+d.i, 1)[0];
@@ -1023,11 +1073,14 @@ if (typeof document !== "undefined") (function () {
         if (p === "parts" && gone) arr(v.parts).forEach(o => { if (o.to === gone.id) { o.to = ""; o.link = ""; } });
         if (p === "qs" && gone) { arr(v.props).forEach(o => { if (o.q === gone.id) o.q = ""; }); if (v.solved) delete v.solved[gone.id]; }
         /* 次の行（同じ位置に来る）の「×」。次がなければ前の行の「×」。行がなくなったら、その欄の「足す」 */
-        want = a.length ? { a: "del", p, i: String(Math.min(+d.i, a.length - 1)) } : { a: "push", p };
+        want = a.length ? { a: "del", p, i: String(near && a.includes(near) ? a.indexOf(near) : Math.min(+d.i, a.length - 1)) } : { a: "push", p };
         /* マウスやタッチで押したとき（detail が 1 以上）は、どこにも置かない。隣の「×」に置くと、続くキーでその行が消える */
         if (e.detail > 0) want = null;
         break; }
-      case "up": case "down": { const a = getPath(v, p), i = +d.i, j = d.a === "up" ? i - 1 : i + 1; if (j >= 0 && j < a.length) { const t = a[i]; a[i] = a[j]; a[j] = t; want.i = String(j); } break; }
+      /* 問題の「↑」「↓」は、同じ主な問いの下の、従属する問いの並びの中で入れ替える（v.qs の中で、2つの行の位置を取り替える。あいだにあるほかの行は動かない）。端では動かない */
+      case "up": case "down": { const a = getPath(v, p), i = +d.i; let j = d.a === "up" ? i - 1 : i + 1;
+        if (p === "qs") { const sibs = (qTree(v).find(m => m.subs.some(s => s.i === i)) || { subs: [] }).subs.map(s => s.i), k = sibs.indexOf(i) + (d.a === "up" ? -1 : 1); j = k >= 0 && k < sibs.length ? sibs[k] : -1; }
+        if (j >= 0 && j < a.length) { const t = a[i]; a[i] = a[j]; a[j] = t; want.i = String(j); } break; }
       case "skip": book.skip[d.r] = !book.skip[d.r]; break;
       case "help": openHelp.has(d.id) ? openHelp.delete(d.id) : openHelp.add(d.id); break;
       case "finish": book.meta.finished = today(); want = { a: "unfinish" }; break;
@@ -1039,7 +1092,7 @@ if (typeof document !== "undefined") (function () {
     /* 保存の直前に、ほかのタブの保存を取り込むと、いま足した行の位置がずれることがある（ほかのタブが足した行が前に入る。一覧を持つ命題や部分が、前の行を消されて上へずれる）。
        一覧のいまの場所（pathNow）と、その中の足した行のいまの位置を探し直す（番号のある行と用語・根拠は、同じオブジェクトを探す。文字の一覧では、このタブが足した行は末尾にある） */
     const at = focus ? traceOf(v, p) : null;
-    if (save() && focus) { const p2 = pathNow(at) || p, a = arr(getPath(v, p2)), j = isObj(pushed) ? a.indexOf(pushed) : a.length - 1; if (j >= 0) focus = p2 + "." + j; }
+    if (save() && focus) { const p2 = pathNow(at) || p, a = arr(getPath(v, p2)), j = isObj(pushed) ? a.indexOf(pushed) : a.length - 1; if (j >= 0) focus = p2 + "." + j + tail; }
     const sec = b.closest("section"), secId = sec && sec.id, y = window.scrollY;
     render(); window.scrollTo(0, y);
     if (focus && secId) { const s = document.getElementById(secId); const el = s && s.querySelector('[data-p^="' + focus + '"]'); if (el) el.focus(); }
@@ -1088,6 +1141,10 @@ if (typeof document !== "undefined") (function () {
     const p = e.target.dataset.p || "", row = ENTER_ROWS.map(r => [r[0].exec(p), r[1]]).find(r => r[0]), holder = e.target.closest(".item"); if (!row || !holder) return;
     const lp = row[0][1], i = +row[0][2], fields = row[1], at = fields.indexOf(p.slice((lp + "." + i).length));
     const find = q => [...holder.querySelectorAll("input[data-p], textarea.flow[data-p]")].find(o => o.dataset.p === q);
+    /* 問題は、同じ並び（主な問いの並び、または同じ主な問いの従属する問いの並び）の次の行へ進む。並びの最後では、その並びの行を足すボタンを押す */
+    if (lp === "qs") { const tree = qTree(cur().v), own = tree.find(m => m.subs.some(s => s.i === i)), rows = own ? own.subs : tree, k = rows.findIndex(r => r.i === i), nx = k < 0 ? null : rows[k + 1];
+      const to = nx ? find("qs." + nx.i + ".t") : k < 0 ? null : [...holder.querySelectorAll('button[data-a="push"]')].find(o => o.dataset.p === "qs" && (own ? o.dataset.parent === own.o.id : o.dataset.parent == null));
+      if (to) { if (nx) to.focus(); else to.click(); } return; }
     const next = at < fields.length - 1 ? find(lp + "." + i + fields[at + 1]) : find(lp + "." + (i + 1) + fields[0]);
     if (next) { next.focus(); return; }
     const btn = at === fields.length - 1 && [...holder.querySelectorAll('button[data-a="push"]')].find(o => o.dataset.p === lp);

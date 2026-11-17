@@ -298,12 +298,7 @@ test("プルダウンを文字のキーで変えても、フォーカスが残�
   expect((await current(page)).v.props[2].sup).toBe("P1");
   await press(page, "P", y2, SEL, { p: "props.2.sup" });
   expect((await current(page)).v.props[2].sup).toBe("P2");
-  // 問題 Q2 の「従属」
-  const y3 = await put(page, page.locator('select[data-p="qs.1.parent"]'));
-  await press(page, "Q", y3, SEL, { p: "qs.1.parent" });
-  expect((await current(page)).v.qs[1].parent).toBe("Q1");
-  await press(page, "Q", y3, SEL, { p: "qs.1.parent" });
-  expect((await current(page)).v.qs[1].parent).toBe("Q3");
+  // 問題の「従属」のプルダウンは、なくなった（#77。主か従かは、行を足す場所で決まる）。問題の型のプルダウンにフォーカスが残ることは、questions.spec.js で確かめる
 });
 
 test("部分の「どの部分と」を変えて、隣に「どうつながる」のプルダウンが出ても、変えたプルダウンにフォーカスが残る", async ({ page }) => {
