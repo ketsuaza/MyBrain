@@ -32,8 +32,9 @@ async function savedMarkdown(page) {
   const [uri] = await page.evaluate(() => window.__opened);
   return new URL(uri).searchParams.get("content");
 }
-/* 「読み込む」に text を貼って、読み込む。出たメッセージ（alert）を alerts に集める */
-function watchAlerts(page) { const alerts = []; page.on("dialog", d => { alerts.push(d.message()); d.accept(); }); return alerts; }
+/* 「読み込む」に text を貼って、読み込む。出たメッセージ（alert）を alerts に集める。
+   中身を変えた同じ本を置き換える前の確認（confirm。#59）は、メッセージには数えず、受ける */
+function watchAlerts(page) { const alerts = []; page.on("dialog", d => { if (d.type() !== "confirm") alerts.push(d.message()); d.accept(); }); return alerts; }
 async function paste(page, text) {
   await page.click("#btnImport");
   await page.locator("#formImport textarea").fill(text);

@@ -15,7 +15,7 @@ function evil() {
   const prop = (id, t, sup, judge) => ({ id, t, loc: "1章", sup, q: Q1, grounds: [{ t: "根拠A", kind: X("gkind") }], arg: "", judge, why: "", self: "", k12: "", k13: "", k14: "", k15: "" });
   return { id: X("book"), meta: { title: "エスケープのテスト", author: "", publisher: "", published: "", isbn: "", booklist_no: "", started: "2026-11-15", finished: "" }, skip: {},
     v: { _n: { S: 3, Q: 3, P: 3 }, purpose: "テスト用の目的", budget: X("budget"), judge: "分析読書へ進む", kind: "理論書", ksub: X("ksub"), subject: "テスト", unity: { what: "学問", claim: "学べ" }, unityA: { what: "学問", claim: "学べ" }, unity2: X("unity2"),
-      terms: [{ w: "用語A", m: "意味", p: "1", g: true }], points: ["要点A"], unclear: ["分からない語A"], stance: X("stance"),
+      terms: [{ w: "用語A", m: "意味", p: "1", g: true }], points: [{ what: "要点A", how: "" }], unclear: ["分からない語A"], stance: X("stance"),
       parts: [part(S1, "第1部", ""), part(S2, "第2部", S1), part("S3", "第3部", X("to"))],
       qs: [{ id: Q1, t: "問いの一", parent: "" }, { id: Q2, t: "問いの二", parent: Q1 }, { id: "Q3", t: "問いの三", parent: X("parent") }],
       solved: { [Q1]: { s: X("solved"), aware: X("aware"), why: "" }, [Q2]: { s: "一部", aware: "", why: "" } },
@@ -51,12 +51,14 @@ test("id、判定、選択の値にタグと引用符を入れた state を読�
   await expect(ruleItem(page, 9)).toContainText("中心の主張 " + P1 + ": テスト用の命題1");
   await expect(ruleItem(page, 11).locator(".card").first()).toContainText("テスト用の命題1 — " + X("judge"));
   // 名前（aria-label）にも、そのまま入る
-  await expect(ruleItem(page, 6).locator('input[data-p="props.0.t"]')).toHaveAttribute("aria-label", P1 + " の命題");
-  await expect(ruleItem(page, 4).locator('select[data-p="qs.1.parent"]')).toHaveAttribute("aria-label", Q2 + " の従属先");
+  await expect(ruleItem(page, 6).locator('[data-p="props.0.t"]')).toHaveAttribute("aria-label", P1 + " の命題");
+  await expect(ruleItem(page, 4).locator('select[data-p="qs.1.type"]')).toHaveAttribute("aria-label", Q2 + " の問いの型");
   // 相手を指すプルダウンの選択肢にも、文字として出る
   await expect(ruleItem(page, 6).locator('select[data-p="props.1.sup"]')).toHaveValue(P1);
   await expect(ruleItem(page, 6).locator('select[data-p="props.1.sup"] option:checked')).toHaveText(P1 + " を支える");
-  await expect(ruleItem(page, 4).locator('select[data-p="qs.1.parent"]')).toHaveValue(Q1);
+  // 問題の従属先は、プルダウンではなく、主な問いの下の並びと、行を足すボタンに出る（#77）
+  await expect(ruleItem(page, 4).locator(".qrow.sub .rule")).toHaveText([Q2]);
+  await expect(ruleItem(page, 4).locator('button[data-a="push"][data-parent]').first()).toHaveText("＋ " + Q1 + " に従属する問い");
   await expect(ruleItem(page, 3).locator('select[data-p="parts.1.to"]')).toHaveValue(S1);
   // Markdown にも、そのままの文字で出る
   const md = await page.evaluate(() => window.__dokusho.toMarkdown(window.__dokusho.current()));
@@ -75,7 +77,7 @@ test("そのあとボタンを押し、文字を打ち、プルダウンを変�
   await card.locator("input").fill("理由を書いた");
   expect((await current(page)).v.solved[Q1].why).toBe("理由を書いた");
   // 文字の入力（入力のたびの描き直し）
-  const t = ruleItem(page, 6).locator('input[data-p="props.1.t"]');
+  const t = ruleItem(page, 6).locator('[data-p="props.1.t"]');
   await t.click();
   await t.evaluate(el => el.setSelectionRange(el.value.length, el.value.length));
   await page.keyboard.type("を直す");
@@ -93,7 +95,7 @@ test("そのあとボタンを押し、文字を打ち、プルダウンを変�
   // 「×」、「やらない」、行の追加
   await ruleItem(page, 4).locator('button[data-a="del"][data-i="2"]').click();
   await ruleItem(page, 9).locator('button[data-a="skip"]').click();
-  await ruleItem(page, 6).getByRole("button", { name: "＋ 命題を足す" }).click();
+  await ruleItem(page, 6).getByRole("button", { name: "＋ 命題", exact: true }).click();
   await expectInert(page, "行を消して、足したあと");
   // 本の選択で、ほかの本に切り替えて、戻れる
   const other = await page.locator("#bookSel option").evaluateAll((os, id) => os.map(o => o.value).find(v => v !== id), book.id);

@@ -18,7 +18,7 @@ function base(over) {
 async function setup(page, over) {
   await openTool(page);
   await importState(page, base(over));
-  await expect(page.locator("#sec-a2 input[data-p='props.2.t']")).toHaveValue("テスト用の命題3");
+  await expect(page.locator("#sec-a2 [data-p='props.2.t']")).toHaveValue("テスト用の命題3");
 }
 /* 欄を押してフォーカスを入れ、あとで同じ部品かどうかを見分けられるよう、印を付ける */
 async function enter(loc) {
@@ -63,10 +63,10 @@ test("規則3を打って埋めると、規則2の「このままでよい」「
   const ok = r2.locator('button[data-p="unity2"][data-val="このままでよい"]'), fixed = r2.locator('button[data-p="unity2"][data-val="直した"]');
   await expect(ok).toBeDisabled();
   await expect(r2).toContainText("規則3を埋めてから");
-  await enter(r3.locator('input[data-p="parts.0.sum"]'));
+  await enter(r3.locator('[data-p="parts.0.sum"]'));
   await page.keyboard.type("概要1");
   await expect(ok).toBeDisabled();
-  await enter(r3.locator('input[data-p="parts.1.sum"]'));
+  await enter(r3.locator('[data-p="parts.1.sum"]'));
   await page.keyboard.type("概要2");
   await expect(ok).toBeEnabled();
   await expect(fixed).toBeEnabled();
@@ -84,8 +84,8 @@ test("規則6で命題の文を書き換えると、規則7の図とカード、
   const cardOf = (r, pid) => ruleItem(page, r).locator(".card").filter({ has: page.locator(".id", { hasText: new RegExp("^" + pid + "$") }) });
   await expect(r7.locator(".chain")).toContainText("P1 テスト用の命題1");
   // P1（中心の主張、反対）の文の、2文字目のあとに打つ
-  await enter(r6.locator('input[data-p="props.0.t"]'));
-  await caret(r6.locator('input[data-p="props.0.t"]'), 2);
+  await enter(r6.locator('[data-p="props.0.t"]'));
+  await caret(r6.locator('[data-p="props.0.t"]'), 2);
   await page.keyboard.type("XYZ");
   const t1 = "テスXYZト用の命題1";
   expect(await active(page)).toEqual({ same: true, p: "props.0.t", value: t1, start: 5, end: 5 });
@@ -99,14 +99,14 @@ test("規則6で命題の文を書き換えると、規則7の図とカード、
   for (const r of [12, 13, 14]) await expect(cardOf(r, "P1").locator(".ro")).toHaveText(t1 + " — 反対");
   await expect(page.locator("#sec-checkout dl.sum dd").nth(1)).toContainText("P1 " + t1);
   // P3（判断保留）の文の末尾に打つ
-  await enter(r6.locator('input[data-p="props.2.t"]'));
-  await caret(r6.locator('input[data-p="props.2.t"]'));
+  await enter(r6.locator('[data-p="props.2.t"]'));
+  await caret(r6.locator('[data-p="props.2.t"]'));
   await page.keyboard.type("Q");
   await expect(cardOf(15, "P3").locator(".ro")).toHaveText("テスト用の命題3Q — 判断保留");
   await expect(cardOf(11, "P3").locator(".ro")).toHaveText("テスト用の命題3Q — 判断保留");
   // P2 の文を全部消すと、P2 のカードと、規則8の「答えている命題」から消える。打ち直すと戻る
   await expect(cardOf(8, "Q1")).toContainText("答えている命題: P1、P2");
-  const p2 = r6.locator('input[data-p="props.1.t"]');
+  const p2 = r6.locator('[data-p="props.1.t"]');
   await enter(p2);
   await page.keyboard.press("ControlOrMeta+a");
   await page.keyboard.press("Backspace");
@@ -127,7 +127,7 @@ test("サンプルの命題を1文字書き換えると、ファクトチェッ�
   const fc = ruleItem(page, 9).locator(".fc").first();
   await expect(fc).toBeVisible();
   await expect(fc).not.toContainText("そのあと命題が書き換えられた");
-  const t = ruleItem(page, 6).locator('input[data-p="props.0.t"]');
+  const t = ruleItem(page, 6).locator('[data-p="props.0.t"]');
   const before = await t.inputValue();
   await enter(t);
   await caret(t);
@@ -143,7 +143,7 @@ test("用語を足して打つと、チェックアウトの「用語集に入�
   await setup(page);
   const gloss = page.locator("#sec-checkout .item").filter({ hasText: "用語集に入れる語" });
   await expect(gloss).toContainText("用語を挙げると、ここから選べる。");
-  await page.locator("#sec-shitayomi").getByRole("button", { name: "＋ 用語を足す" }).click();
+  await page.locator("#sec-shitayomi").getByRole("button", { name: "＋ 用語", exact: true }).click();
   const w = page.locator('#sec-shitayomi input[data-p="terms.0.w"]');
   await enter(w);
   await page.keyboard.type("用語A");
@@ -198,8 +198,8 @@ test("ほかの表示も打ったその場で変わる: 分からなかった所
   await expect(ruleItem(page, 5)).toContainText("分からない語AB");
   await expect(ruleItem(page, 6)).toContainText("分からない語AB");
   // 規則4の問題の文 → 規則6の「答える問題」の選択肢と、規則8のカード
-  await enter(ruleItem(page, 4).locator('input[data-p="qs.0.t"]'));
-  await caret(ruleItem(page, 4).locator('input[data-p="qs.0.t"]'));
+  await enter(ruleItem(page, 4).locator('[data-p="qs.0.t"]'));
+  await caret(ruleItem(page, 4).locator('[data-p="qs.0.t"]'));
   await page.keyboard.type("C");
   const q = ruleItem(page, 6).locator('select[data-p="props.0.q"]');
   await expect(q.locator('option[value="Q1"]')).toHaveText("Q1 問いの一C");
@@ -249,16 +249,16 @@ test("あちこちの欄に打ったあとの画面は、同じ内容を開き�
   });
   const type = async (loc, text, at) => { await enter(loc); await caret(loc, at); await page.keyboard.type(text); };
   await type(ruleItem(page, 9).locator('input[data-p="restate.ex"]'), "たとえば");
-  await type(ruleItem(page, 6).locator('input[data-p="props.0.t"]'), "<b>&\"'", 3);
+  await type(ruleItem(page, 6).locator('[data-p="props.0.t"]'), "<b>&\"'", 3);
   await type(ruleItem(page, 3).locator('input[data-p="parts.0.t"]'), "の名前");
-  await type(ruleItem(page, 3).locator('input[data-p="parts.0.sum"]'), "概要1");
-  await type(ruleItem(page, 3).locator('input[data-p="parts.1.sum"]'), "概要2");
-  await type(ruleItem(page, 4).locator('input[data-p="qs.1.t"]'), "の続き");
+  await type(ruleItem(page, 3).locator('[data-p="parts.0.sum"]'), "概要1");
+  await type(ruleItem(page, 3).locator('[data-p="parts.1.sum"]'), "概要2");
+  await type(ruleItem(page, 4).locator('[data-p="qs.1.t"]'), "の続き");
   await type(page.locator('#sec-hyomen input[data-p="unclear.0"]'), "B");
   await type(ruleItem(page, 10).locator('input[data-p="props.0.self"]'), "読み違い");
   await type(ruleItem(page, 15).locator('input[data-p="props.2.k15"]'), "説明が足りない");
   await type(page.locator('#sec-checkout textarea[data-p="memo"]'), "メモ");
-  const p2 = ruleItem(page, 6).locator('input[data-p="props.1.t"]');
+  const p2 = ruleItem(page, 6).locator('[data-p="props.1.t"]');
   await enter(p2);
   await page.keyboard.press("ControlOrMeta+a");
   await page.keyboard.press("Backspace");
@@ -268,7 +268,7 @@ test("あちこちの欄に打ったあとの画面は、同じ内容を開き�
   await expect(page.locator("#app b", { hasText: /^&/ })).toHaveCount(0);
   const typed = await snapshot();
   await page.reload();
-  await expect(page.locator("#sec-a2 input[data-p='props.2.t']")).toHaveValue("テスト用の命題3");
+  await expect(page.locator("#sec-a2 [data-p='props.2.t']")).toHaveValue("テスト用の命題3");
   expect(typed).toBe(await snapshot());
 });
 
@@ -339,9 +339,9 @@ test.describe("390px の幅", () => {
     const r2 = ruleItem(page, 2), r3 = ruleItem(page, 3), r9 = ruleItem(page, 9);
     expect(await overflow(page), "入力の前に横にはみ出した幅（px）").toBeLessThanOrEqual(0);
     // 規則3（下）を埋めると、規則2（上）の注意が消えて、上の高さが変わる
-    await enter(r3.locator('input[data-p="parts.0.sum"]'));
+    await enter(r3.locator('[data-p="parts.0.sum"]'));
     await page.keyboard.type("概要1");
-    const sum = r3.locator('input[data-p="parts.1.sum"]');
+    const sum = r3.locator('[data-p="parts.1.sum"]');
     await enter(sum);
     const h0 = (await r2.boundingBox()).height;
     const top = () => sum.evaluate(el => el.getBoundingClientRect().top);
@@ -364,7 +364,7 @@ test.describe("390px の幅", () => {
     await expect(r9.locator('button[data-p$=".judge"]')).toHaveCount(9);
     await expect(ex).toBeInViewport();
     expect(await overflow(page), "賛否のボタンが出たあとに横にはみ出した幅（px）").toBeLessThanOrEqual(0);
-    const t = ruleItem(page, 6).locator('input[data-p="props.0.t"]');
+    const t = ruleItem(page, 6).locator('[data-p="props.0.t"]');
     await enter(t);
     await caret(t);
     await page.keyboard.type("を長くした文".repeat(8));

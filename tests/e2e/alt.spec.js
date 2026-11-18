@@ -27,7 +27,7 @@ async function writeUnclear(page) {
   await item(page, "判定").getByRole("button", { name: "表面読みへ進む", exact: true }).click();
   const it = item(page, "分からなかった所");
   for (const [i, row] of ROWS.entries()) {
-    await it.getByRole("button", { name: "＋ 足す" }).click();
+    await it.getByRole("button", { name: "＋ 分からなかった所", exact: true }).click();
     await it.locator('input[type="text"]').nth(i).fill(row);
   }
   return it;
@@ -57,7 +57,7 @@ test("「分からなかった所」に2行書いて「なかった」を押し�
   await btn.click();
   await expect(btn).toHaveClass(/on/);
   await expect(it.locator('input[type="text"]')).toHaveCount(0);
-  await expect(it.getByRole("button", { name: "＋ 足す" })).toHaveCount(0);
+  await expect(it.getByRole("button", { name: "＋ 分からなかった所", exact: true })).toHaveCount(0);
   const md = await markdown(page);
   expect(md).toContain("- 分からなかった所: なかった\n");
   for (const row of ROWS) expect(visible(md), "隠れている行は Markdown の本文に出ない").not.toContain(row);
@@ -193,6 +193,7 @@ test("「ない」にした本を保存した Markdown を読み込み直すと�
   await altBtn(page, "やること", "やらない").click();
   expect(await current(page)).not.toEqual(saved);
 
+  page.once("dialog", d => d.accept()); // 中身を変えた同じ本を置き換える前の確認（#59）を受ける
   await page.click("#btnImport");
   await page.locator("#formImport textarea").fill(md);
   await page.locator("#formImport").getByRole("button", { name: "読み込む" }).click();

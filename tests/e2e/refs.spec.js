@@ -49,7 +49,7 @@ const overflow = page => page.evaluate(() => document.documentElement.scrollWidt
 
 test("命題: 支える相手の文を空にすると、位置づけが未選択に見え、Markdown に参照が出ず、規則6の「済み」が外れる。書き直すと元に戻る", async ({ page }) => {
   await setup(page);
-  const item = ruleItem(page, 6), sup = item.locator('select[data-p="props.2.sup"]'), p2 = item.locator('input[data-p="props.1.t"]');
+  const item = ruleItem(page, 6), sup = item.locator('select[data-p="props.2.sup"]'), p2 = item.locator('[data-p="props.1.t"]');
   const full = ["- P1 テスト用の命題 P1（中心の主張）〔Q1 に答える〕［1章］", "- P2 テスト用の命題 P2（P1 を支える）〔Q2 に答える〕［1章］", "- P3 テスト用の命題 P3（P2 を支える）〔Q1 に答える〕［1章］"];
   const emptied = [full[0], "- P3 テスト用の命題 P3〔Q1 に答える〕［1章］"];
   const expectEmptied = async when => {
@@ -123,9 +123,11 @@ test("部分: つながる相手の名前を空にすると、「どの部分と
 
 test("問題: 文を空にした問題への「答える問題」と「従属」も、未選択として扱う。書き直すと元に戻る", async ({ page }) => {
   await setup(page);
-  const q1 = ruleItem(page, 4).locator('input[data-p="qs.0.t"]'), parent = ruleItem(page, 4).locator('select[data-p="qs.1.parent"]'), ans = ruleItem(page, 6).locator('select[data-p="props.0.q"]');
+  const q1 = ruleItem(page, 4).locator('[data-p="qs.0.t"]'), ans = ruleItem(page, 6).locator('select[data-p="props.0.q"]');
+  // 主か従かは、規則4の行の並びに出る（#77。従属先のプルダウンはない）
+  const shown = () => ruleItem(page, 4).locator(".qrow").evaluateAll(els => els.map(el => el.querySelector(".rule").textContent + (el.classList.contains("sub") ? " 従" : " 主")));
   const expectFull = async when => {
-    await expect(parent, when + ": 従属のプルダウン").toHaveValue("Q1");
+    expect(await shown(), when + ": 規則4の並び").toEqual(["Q1 主", "Q2 従", "Q3 従"]);
     await expect(ans, when + ": 答える問題のプルダウン").toHaveValue("Q1");
     expect(await mdRule(page, 4), when + ": Markdown の規則4").toEqual(["- Q1 問いの一（主な問い）", "- Q2 問いの二（Q1 に従属）", "- Q3 問いの三（Q1 に従属）"]);
     expect((await mdRule(page, 6))[0], when + ": Markdown の規則6").toBe("- P1 テスト用の命題 P1（中心の主張）〔Q1 に答える〕［1章］");
@@ -134,8 +136,7 @@ test("問題: 文を空にした問題への「答える問題」と「従属」
   await expectFull("はじめ");
   await retype(page, q1, "");
   const expectEmptied = async when => {
-    await expect(parent, when + ": 従属のプルダウン").toHaveValue("");
-    await expect(parent.locator("option:checked")).toHaveText("主な問い");
+    expect(await shown(), when + ": 規則4の並び").toEqual(["Q1 主", "Q2 主", "Q3 主"]);
     await expect(ans, when + ": 答える問題のプルダウン").toHaveValue("");
     await expect(ans.locator("option:checked")).toHaveText("なし");
     expect(await mdRule(page, 4), when + ": Markdown の規則4").toEqual(["- Q2 問いの二（主な問い）", "- Q3 問いの三（主な問い）"]);
@@ -170,6 +171,7 @@ test("読み込んだ読書メモで、相手の文が空の参照や、相手�
 });
 
 test("これまでどおり: 「×」で消したときは、参照を外す（命題、部分、問題）", async ({ page }) => {
+  page.on("dialog", d => d.accept()); // 中身のある命題・部分・問題を消す前の確認（#61）を受ける
   await setup(page);
   await ruleItem(page, 6).locator('button[data-a="del"][data-p="props"][data-i="1"]').click();
   await ruleItem(page, 3).locator('button[data-a="del"][data-p="parts"][data-i="1"]').click();

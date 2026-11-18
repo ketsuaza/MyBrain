@@ -16,7 +16,7 @@ async function setup(page, over) { await openTool(page); await importState(page,
 const fillP = (page, p, v) => page.locator(`[data-p="${p}"]`).first().fill(v);
 const chip = (page, p, val) => page.locator(`#sec-a1 button[data-p="${p}"][data-val="${val}"], #sec-a2 button[data-p="${p}"][data-val="${val}"], #sec-a3 button[data-p="${p}"][data-val="${val}"], #sec-a4 button[data-p="${p}"][data-val="${val}"]`).click();
 
-test("規則1: 「まだ分からない」では済みにならず、理論書は歴史・科学・哲学を選ぶ。文学と実践書には注意が出る", async ({ page }) => {
+test("規則1: 「まだ分からない」では済みにならず、理論書は歴史・科学・哲学を選ぶ。文学と実践書の注意は出ない（issue #73）", async ({ page }) => {
   await setup(page);
   const item = ruleItem(page, 1);
   await fillP(page, "subject", "教育");
@@ -28,10 +28,12 @@ test("規則1: 「まだ分からない」では済みにならず、理論書�
   await chip(page, "ksub", "哲学");
   expect((await done(page))[1]).toBe(true);
   await chip(page, "kind", "文学");
-  await expect(item).toContainText("文学には、分析読書の規則がそのままは当てはまらない");
+  await expect(item.locator('button[data-p="kind"][data-val="文学"]')).toHaveAttribute("aria-pressed", "true");
+  await expect(item).not.toContainText("文学には、分析読書の規則がそのままは当てはまらない");
   await chip(page, "kind", "実践書");
-  await expect(item).toContainText("著者は読者に何をさせたいか");
-  await expect(ruleItem(page, 4)).toContainText("著者は読者に何をさせたいか");
+  await expect(item.locator('button[data-p="kind"][data-val="実践書"]')).toHaveAttribute("aria-pressed", "true");
+  await expect(item).not.toContainText("著者は読者に何をさせたいか");
+  await expect(ruleItem(page, 4)).not.toContainText("著者は読者に何をさせたいか");
 });
 
 test("規則2: 下読みの答えとは別に持ち、規則3を埋めるまでは確かめられない", async ({ page }) => {
@@ -66,18 +68,24 @@ test("規則3: 部分ごとに概要が要り、統一の文のどこを受け�
   await shot(page, "10-rule3-outline", item);
 });
 
+// 主か従かは、行を足す場所で決まる（#77。従属先のプルダウンはない）。画面からは、主な問いのない状態（従属先の循環）を作れなくなったので、
+// 「主な問いがない」は、文のある主な問いがない状態（問いの文が全部空）で確かめる。循環を含む前の読書メモの扱いは、questions.spec.js で確かめる
 test("規則4: 主な問いと従属する問いを分け、主な問いがないと済みにならない。問いの型が説明に出る", async ({ page }) => {
   await setup(page);
   const item = ruleItem(page, 4);
-  await expect(item.locator('select[data-p="qs.1.parent"] option[value="Q1"]')).toHaveText("Q1 に従属");
-  await item.locator('select[data-p="qs.1.parent"]').selectOption("Q1");
+  await expect(item.locator('select[data-p$=".parent"]')).toHaveCount(0);
+  await item.getByRole("button", { name: "＋ Q1 に従属する問い", exact: true }).click();
+  await page.keyboard.type("問いの三");
+  expect((await current(page)).v.qs[2]).toEqual({ id: "Q3", t: "問いの三", parent: "Q1" });
+  await expect(item.locator(".qrow.sub .rule")).toHaveText(["Q3"]);
+  await expect(item.locator(".qrow:not(.sub) .rule")).toHaveText(["Q1", "Q2"]);
   expect((await done(page))[4]).toBe(true);
-  await item.locator('select[data-p="qs.1.parent"]').selectOption("");
-  await item.locator('select[data-p="qs.0.parent"]').selectOption("Q2");
-  await item.locator('select[data-p="qs.1.parent"]').selectOption("Q1");
+  for (const i of [0, 1, 2]) await item.locator(`[data-p="qs.${i}.t"]`).fill("");
   expect((await done(page))[4], "主な問いがない").toBe(false);
+  await item.locator('[data-p="qs.2.t"]').fill("問いの三");
+  expect((await done(page))[4], "従属先（Q1）の文が空の問いは、主な問いとして扱う").toBe(true);
   await item.locator('button[data-a="help"]').click();
-  await expect(item.locator(".help").first()).toContainText("存在、種類、原因、目的、結果、特性、関係");
+  await expect(item.locator(".help").first()).toContainText("存在、種類、原因、条件、目的、結果、特性、関係、ふるまい");
 });
 
 test("規則5・6: 表面読みの分からなかった所が出て、命題には文の場所が要る", async ({ page }) => {
@@ -145,6 +153,7 @@ test("規則9: 規則1〜8の済み具合が出て、言い直しと例を書く
 test("規則10〜15: 反対には自分の側の誤りの検討と規則12〜14のどれかが、判断保留には規則15が、どの判断にも根拠が要る", async ({ page }) => {
   await setup(page, { });
   const b = base(); b.v.restate = { s: "つまり", ex: "たとえば" };
+  page.once("dialog", d => d.accept()); // 中身を変えた同じ本を置き換える前の確認（#59）を受ける
   await importState(page, b);
   await chip(page, "props.0.judge", "賛成");
   await chip(page, "props.1.judge", "反対");

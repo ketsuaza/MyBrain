@@ -30,8 +30,8 @@ test("サンプルの命題ごとに、判定・説明・出典・確認日が�
 
 test("命題を書き換えると、結果は「書き換える前の文に対するもの」と出る", async ({ page }) => {
   await openTool(page);
-  await ruleItem(page, 6).locator('input[data-p="props.0.t"]').fill("書き換えた命題");
-  await ruleItem(page, 6).locator('input[data-p="props.0.t"]').blur();
+  await ruleItem(page, 6).locator('[data-p="props.0.t"]').fill("書き換えた命題");
+  await ruleItem(page, 6).locator('[data-p="props.0.t"]').blur();
   await page.locator('#sec-a3 button[data-p="props.1.judge"][data-val="賛成"]').first().click(); // 画面を描き直す
   await page.locator('#sec-a3 button[data-p="props.1.judge"][data-val="賛成"]').first().click();
   await expect(ruleItem(page, 9).locator(".fc").first()).toContainText("そのあと命題が書き換えられた");
