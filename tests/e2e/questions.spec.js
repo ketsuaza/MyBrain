@@ -2,7 +2,7 @@
 // 主か従かは、行を足す場所で決まる（プルダウンでは選ばない）。問いの型は、行ごとに、任意で選べる。
 // 保存の形は、これまでの { id, t, parent } に、任意の type（問いの型）が足されるだけ。表示の並び（主 → 従）と、保存の並び（v.qs の順）は違うことがある。
 const { test, expect } = require("@playwright/test");
-const { openTool, importState, ruleItem, current, loadWindowJs } = require("./helpers");
+const { openTool, importState, ruleItem, current, loadWindowJs, untilRedrawn } = require("./helpers");
 
 const THEORY = ["存在", "種類", "原因", "条件", "目的", "結果", "特性", "関係", "ふるまい"];
 const PRACTICE = ["目的", "手段", "順序", "条件", "どちらがより良いか"];
@@ -368,11 +368,14 @@ test("Markdown と再読み込みの往復: 型と並びを変えたあと、Mar
   await qType(page, 2).selectOption("");
   expect(await current(page)).toEqual(before);
   expect("type" in (await current(page)).v.qs[2]).toBe(false);
-  // 同じ中身の Markdown を読み込んでも、確認は出ない
-  await page.click("#btnImport");
-  await page.locator("#formImport textarea").fill(md);
-  await page.locator("#formImport").getByRole("button", { name: "読み込む" }).click();
-  await page.locator("#dlgImport").waitFor({ state: "hidden" });
+  // 同じ中身の Markdown を読み込んでも、確認は出ない。読み込みが画面に反映される（描き直される）まで待ってから見る
+  // （確認が出ると、watch がやめるので、読み込まれず、描き直されない。そのときは、この待ちが時間切れで落ちる）
+  await untilRedrawn(page, async () => {
+    await page.click("#btnImport");
+    await page.locator("#formImport textarea").fill(md);
+    await page.locator("#formImport").getByRole("button", { name: "読み込む" }).click();
+    await page.locator("#dlgImport").waitFor({ state: "hidden" });
+  });
   expect(seen, "確認は出ない").toEqual([]);
   expect(await current(page)).toEqual(before);
   expect(await markdown(page)).toBe(md);
@@ -417,7 +420,7 @@ test("本の種類や問いの型が、想定しない値（constructor、__prot
     await check("読み込んだあと（" + JSON.stringify(x) + "）");
     await ruleItem(page, 4).locator('button[data-a="help"]').click();
     const help = ruleItem(page, 4).locator(".help").first();
-    await expect(help).toContainText("理論書の問いの型: " + THEORY.join("、") + "（「〜はあるか」「〜とは何か」「なぜ〜か」）。実践書の問いの型: " + PRACTICE.join("、") + "（");
+    await expect(help).toContainText("理論書の問いの型: " + THEORY.join("、") + "（「〜はあるか」「〜はどんな種類のものか」「なぜ〜か」）。実践書の問いの型: " + PRACTICE.join("、") + "（");
     await expect(help).not.toContainText("function");
     expect(typeof (await markdown(page))).toBe("string");
     await page.reload();
