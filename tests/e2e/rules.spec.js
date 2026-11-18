@@ -3,7 +3,7 @@
 const { test, expect } = require("@playwright/test");
 const { openTool, ruleItem, shot } = require("./helpers");
 
-/* まとめの文言（ユーザーが訳書から写したもの。20_inbox/20261115-035733-q11への回答.md） */
+/* まとめの文言（ユーザーが訳書から写したもの） */
 const SUMMARY = {
   1: "種類と主題によって本を分類する",
   2: "その本全体が何に関するものかを、できるだけ簡潔に述べる",
