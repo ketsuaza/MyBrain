@@ -521,7 +521,13 @@ function newBook(meta) {
   return { id: d ? "isbn" + d : "b" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
     meta: Object.assign({ title: "", author: "", publisher: "", published: "", isbn: "", booklist_no: "", started: "", finished: "" }, meta), v: {}, skip: {} };
 }
-function nextId(v, p) { v._n = v._n || {}; v._n[p] = (v._n[p] || 0) + 1; return p + v._n[p]; }
+/* 番号を振る。規則3の部分（S）は、いま残っている部分の最大の番号の次にする（消した番号は数え上がらず、全部消せば S1 に戻る）。
+   問題（Q）と命題（P）は、これまでどおり v._n の数を足していく（消した番号を使い回さない） */
+function nextId(v, p) {
+  v._n = v._n || {};
+  if (p === "S") { const m = Math.max(0, ...arr(v.parts).map(o => /^S(\d+)$/.test(txt(o && o.id)) ? +RegExp.$1 : 0)); v._n.S = m + 1; return "S" + (m + 1); }
+  v._n[p] = (v._n[p] || 0) + 1; return p + v._n[p];
+}
 function getPath(o, path) { return path.split(".").reduce((a, k) => (a == null ? a : a[k]), o); }
 function setPath(o, path, val) { const ks = path.split("."); const last = ks.pop(); let a = o; ks.forEach(k => { if (a[k] == null) a[k] = {}; a = a[k]; }); a[last] = val; }
 const GRADE = { S: 0, A: 1, B: 2, C: 3, D: 4, E: 5 };
