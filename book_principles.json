@@ -53,7 +53,7 @@
     "booklog_users": 8093,
     "bookmeter_eval": 63,
     "bookmeter_users": 6180,
-    "reading_status": "いま読んでる",
+    "reading_status": "積読",
     "amazon_eval": 4.4
   },
   {
@@ -224,7 +224,7 @@
     "booklog_users": 9226,
     "bookmeter_eval": 64,
     "bookmeter_users": 9008,
-    "reading_status": "いま読んでる",
+    "reading_status": "読み終わった",
     "amazon_eval": 4.2
   },
   {
@@ -585,7 +585,7 @@
     "booklog_users": 77,
     "bookmeter_eval": 73,
     "bookmeter_users": 40,
-    "reading_status": "いま読んでる",
+    "reading_status": "積読",
     "amazon_eval": 3.3
   },
   {
@@ -1839,7 +1839,7 @@
     "booklog_users": 172,
     "bookmeter_eval": 40,
     "bookmeter_users": 61,
-    "reading_status": "いま読んでる",
+    "reading_status": "積読",
     "amazon_eval": 4.7
   },
   {
@@ -3207,7 +3207,7 @@
     "booklog_users": 2,
     "bookmeter_eval": null,
     "bookmeter_users": 0,
-    "reading_status": "いま読んでる",
+    "reading_status": "積読",
     "amazon_eval": 3.0
   },
   {
@@ -3397,7 +3397,7 @@
     "booklog_users": 245,
     "bookmeter_eval": 95,
     "bookmeter_users": 68,
-    "reading_status": "積読",
+    "reading_status": "いま読んでる",
     "amazon_eval": 4.3
   },
   {
